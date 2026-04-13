@@ -10,8 +10,7 @@
             <form class="row g-4" method="POST" action="{{ route('medical_checkups.store') }}"
                 enctype="multipart/form-data">
                 @csrf
-                @method('DELETE')
-
+                
                 <div class="col-md-6">
                     <label for="employee_id" class="form-label">Name</label>
                     <select class="form-select" id="employee_id" name="employee_id">

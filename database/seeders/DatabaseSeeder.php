@@ -15,16 +15,17 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        \App\Models\User::factory()->create([
-            'name' => 'Lanovia Liem',
-            'email' => 'admin@niteksindo.com',
-            'password' => Hash::make('admin123'),
-        ]);
+        // \App\Models\User::factory()->create([
+        //     'name' => 'Lanovia Liem',
+        //     'email' => 'admin@niteksindo.com',
+        //     'password' => Hash::make('admin123'),
+        // ]);
 
         $this->call([
             CategorySeeder::class,
             category_codesSeeder::class,
             EmployeeSeeder::class,
+            WarehouseSeeder::class,
         ]);
     }
 }

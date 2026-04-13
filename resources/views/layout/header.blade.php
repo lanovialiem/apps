@@ -6,13 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Employee Table</title>
+    {{--
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    --}}
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
     <div class="container mt-5">
-
         <header class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm px-3 mb-5">
             <a class="navbar-brand d-flex align-items-center" href="#">
                 <!-- Logo image -->
@@ -47,6 +49,32 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('project_employee.index') ? 'active fw-bold text-white' : '' }}"
                             href="{{ route('project_employee.index') }}">Project Employees</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('product.index') ? 'active fw-bold text-white' : '' }}"
+                            href="{{ route('product.index') }}">Product</a>
+                    </li>
+                    {{-- <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('warehouse.index') ? 'active fw-bold text-white' : '' }}"
+                            href="{{ route('warehouse.index') }}">Warehouse</a>
+                    </li> --}}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Warehouse
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ route('warehouse.index') }}">View Warehouses</a></li>
+                            <li><a class="dropdown-item" href="{{ route('stock.index') }}">View Stocks</a></li>
+                            <li><a class="dropdown-item" href="{{ route('stock_movement.index') }}">History Stocks</a>
+                            </li>
+                            {{-- <li><a class="dropdown-item" href="{{ route('stock_movements.index') }}">Stock
+                                    Management</a></li>
+                            <li> --}}
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
                     </li>
                 </ul>
                 <div class="ms-3 d-flex align-items-center">

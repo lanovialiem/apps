@@ -7,24 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class medical_checkups extends Model
+class Product extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'employee_id',
-        // 'position',
-        // 'company_name',
-        'hospital',
-        'mcu_date',
-        'result',
+        'product_name',
+        'product_picture',
+        'product_code',
         'description',
-        'file_mcu',
-        'expired_date',
+        'product_price',
+        // 'stock_quantity',
     ];
 
-    public function employee(): BelongsTo
+        public function stock(): HasMany
     {
-        return $this->belongsTo(employee::class, 'employee_id');
+        return $this->hasMany(Stock::class);
     }
 }

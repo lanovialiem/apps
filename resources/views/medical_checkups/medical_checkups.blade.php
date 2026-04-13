@@ -102,6 +102,7 @@
                                 onsubmit="return confirm('Yakin ingin menghapus data ini?')">
                                 @csrf
                                 @method('DELETE')
+
                                 <button type="submit" class="btn btn-sm btn-danger">
                                     Hapus
                                 </button>

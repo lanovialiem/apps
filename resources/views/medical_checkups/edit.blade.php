@@ -3,10 +3,10 @@
 <div class="container mt-5">
     <div class="card shadow rounded-3">
         <div class="card-header">
-            <h4 class="mb-0">Edit Employee Data</h4>
+            <h4 class="mb-0">Edit Medical Checkup Data</h4>
         </div>
         <div class="card-body">
-            <form action="{{ route('employees.update', $employee->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('medical_checkups.update', $medical_checkups->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 

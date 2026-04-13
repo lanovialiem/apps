@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\medical_checkup;
+
 
 class employee extends Model
 {
@@ -32,7 +34,6 @@ class employee extends Model
         'end_date',
         'image_profile',
         'company',
-        'position',
         'induction_date',
         'in_date',
         'date_resign',
@@ -52,6 +53,6 @@ class employee extends Model
 
     public function medical_checkups(): HasMany
     {
-        return $this->hasMany(medical_checkups::class);
+        return $this->hasMany(medical_checkup::class);
     }
 }

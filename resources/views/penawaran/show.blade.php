@@ -10,50 +10,15 @@
     <div class="card-body">
         <h5>Informasi Utama</h5>
         <table class="table table-bordered">
-            <tr>
-                <th>Company Name</th>
-                <td>{{ $penawaran->company_name }}</td>
-            </tr>
-            <tr>
-                <th>Subject</th>
-                <td>{{ $penawaran->subject_name }}</td>
-            </tr>
-            <tr>
-                <th>Category</th>
-                <td>{{ $penawaran->category_penawaran }}</td>
-            </tr>
-            <tr>
-                <th>Contact Person</th>
-                <td>{{ $penawaran->contact_person }}</td>
-            </tr>
-            <tr>
-                <th>No Quotation</th>
-                <td>{{ $penawaran->no_quotation }}</td>
-            </tr>
-            <tr>
-                <th>Purposed Value</th>
-                <td>Rp {{ number_format($penawaran->purposed_value, 0, ',', '.') }}</td>
-            </tr>
-            <tr>
-                <th>Date SPH</th>
-                <td>{{ \Carbon\Carbon::parse($penawaran->date_sph)->format('d M Y') }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ $penawaran->description }}</td>
-            </tr>
-            <tr>
-                <th>Upload Dokumen</th>
-                <td>
-                    @if ($penawaran->upload_dokumen)
-                        <a href="{{ asset('storage/' . $penawaran->upload_dokumen) }}" target="_blank">
-                            Download File
-                        </a>
-                    @else
-                        <span class="text-muted">Tidak ada file</span>
-                    @endif
-                </td>
-            </tr>
+            <td class="text-center">
+                @if ($item->product_picture)
+                <a href="{{ asset('storage/' . $item->file_mcu) }}" class="btn btn-sm btn-success" target="_blank">
+                    View PDF
+                </a>
+                @else
+                <span class="text-muted">-</span>
+                @endif
+            </td>
         </table>
     </div>
 </div>
