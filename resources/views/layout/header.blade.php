@@ -5,81 +5,78 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Employee Table</title>
-    {{--
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-    --}}
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Niteksindo | Elcoblast</title>
+
+    @vite(['src/input.css', 'src/script.js'])
+    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
 </head>
 
 <body>
-    <div class="container mt-5">
-        <header class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm px-3 mb-5">
-            <a class="navbar-brand d-flex align-items-center" href="#">
-                <!-- Logo image -->
-                <img src="{{ url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZifFncu9QjR-Up9YFI61g4o9eua6ksyFT3Q&s') }}"
-                    alt="Logo" width="40" height="40" class="me-2 rounded-circle">
-                My Dashboard
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('employees.index') ? 'active fw-bold text-white' : '' }}"
-                            href="{{ route('employees.index') }}">Employees</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('medical_checkups.index') ? 'active fw-bold text-white' : '' }}"
-                            href="{{ route('medical_checkups.index') }}">MCU</a>
-                    </li>
-                    {{-- <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('project.index') ? 'active fw-bold text-white' : '' }}"
-                            href="{{ route('project.index') }}">Project List</a>
-                    </li> --}}
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('penawaran.index') ? 'active fw-bold text-white' : '' }}"
-                            href="{{ route('penawaran.index') }}">Penawaran</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('project_employee.index') ? 'active fw-bold text-white' : '' }}"
-                            href="{{ route('project_employee.index') }}">Project Employees</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('product.index') ? 'active fw-bold text-white' : '' }}"
-                            href="{{ route('product.index') }}">Product</a>
-                    </li>
-                    {{-- <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('warehouse.index') ? 'active fw-bold text-white' : '' }}"
-                            href="{{ route('warehouse.index') }}">Warehouse</a>
-                    </li> --}}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Warehouse
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ route('warehouse.index') }}">View Warehouses</a></li>
-                            <li><a class="dropdown-item" href="{{ route('stock.index') }}">View Stocks</a></li>
-                            <li><a class="dropdown-item" href="{{ route('stock_movement.index') }}">History Stocks</a>
+    <header class="bg-transparent absolute top-0 left-0 w-full flex items-center z-10">
+        <div class="container">
+            <div class="flex items-center justify-between relative">
+                <div class="px-4">
+                    <a href="/" class="font-bold text-lg text-primary block py-6 mt-5">
+                        NMP
+                    </a>
+                </div>
+                <div class="flex items-center px-4">
+                    <button id="hamburger" name="hamburger" type="button" class="block absolute right-4 lg:hidden">
+                        <span class="hamburger-line transition duration-300 ease-in-out origin-top-left"></span>
+                        <span class="hamburger-line transition duration-300 ease-in-out"></span>
+                        <span class="hamburger-line transition duration-300 ease-in-out origin-bottom-left"></span>
+                    </button>
+                    <nav id="nav-menu"
+                        class="hidden absolute bg-white shadow-lg rounded-lg py-5 max-w-[250px] w-full right-4 top-full lg:block lg:static lg:bg-transparent lg:max-w-full lg:shadow-none lg:rounded-none">
+                        <ul class="block lg:flex">
+                            <li class="group">
+                                <a href="{{ route('employees.index') }}"
+                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                    Employees
+                                </a>
                             </li>
-                            {{-- <li><a class="dropdown-item" href="{{ route('stock_movements.index') }}">Stock
-                                    Management</a></li>
-                            <li> --}}
-                                <hr class="dropdown-divider">
+                            <li class="group">
+                                <a href="{{ route('medical_checkups.index') }}"
+                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                    MCU
+                                </a>
                             </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li class="group">
+                                <a href="{{ route('penawaran.index') }}"
+                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                    Penawaran
+                                </a>
+                            </li>
+                            <li class="group">
+                                <a href="{{ route('warehouse.index') }}"
+                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                    Gudang
+                                </a>
+                            </li>
+                            <li class="group">
+                                <a href="{{ route('stock.index') }}"
+                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                    Stok
+                                </a>
+                            </li>
+                            <li class="group">
+                                <a href="{{ route('stock_movement.index') }}"
+                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                    Mutasi Stok
+                                </a>
+                            </li>
+
+                            {{-- <li>
+                                <a href="#" class="block text-gray-800 hover:text-primary font-semibold py-2 px-4">
+                                    Reports
+                                </a>
+                            </li> --}}
                         </ul>
-                    </li>
-                </ul>
-                <div class="ms-3 d-flex align-items-center">
-                    {{-- <span class="text-white me-2">Hello, Admin</span> --}}
-                    <button class="btn btn-outline-light btn-sm">Logout</button>
+                    </nav>
                 </div>
             </div>
-        </header>
+        </div>
+
+    </header>
+
+    <script src="src/script.js"></script>

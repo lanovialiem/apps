@@ -1,72 +1,138 @@
 @include('layout.header')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="text-primary mb-0">Product</h3>
-    <div class="d-flex gap-2">
-        <a href="{{ route('product.create') }}" class="btn btn-primary">
-            Add Product
+<div class="container mx-auto pt-32 px-4">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
+        <h3 class="text-2xl font-semibold text-blue-600">
+            Product
+        </h3>
+
+        <a href="{{ route('product.create') }}"
+           class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
+            + Add Product
         </a>
     </div>
-</div>
 
+    <!-- Card -->
+    <div class="bg-white/80 backdrop-blur shadow-xl rounded-2xl overflow-hidden border border-gray-200">
 
-<div class="card shadow rounded-3 mb-4">
-    <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">Product List</h5>
-    </div>
+        <!-- Title -->
+        <div class="px-6 py-4 border-b">
+            <h5 class="text-lg font-semibold text-gray-700">
+                Product List
+            </h5>
+        </div>
 
-    <div class="card-body p-0">
-        <table class="table table-striped table-bordered mb-0">
-            <thead class="table-primary text-center">
-                <tr>
-                    <th style="width: 50px;">No</th>
-                    <th>Product Name</th>
-                    <th>Product Code</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Stock</th>
+        <!-- Table -->
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-gray-600">
 
-                    <th style="width: 220px;">Action</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach ($products as $key => $item)
+                <!-- Head -->
+                <thead class="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider text-center">
                     <tr>
-                        <td>{{ $key + 1 }}</td>
-                        <td>{{ $item->product_name }}</td>
-                        <td>{{ $item->product_code }}</td>
-                        <td>{{ $item->description }}</td>
-                        <td>{{ $item->product_price }}</td>
-                        <td>{{ $item->stock_quantity }}</td>
-
-                        <td class="text-center">
-                            <a href="{{ route('product.show', $item->id) }}" class="btn btn-sm btn-info text-white">
-                                Detail
-                            </a>
-                            <a href="{{ route('product.edit', $item->id) }}" class="btn btn-sm btn-warning">
-                                Edit
-                            </a>
-                            <form action="{{ route('product.destroy', $item->id) }}" method="POST"
-                                style="display: inline-block;"
-                                onsubmit="return confirm('Yakin ingin menghapus data ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">
-                                    Hapus
-                                </button>
-                            </form>
-                        </td>
+                        <th class="px-4 py-3 w-[50px]">No</th>
+                        <th class="px-4 py-3 text-left">Product Name</th>
+                        <th class="px-4 py-3 text-left">Code</th>
+                        <th class="px-4 py-3 text-left">Description</th>
+                        <th class="px-4 py-3">Price</th>
+                        <th class="px-4 py-3">Stock</th>
+                        <th class="px-4 py-3">Action</th>
                     </tr>
-                @endforeach
+                </thead>
 
-                @if ($products->isEmpty())
-                    <tr>
-                        <td colspan="5" class="text-center text-muted">No data available.</td>
-                    </tr>
-                @endif
-            </tbody>
-        </table>
+                <!-- Body -->
+                <tbody class="divide-y">
+                    @foreach ($products as $key => $item)
+                        <tr class="hover:bg-blue-50 transition">
+
+                            <!-- No -->
+                            <td class="px-4 py-3 text-center">
+                                {{ $key + 1 }}
+                            </td>
+
+                            <!-- Name -->
+                            <td class="px-4 py-3 font-medium text-gray-800">
+                                {{ $item->product_name }}
+                            </td>
+
+                            <!-- Code -->
+                            <td class="px-4 py-3">
+                                <span class="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded">
+                                    {{ $item->product_code }}
+                                </span>
+                            </td>
+
+                            <!-- Description -->
+                            <td class="px-4 py-3 text-gray-600">
+                                {{ $item->description }}
+                            </td>
+
+                            <!-- Price -->
+                            <td class="px-4 py-3 text-right font-semibold text-green-600">
+                                Rp {{ number_format($item->product_price, 0, ',', '.') }}
+                            </td>
+
+                            <!-- Stock -->
+                            <td class="px-4 py-3 text-center">
+                                <span class="px-3 py-1 text-xs font-semibold rounded-full
+                                    @if($item->stock_quantity > 10)
+                                        bg-green-100 text-green-700
+                                    @elseif($item->stock_quantity > 0)
+                                        bg-yellow-100 text-yellow-700
+                                    @else
+                                        bg-red-100 text-red-600
+                                    @endif">
+                                    {{ $item->stock_quantity }}
+                                </span>
+                            </td>
+
+                            <!-- Action -->
+                            <td class="px-4 py-3">
+                                <div class="flex justify-center gap-2">
+
+                                    <a href="{{ route('product.show', $item->id) }}"
+                                       class="px-3 py-1.5 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 shadow">
+                                        Detail
+                                    </a>
+
+                                    <a href="{{ route('product.edit', $item->id) }}"
+                                       class="px-3 py-1.5 text-xs text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow">
+                                        Edit
+                                    </a>
+
+                                    <form action="{{ route('product.destroy', $item->id) }}"
+                                          method="POST"
+                                          onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit"
+                                                class="px-3 py-1.5 text-xs text-white bg-red-500 rounded-lg hover:bg-red-600 shadow">
+                                            Hapus
+                                        </button>
+
+                                    </form>
+
+                                </div>
+                            </td>
+
+                        </tr>
+                    @endforeach
+
+                    @if ($products->isEmpty())
+                        <tr>
+                            <td colspan="7" class="text-center py-6 text-gray-400">
+                                No data available
+                            </td>
+                        </tr>
+                    @endif
+                </tbody>
+
+            </table>
+        </div>
+
     </div>
 </div>
 
