@@ -39,7 +39,7 @@
                 </div>
                 <div class="w-full self-end px-4 lg:w-1/2">
                     <div class="mt-10">
-                        <img src="9981582.jpg" alt="mother" class="max-w-full mx-auto" />
+                        <img src="/img-home/A.Foto.jpg" alt="A.Foto.jpg" class="max-w-full mx-auto" />
                         {{-- <span class="absolute bottom-0 -z-0 left-1/2 translate-x-1/2">
                             <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="#FF0066"
@@ -110,6 +110,9 @@
     </section>
     {{-- About Section End --}}
 
+    {{-- Portfolio Section Start --}}
+    @include('layout.footer')
+    {{-- Portfolio Section End --}}
 </body>
 
 </html>

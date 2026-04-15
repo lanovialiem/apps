@@ -65,7 +65,12 @@
                                     Mutasi Stok
                                 </a>
                             </li>
-
+                          <li class="group">
+                                <a href="{{ route('product.index') }}"
+                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                    Produk
+                                </a>
+                            </li>
                             {{-- <li>
                                 <a href="#" class="block text-gray-800 hover:text-primary font-semibold py-2 px-4">
                                     Reports

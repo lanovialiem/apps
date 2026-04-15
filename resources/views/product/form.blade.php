@@ -1,64 +1,98 @@
 @include('layout.header')
 
-<div class="container py-4">
-    <div class="card shadow rounded-3">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Product Registration Form</h5>
-            <img src="{{ asset('images/logo.png') }}" alt="Company Logo" height="40">
+<div class="container mx-auto pt-32 px-4">
+    <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between px-6 py-4 border-b bg-gray-50">
+            <h2 class="text-lg font-semibold text-gray-800">
+                Product Registration Form
+            </h2>
+            <img src="{{ asset('images/logo.png') }}" class="h-10" alt="Logo">
         </div>
-        <div class="card-body">
-            <form class="row g-4" method="POST" action="{{ route('product.store') }}" enctype="multipart/form-data">
-                @csrf
 
-                {{-- Product View --}}
-                <div class="col-md-6">
-                    <label for="product_name" class="form-label">Product Name</label>
-                    <input type="text" class="form-control" id="product_name" name="product_name"
-                        placeholder="Enter Product Name" value="{{ old('product_name') }}">
-                    @error('product_name') <div class="text-danger">{{ $message }}</div> @enderror
+        <!-- Form -->
+        <form method="POST" action="{{ route('product.store') }}" enctype="multipart/form-data" class="p-6 space-y-6">
+            @csrf
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Product Name -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">
+                        Product Name
+                    </label>
+                    <input type="text" name="product_name"
+                        value="{{ old('product_name') }}"
+                        class="px-3 py-2 w-full rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    @error('product_name')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                <div class="col-md-6">
-                    <label for="product_code" class="form-label">Product Code</label>
-                    <input type="text" class="form-control" id="product_code" name="product_code"
-                        placeholder="Enter Product Code" value="{{ old('product_code') }}">
-                    @error('product_code') <div class="text-danger">{{ $message }}</div> @enderror
+                <!-- Product Code -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">
+                        Product Code
+                    </label>
+                    <input type="text" name="product_code"
+                        value="{{ old('product_code') }}"
+                        class="px-3 py-2 w-full rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    @error('product_code')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                <div class="col-md-12">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" name="description" rows="3"
-                        placeholder="Enter Product Description">{{ old('description') }}</textarea>
-                    @error('description') <div class="text-danger">{{ $message }}</div> @enderror
-                </div>
-                <div class="col-md-6">
-                    <label for="product_price" class="form-label">Product Price</label>
-                    <input type="number" class="form-control" id="product_price" name="product_price"
-                        placeholder="Enter Product Price" value="{{ old('product_price') }}" step="0.01">
-                    @error('product_price') <div class="text-danger">{{ $message }}</div> @enderror
-                </div>
-
-                {{-- <div class="col-md-6">
-                    <label for="stock_quantity" class="form-label">Stock Quantity</label>
-                    <input type="number" class="form-control" id="stock_quantity" name="stock_quantity"
-                        placeholder="Enter Stock Quantity" value="{{ old('stock_quantity') }}">
-                    @error('stock_quantity') <div class="text-danger">{{ $message }}</div> @enderror
-                </div> --}}
-
-                <div class="col-md-6">
-                    <label for="product_picture" class="form-label">Product Picture</label>
-                    <input type="file" class="form-control" id="product_picture" name="product_picture"
-                        accept="image/*">
-                    @error('product_picture') <div class="text-danger">{{ $message }}</div> @enderror
+                <!-- Description (full width) -->
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-600 mb-1">
+                        Description
+                    </label>
+                    <textarea name="description" rows="3"
+                        class="px-3 py-2 w-full rounded-xl border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">{{ old('description') }}</textarea>
+                    @error('description')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                <div class="col-12 text-end">
-                    <button type="submit" class="btn btn-primary px-4">Submit</button>
+                <!-- Price -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">
+                        Product Price
+                    </label>
+                    <input type="number" step="0.01" name="product_price"
+                        value="{{ old('product_price') }}"
+                        class="px-3 py-2 w-full rounded-xl border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    @error('product_price')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
-            </form>
-        </div>
+
+                <!-- Image -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">
+                        Product Picture
+                    </label>
+                    <input type="file" name="product_picture"
+                        class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
+                        file:rounded-lg file:border-0 file:text-sm file:font-semibold
+                        file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100">
+                    @error('product_picture')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+            </div>
+
+            <!-- Button -->
+            <div class="flex justify-end pt-4 border-t">
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl shadow-md transition">
+                    Submit
+                </button>
+            </div>
+        </form>
     </div>
-</div>
 </div>
 
 @include('layout.footer')

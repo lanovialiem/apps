@@ -1,216 +1,207 @@
 @include('layout.header')
 
-<div class="container py-4">
-    <div class="card shadow rounded-3">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Employee Registration Form</h5>
-            <img src="{{ asset('images/logo.png') }}" alt="Company Logo" height="40">
+<div class="max-w-6xl mx-auto pt-32 px-4">
+    <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between px-6 py-4 border-b bg-gray-50">
+            <h2 class="text-lg font-semibold text-gray-800">
+                Employee Registration Form
+            </h2>
+            <img src="{{ asset('images/logo.png') }}" class="h-10" alt="Logo">
         </div>
-        <div class="card-body">
-            <form class="row g-4" method="POST" action="{{ route('employees.store') }}" enctype="multipart/form-data">
-                @csrf
-                                
-                {{-- Identity --}}
-                <div class="col-md-6">
-                    <label for="identity_id" class="form-label">Identity ID</label>
-                    <input type="text" class="form-control" id="identity_id" name="identity_id"
-                        placeholder="Enter Identity ID" value="{{ old('identity_id') }}">
-                    @error('identity_id') <div class="text-danger">{{ $message }}</div> @enderror
+
+        <!-- Form -->
+        <form method="POST" action="{{ route('employees.store') }}" enctype="multipart/form-data"
+            class="p-6 space-y-8">
+            @csrf
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Identity -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Identity ID</label>
+                    <input type="text" name="identity_id"
+                        value="{{ old('identity_id') }}"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                 </div>
 
-                <div class="col-md-6">
-                    <label for="badge_id" class="form-label">Badge ID</label>
-                    <input type="text" class="form-control" id="badge_id" name="badge_id" placeholder="Enter Badge ID"
-                        value="{{ old('badge_id') }}">
-                    @error('badge_id') <div class="text-danger">{{ $message }}</div> @enderror
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Badge ID</label>
+                    <input type="text" name="badge_id"
+                        value="{{ old('badge_id') }}"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                 </div>
 
-                {{-- Company --}}
-                <div class="col-md-6">
-                    <label for="company" class="form-label">Company</label>
-                    <input type="text" class="form-control" id="company" name="company" value="{{ old('company') }}">
-                    @error('company') <div class="text-danger">{{ $message }}</div> @enderror
+                <!-- Company -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Company</label>
+                    <input type="text" name="company"
+                        value="{{ old('company') }}"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                 </div>
 
-                {{-- Request Type & Name --}}
-                <div class="col-md-6">
-                    <label for="request_type" class="form-label">Request Type</label>
-                    <input type="text" class="form-control" id="request_type" name="request_type"
-                        value="{{ old('request_type') }}">
-                    @error('request_type') <div class="text-danger">{{ $message }}</div> @enderror
+                <!-- Request -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Request Type</label>
+                    <input type="text" name="request_type"
+                        value="{{ old('request_type') }}"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                 </div>
 
-                <div class="col-md-6">
-                    <label for="full_name" class="form-label">Full Name</label>
-                    <input type="text" class="form-control" id="full_name" name="full_name"
-                        value="{{ old('full_name') }}">
-                    @error('full_name') <div class="text-danger">{{ $message }}</div> @enderror
+                <!-- Name -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Full Name</label>
+                    <input type="text" name="full_name"
+                        value="{{ old('full_name') }}"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                 </div>
 
-                <div class="col-md-6">
-                    <label for="nick_name" class="form-label">Nick Name</label>
-                    <input type="text" class="form-control" id="nick_name" name="nick_name"
-                        value="{{ old('nick_name') }}">
-                    @error('nick_name') <div class="text-danger">{{ $message }}</div> @enderror
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Nick Name</label>
+                    <input type="text" name="nick_name"
+                        value="{{ old('nick_name') }}"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                 </div>
 
-                {{-- Birth Info --}}
-                <div class="col-md-6">
-                    <label for="birth_date" class="form-label">Birth Date</label>
-                    <input type="date" class="form-control" id="birth_date" name="birth_date"
-                        value="{{ old('birth_date') }}">
-                    @error('birth_date') <div class="text-danger">{{ $message }}</div> @enderror
+                <!-- Birth -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Birth Date</label>
+                    <input type="date" name="birth_date"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
                 </div>
 
-                <div class="col-md-6">
-                    <label for="birth_place" class="form-label">Birth Place</label>
-                    <input type="text" class="form-control" id="birth_place" name="birth_place"
-                        value="{{ old('birth_place') }}">
-                    @error('birth_place') <div class="text-danger">{{ $message }}</div> @enderror
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Birth Place</label>
+                    <input type="text" name="birth_place"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
                 </div>
 
-                {{-- Gender & Marital --}}
-                <div class="col-md-6">
-                    <label for="gender" class="form-label">Gender</label>
-                    <select class="form-select" id="gender" name="gender">
-                        <option disabled {{ old('gender') ? '' : 'selected' }}>Choose...</option>
-                        <option value="Male" {{ old('gender')=='Male' ? 'selected' : '' }}>Male</option>
-                        <option value="Female" {{ old('gender')=='Female' ? 'selected' : '' }}>Female</option>
+                <!-- Gender -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Gender</label>
+                    <select name="gender"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
+                        <option value="">Choose...</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
                     </select>
-                    @error('gender') <div class="text-danger">{{ $message }}</div> @enderror
                 </div>
 
-                <div class="col-md-6">
-                    <label for="marital_status" class="form-label">Marital Status</label>
-                    <select class="form-select" id="marital_status" name="marital_status">
-                        <option disabled {{ old('marital_status') ? '' : 'selected' }}>Choose...</option>
-                        <option value="Single" {{ old('marital_status')=='Single' ? 'selected' : '' }}>Single</option>
-                        <option value="Married" {{ old('marital_status')=='Married' ? 'selected' : '' }}>Married
-                        </option>
+                <!-- Marital -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Marital Status</label>
+                    <select name="marital_status"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
+                        <option value="">Choose...</option>
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
                     </select>
-                    @error('marital_status') <div class="text-danger">{{ $message }}</div> @enderror
                 </div>
 
-                {{-- Skill & Job --}}
-                <div class="col-md-6">
-                    <label for="skill_category" class="form-label">Skill Category</label>
-                    <select class="form-select" id="skill_category" name="skill_category">
-                        <option disabled {{ old('skill_category') ? '' : 'selected' }}>Choose...</option>
-                        <option value="Skilled" {{ old('skill_category')=='Skilled' ? 'selected' : '' }}>Skilled
-                        </option>
-                        <option value="Unskilled" {{ old('skill_category')=='Unskilled' ? 'selected' : '' }}>Unskilled
-                        </option>
+                <!-- Skill -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Skill Category</label>
+                    <select name="skill_category"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
+                        <option value="">Choose...</option>
+                        <option value="Skilled">Skilled</option>
+                        <option value="Unskilled">Unskilled</option>
                     </select>
-                    @error('skill_category') <div class="text-danger">{{ $message }}</div> @enderror
                 </div>
 
-                <div class="col-md-6">
-                    <label for="category_id" class="form-label">Job Category</label>
-                    <select class="form-select" id="category_id" name="category_id">
-                        <option disabled {{ old('category_id') ? '' : 'selected' }}>Choose...</option>
+                <!-- Job Category -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Job Category</label>
+                    <select name="category_id"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
+                        <option value="">Choose...</option>
                         @foreach ($category as $c)
-                        <option value="{{ $c->id }}" {{ old('category_id')==$c->id ? 'selected' : '' }}>
-                            {{ $c->job_category }}
-                        </option>
+                            <option value="{{ $c->id }}">{{ $c->job_category }}</option>
                         @endforeach
                     </select>
-                    @error('category_id') <div class="text-danger">{{ $message }}</div> @enderror
                 </div>
 
-                <div class="col-md-6">
-                    <label for="category_code_id" class="form-label">Job Code</label>
-                    <select class="form-select" id="category_code_id" name="category_code_id">
-                        <option disabled {{ old('category_code_id') ? '' : 'selected' }}>Choose...</option>
+                <!-- Job Code -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Job Code</label>
+                    <select name="category_code_id"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
+                        <option value="">Choose...</option>
                         @foreach ($category_code as $c)
-                        <option value="{{ $c->id }}" {{ old('category_code_id')==$c->id ? 'selected' : '' }}>
-                            {{ $c->job_code }}
-                        </option>
+                            <option value="{{ $c->id }}">{{ $c->job_code }}</option>
                         @endforeach
                     </select>
-                    @error('category_code_id') <div class="text-danger">{{ $message }}</div> @enderror
                 </div>
 
-                {{-- Contact --}}
-                <div class="col-md-6">
-                    <label for="nationality" class="form-label">Nationality</label>
-                    <input type="text" class="form-control" id="nationality" name="nationality"
-                        value="{{ old('nationality', 'Indonesia') }}">
-                    @error('nationality') <div class="text-danger">{{ $message }}</div> @enderror
+                <!-- Contact -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Email</label>
+                    <input type="email" name="email"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
                 </div>
 
-                <div class="col-md-6">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
-                    @error('email') <div class="text-danger">{{ $message }}</div> @enderror
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Phone</label>
+                    <input type="text" name="phone_number"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
                 </div>
 
-                <div class="col-md-3">
-                    <label for="country_code" class="form-label">Country Code</label>
-                    <input type="text" class="form-control" id="country_code" name="country_code"
-                        value="{{ old('country_code', '62') }}">
-                    @error('country_code') <div class="text-danger">{{ $message }}</div> @enderror
-                </div>
-
-                <div class="col-md-3">
-                    <label for="phone_number" class="form-label">Phone Number</label>
-                    <input type="text" class="form-control" id="phone_number" name="phone_number"
-                        value="{{ old('phone_number') }}">
-                    @error('phone_number') <div class="text-danger">{{ $message }}</div> @enderror
-                </div>
-
-                {{-- Dates --}}
-                <div class="col-md-3">
-                    <label for="start_date" class="form-label">Start/In Date</label>
-                    <input type="date" class="form-control" id="start_date" name="start_date"
-                        value="{{ old('start_date') }}">
-                    @error('start_date') <div class="text-danger">{{ $message }}</div> @enderror
-                </div>
-
-                <div class="col-md-3">
-                    <label for="end_date" class="form-label">Resign/End Date</label>
-                    <input type="date" class="form-control" id="end_date" name="end_date" value="{{ old('end_date') }}">
-                    @error('end_date') <div class="text-danger">{{ $message }}</div> @enderror
-                </div>
-
-                {{-- New Dates --}}
-                <div class="col-md-3">
-                    <label for="induction_date" class="form-label">Induction Date</label>
-                    <input type="date" class="form-control" id="induction_date" name="induction_date"
-                        value="{{ old('induction_date') }}">
-                    @error('induction_date') <div class="text-danger">{{ $message }}</div> @enderror
-                </div>
-
-                {{-- Status --}}
-                <div class="col-md-3">
-                    <label for="status" class="form-label">Status</label>
-                    <select class="form-select" id="status" name="status">
-                        <option disabled {{ old('status') ? '' : 'selected' }}>Choose...</option>
-                        <option value="Active" {{ old('status')=='Active' ? 'selected' : '' }}>Active</option>
-                        <option value="Inactive" {{ old('status')=='Inactive' ? 'selected' : '' }}>Inactive</option>
+                <!-- Status -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Status</label>
+                    <select name="status"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
                     </select>
-                    @error('status') <div class="text-danger">{{ $message }}</div> @enderror
                 </div>
 
-                {{-- Address --}}
-                <div class="col-md-12">
-                    <label for="address" class="form-label">Address</label>
-                    <textarea class="form-control" id="address" name="address" rows="3">{{ old('address') }}</textarea>
-                    @error('address') <div class="text-danger">{{ $message }}</div> @enderror
+                <!-- Dates -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Start Date</label>
+                    <input type="date" name="start_date"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
                 </div>
 
-                {{-- Profile --}}
-                <div class="col-md-6">
-                    <label for="image_profile" class="form-label">Upload Profile</label>
-                    <input type="file" class="form-control @error('image_profile') is-invalid @enderror"
-                        id="image_profile" name="image_profile">
-                    @error('image_profile') <div class="text-danger">{{ $message }}</div> @enderror
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">End Date</label>
+                    <input type="date" name="end_date"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
                 </div>
 
-                <div class="col-12 text-end">
-                    <button type="submit" class="btn btn-primary px-4">Submit</button>
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Induction</label>
+                    <input type="date" name="induction_date"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
                 </div>
-            </form>
-        </div>
+
+                <!-- Profile -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Profile Image</label>
+                    <input type="file" name="image_profile"
+                        class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
+                        file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100">
+                </div>
+
+                <!-- Address -->
+                <div class="md:col-span-2 lg:col-span-3">
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Address</label>
+                    <textarea name="address" rows="3"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300"></textarea>
+                </div>
+
+            </div>
+
+            <!-- Button -->
+            <div class="flex justify-end pt-4 border-t">
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl shadow-md transition">
+                    Submit
+                </button>
+            </div>
+
+        </form>
     </div>
 </div>
 
