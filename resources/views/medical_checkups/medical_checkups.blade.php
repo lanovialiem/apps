@@ -38,7 +38,9 @@
                         <th class="px-4 py-3 w-[50px]">No</th>
                         <th class="px-4 py-3 text-left">Name</th>
                         <th class="px-4 py-3 text-left">Hospital</th>
-                        <th class="px-4 py-3">MCU Date</th>
+                        <th class="px-4 py-3">MCU Date
+                            <p class="text-gray-500 text-xs">tahun-bulan-tanggal</p>
+                        </th>
                         <th class="px-4 py-3">Expire Date</th>
                         <th class="px-4 py-3">Result</th>
                         <th class="px-4 py-3">Description</th>

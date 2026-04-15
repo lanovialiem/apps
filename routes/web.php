@@ -46,6 +46,7 @@ Route::resource('project_employee', ProjectEmployeeController::class);
 Route::resource('medical_checkups', MedicalCheckupsController::class);
 
 Route::resource('warehouse', WarehouseController::class);
+// Route::get('/warehouse/{id}/products', [StockMovementController::class, 'getProductsByWarehouse']);
 
 Route::resource('stock_movement', StockMovementController::class);
 

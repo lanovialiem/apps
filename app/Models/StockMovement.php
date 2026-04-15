@@ -15,6 +15,8 @@ class StockMovement extends Model
         'quantity',
         'movement_type', // 'in' atau 'out' 'transfer'
         'movement_date',
+        'heading_type',
+        'description',
     ];
 
     public function product()
@@ -31,5 +33,7 @@ class StockMovement extends Model
     {
         return $this->hasMany(Stock::class);
     }
+
+
 
 }

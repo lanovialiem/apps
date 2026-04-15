@@ -1,135 +1,173 @@
 @include('layout.header')
 
-<div class="container py-4">
-    <div class="card shadow rounded-3">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">MCU Registration Form</h5>
-            <img src="{{ asset('images/logo.png') }}" alt="Company Logo" height="40">
+<div class="max-w-5xl mx-auto pt-28 px-4">
+    <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between px-6 py-4 border-b bg-gray-50">
+            <h2 class="text-lg font-semibold text-gray-800">
+                MCU Registration Form
+            </h2>
+            <img src="{{ asset('images/logo.png') }}" class="h-10" alt="Logo">
         </div>
-        <div class="card-body">
-            <form class="row g-4" method="POST" action="{{ route('medical_checkups.store') }}"
-                enctype="multipart/form-data">
-                @csrf
-                
-                <div class="col-md-6">
-                    <label for="employee_id" class="form-label">Name</label>
-                    <select class="form-select" id="employee_id" name="employee_id">
+
+        <!-- Form -->
+        <form method="POST" action="{{ route('medical_checkups.store') }}" enctype="multipart/form-data"
+            class="p-6 space-y-8">
+            @csrf
+
+            {{-- Note --}}
+            <p class="text-red-500 text-sm">contoh input tanggal: <span class="font-bold">5-20-2023</span></p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Employee -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Name</label>
+                    <select name="employee_id"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500">
                         <option disabled {{ old('employee_id') ? '' : 'selected' }}>Choose...</option>
                         @foreach ($employee as $c)
-                            <option value="{{ $c->id }}" {{ old('employee_id') == $c->id ? 'selected' : '' }}>
-                                {{ $c->full_name}}
-                            </option>
+                        <option value="{{ $c->id }}" {{ old('employee_id')==$c->id ? 'selected' : '' }}>
+                            {{ $c->full_name }}
+                        </option>
                         @endforeach
                     </select>
                     @error('employee_id')
-                        <div class="text-danger">{{ $message }}</div>
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-                {{-- Identity --}}
-                <div class="col-md-6">
-                    <label for="identity_id" class="form-label">Hostpital</label>
-                    <select class="form-select" id="hospital" name="hospital">
+
+                <!-- Hospital -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Hospital</label>
+                    <select name="hospital"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500">
                         <option disabled {{ old('hospital') ? '' : 'selected' }}>Choose...</option>
                         @foreach ($h as $hs)
-                            <option value="{{ $hs }}" {{ old('hospital') == $hs ? 'selected' : '' }}>
-                                {{ $hs }}
-                            </option>
+                        <option value="{{ $hs }}" {{ old('hospital')==$hs ? 'selected' : '' }}>
+                            {{ $hs }}
+                        </option>
                         @endforeach
                     </select>
                     @error('hospital')
-                        <div class="text-danger">{{ $message }}</div>
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="col-md-4">
-                    <label for="mcu_date" class="form-label">MCU Date</label>
-                    <input type="date" class="form-control" id="mcu_date" name="mcu_date"
-                        value="{{ old('mcu_date') }}">
+                <!-- MCU Date -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">MCU Date</label>
+                    <input type="date" id="mcu_date" name="mcu_date" value="{{ old('mcu_date') }}"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
                     @error('mcu_date')
-                        <div class="text-danger">{{ $message }}</div>
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="col-md-4">
-                    <label for="expire_date" class="form-label">Expire Date</label>
-                        <input type="date" name="expire_date" id="expire_date" class="form-control" readonly>
+                <!-- Expire Date -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Expire Date</label>
+                    <input type="date" id="expire_date" name="expire_date" readonly
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300 bg-gray-100">
                     @error('expire_date')
-                        <div class="text-danger">{{ $message }}</div>
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="col-md-4">
-                    <label for="result" class="form-label">Result</label>
-                    <select class="form-select" id="result" name="result">
+                <!-- Result -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Result</label>
+                    <select name="result" class="w-full px-3 py-2 rounded-lg border border-gray-300">
                         <option disabled {{ old('result') ? '' : 'selected' }}>Choose...</option>
-                        <option value="Fit_to_work" {{ old('result') == 'Fit' ? 'selected' : '' }}>Fit to work</option>
-                        <option value="Fit_with_note" {{ old('result') == 'Unfit' ? 'selected' : '' }}>Fit with note
-                        </option>
-                        <option value="-" {{ old('result') == '-' ? 'selected' : '' }}>-</option>
+                        <option value="Fit_to_work">Fit to work</option>
+                        <option value="Fit_with_note">Fit with note</option>
+                        <option value="-">-</option>
                     </select>
                     @error('result')
-                        <div class="text-danger">{{ $message }}</div>
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="col-md-4">
-                    <label for="file_mcu" class="form-label">Upload MCU File (PDF)</label>
-                    <input type="file" class="form-control @error('file_mcu') is-invalid @enderror" id="file_mcu"
-                        name="file_mcu">
+                <!-- File Upload -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Upload MCU File (PDF)</label>
+                    <input type="file" name="file_mcu" class="w-full text-sm text-gray-500
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-lg file:border-0
+                        file:bg-blue-50 file:text-blue-600
+                        hover:file:bg-blue-100">
                     @error('file_mcu')
-                        <div class="text-danger">{{ $message }}</div>
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-                {{-- <div class="col-md-4">
-                    <label for="file_mcu" class="form-label">Upload MCU File (PDF)</label>
-                    <input type="file" class="form-control @error('file_mcu') is-invalid @enderror" id="file_mcu"
-                        name="file_mcu" accept="application/pdf">
-                    @error('file_mcu')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div> --}}
 
-                {{--                 <div class="col-md-6">
-                    <label for="image_profile" class="form-label">Upload Profile</label>
-                    <input type="file" class="form-control @error('image_profile') is-invalid @enderror"
-                        id="image_profile" name="image_profile">
-                    @error('image_profile') <div class="text-danger">{{ $message }}</div> @enderror
-                </div> --}}
-
-                <div class="col-12">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter additional notes">{{ old('description') }}</textarea>
+                <!-- Description -->
+                <div class="md:col-span-2 lg:col-span-3">
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Description</label>
+                    <textarea name="description" rows="3" class="w-full px-3 py-2 rounded-lg border border-gray-300"
+                        placeholder="Tambahkan Keterangan">{{ old('description') }}</textarea>
                     @error('description')
-                        <div class="text-danger">{{ $message }}</div>
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
+            </div>
 
-                <div class="col-12 text-end">
-                    <button type="submit" class="btn btn-primary px-4">Submit</button>
-                </div>
-            </form>
-        </div>
+            <!-- Button -->
+            <div class="flex justify-end pt-4 border-t">
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl shadow-md transition">
+                    Submit
+                </button>
+            </div>
+
+        </form>
     </div>
 </div>
 
 @include('layout.footer')
 
 <script>
-document.getElementById('mcu_date').addEventListener('change', function() {
+    const mcuInput = document.getElementById('mcu_date');
+    const expireInput = document.getElementById('expire_date');
+
+mcuInput.addEventListener('change', function () {
 
     let mcuDate = new Date(this.value);
 
-    if(!isNaN(mcuDate)){
-        mcuDate.setFullYear(mcuDate.getFullYear() + 1);
+    if (isNaN(mcuDate)) return;
 
-        let year = mcuDate.getFullYear();
-        let month = String(mcuDate.getMonth() + 1).padStart(2, '0');
-        let day = String(mcuDate.getDate()).padStart(2, '0');
+    // set expire +1 tahun
+    let expireDate = new Date(mcuDate);
+    expireDate.setFullYear(expireDate.getFullYear() + 1);
 
-        let expireDate = year + '-' + month + '-' + day;
+    expireInput.value = expireDate.toISOString().split('T')[0];
 
-        document.getElementById('expire_date').value = expireDate;
+    // ======================
+    // TODAY
+    // ======================
+    let today = new Date();
+    today.setHours(0,0,0,0);
+    expireDate.setHours(0,0,0,0);
+
+    let diffDays = Math.floor((expireDate - today) / (1000 * 60 * 60 * 24));
+
+    // reset class
+    expireInput.className = "w-full px-3 py-2 rounded-lg border bg-gray-100";
+
+    if (diffDays < 0) {
+        // ❌ EXPIRED
+        expireInput.classList.add('bg-red-100','border-red-500');
+        expireInput.value += " (EXPIRED)";
+    } 
+    else if (diffDays <= 30) {
+        // ⚠️ SOON EXPIRE
+        expireInput.classList.add('bg-yellow-100','border-yellow-500');
+    } 
+    else {
+        // ✅ VALID
+        expireInput.classList.add('bg-green-100','border-green-500');
     }
 });
 </script>

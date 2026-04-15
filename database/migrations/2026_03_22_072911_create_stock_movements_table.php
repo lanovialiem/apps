@@ -19,6 +19,8 @@ return new class extends Migration
             $table->enum('movement_type', ['in', 'out', 'transfer']);
             $table->date('movement_date');
             $table->string('product_name');  // tanggal MCU
+            $table->enum('heading_type', ['Project', 'Gudang']);
+            $table->text('description');
             $table->timestamps();
         });
     }

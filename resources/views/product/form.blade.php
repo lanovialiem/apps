@@ -24,7 +24,7 @@
                     </label>
                     <input type="text" name="product_name"
                         value="{{ old('product_name') }}"
-                        class="px-3 py-2 w-full rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
                     @error('product_name')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -37,7 +37,7 @@
                     </label>
                     <input type="text" name="product_code"
                         value="{{ old('product_code') }}"
-                        class="px-3 py-2 w-full rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
                     @error('product_code')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -49,7 +49,7 @@
                         Description
                     </label>
                     <textarea name="description" rows="3"
-                        class="px-3 py-2 w-full rounded-xl border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">{{ old('description') }}</textarea>
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">{{ old('description') }}</textarea>
                     @error('description')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -62,7 +62,7 @@
                     </label>
                     <input type="number" step="0.01" name="product_price"
                         value="{{ old('product_price') }}"
-                        class="px-3 py-2 w-full rounded-xl border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
                     @error('product_price')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror

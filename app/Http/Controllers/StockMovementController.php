@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Stock;
 use App\Models\StockMovement;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 
 class StockMovementController extends Controller
@@ -22,13 +24,19 @@ class StockMovementController extends Controller
      */
     public function create()
     {
-        $stockMovements = StockMovement::with(['product', 'warehouse'])->get();
-        $movementTypes = [
-            'in',
-            'out',
-            'transfer', 
-            ];
-        return view('stockMovement.form', compact('stockMovements', 'movementTypes'));
+        // warehouse has stock
+        $warehouses = Warehouse::whereHas('stocks')->get();
+        $products = Product::all();
+
+        $movementTypes = ['in', 'out', 'transfer'];
+        $headTypes = ['Project', 'Gudang'];
+
+        return view('stockMovement.form', compact(
+            'warehouses',
+            'products',
+            'movementTypes',
+            'headTypes'
+        ));
     }
 
     /**
@@ -43,6 +51,8 @@ class StockMovementController extends Controller
                 'quantity' => 'required|integer|min:0',
                 'movement_type' => 'required|in:in,out,transfer',
                 'movement_date' => 'required|date',
+                'heading_type' => 'required|in:Project,Gudang',
+                'description' => 'nullable|string',
             ]
         );
         return redirect()->route('stockMovement.index')->with('success', 'Stock movement created sucess');
@@ -76,6 +86,8 @@ class StockMovementController extends Controller
                 'quantity' => 'required|integer|min:0',
                 'movement_type' => 'required|in:in,out,transfer',
                 'movement_date' => 'required|date',
+                'heading_type' => 'required|in:Project,Gudang',
+                'description' => 'nullable|string',
             ]
         );
 
@@ -91,4 +103,15 @@ class StockMovementController extends Controller
         $stockMovement->delete();
         return redirect()->route('stockMovement.index')->with('success', 'Stock movement deleted successfully.');
     }
+
+    // public function getProductsByWarehouse($id)
+    // {
+    //     $stocks = Stock::with('product')
+    //         ->where('warehouse_id', $id)
+    //         ->get()
+    //         ->unique('product_id')
+    //         ->values();
+
+    //     return response()->json($stocks);
+    // }
 }
