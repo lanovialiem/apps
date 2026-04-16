@@ -16,7 +16,7 @@ return new class extends Migration
             // $table->foreignId('item_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->foreignId('warehouse_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->integer('quantity');
-            $table->enum('movement_type', ['in', 'out', 'transfer']);
+            $table->enum('movement_type', ['Tambah', 'Kurang']);
             $table->date('movement_date');
             $table->string('product_name');  // tanggal MCU
             $table->enum('heading_type', ['Project', 'Gudang']);

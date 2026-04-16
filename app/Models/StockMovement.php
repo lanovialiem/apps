@@ -13,7 +13,7 @@ class StockMovement extends Model
         'warehouse_id',
         'product_id',
         'quantity',
-        'movement_type', // 'in' atau 'out' 'transfer'
+        'movement_type', // 'tambah' atau 'kurang'
         'movement_date',
         'heading_type',
         'description',

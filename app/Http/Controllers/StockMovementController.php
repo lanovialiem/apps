@@ -7,6 +7,7 @@ use App\Models\Stock;
 use App\Models\StockMovement;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StockMovementController extends Controller
 {
@@ -28,7 +29,7 @@ class StockMovementController extends Controller
         $warehouses = Warehouse::whereHas('stocks')->get();
         $products = Product::all();
 
-        $movementTypes = ['in', 'out', 'transfer'];
+        $movementTypes = ['tambah', 'kurang'];
         $headTypes = ['Project', 'Gudang'];
 
         return view('stockMovement.form', compact(
@@ -49,12 +50,41 @@ class StockMovementController extends Controller
                 'warehouse_id' => 'required|exists:warehouses,id',
                 'product_id' => 'required|exists:products,id',
                 'quantity' => 'required|integer|min:0',
-                'movement_type' => 'required|in:in,out,transfer',
+                'movement_type' => 'required|in:tambah,kurang',
                 'movement_date' => 'required|date',
                 'heading_type' => 'required|in:Project,Gudang',
                 'description' => 'nullable|string',
             ]
         );
+
+        // DB::transaction(function () use ($validatedData) {
+        //     $stockMovement = StockMovement::create($validatedData);
+
+        //     $stock = Stock::where('warehouse_id', $validatedData['warehouse_id'])
+        //         ->where('product_id', $validatedData['product_id'])
+        //         ->first();
+
+        //     if ($stockMovement->movement_type === 'tambah') {
+        //         if ($stock) {
+        //             $stock->quantity += $validatedData['quantity'];
+        //             $stock->save();
+        //         } else {
+        //             Stock::create([
+        //                 'warehouse_id' => $validatedData['warehouse_id'],
+        //                 'product_id' => $validatedData['product_id'],
+        //                 'quantity' => $validatedData['quantity'],
+        //             ]);
+        //         }
+        //     } elseif ($stockMovement->movement_type === 'kurang') {
+        //         if ($stock && $stock->quantity >= $validatedData['quantity']) {
+        //             $stock->quantity -= $validatedData['quantity'];
+        //             $stock->save();
+        //         } else {
+        //             throw new \Exception('Not enough stock to reduce.');
+        //         }
+        //     }
+        // });
+
         return redirect()->route('stockMovement.index')->with('success', 'Stock movement created sucess');
     }
 
@@ -84,7 +114,7 @@ class StockMovementController extends Controller
                 'warehouse_id' => 'required|exists:warehouses,id',
                 'product_id' => 'required|exists:products,id',
                 'quantity' => 'required|integer|min:0',
-                'movement_type' => 'required|in:in,out,transfer',
+                'movement_type' => 'required|in:tambah,kurang',
                 'movement_date' => 'required|date',
                 'heading_type' => 'required|in:Project,Gudang',
                 'description' => 'nullable|string',
