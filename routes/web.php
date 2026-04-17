@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\MedicalCheckupsController;
 use App\Http\Controllers\PenawaranController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProjectEmployeeController;
 use App\Http\Controllers\ProjectListController;
@@ -53,6 +54,9 @@ Route::resource('stock_movement', StockMovementController::class);
 Route::resource('stock', StockController::class);
 
 Route::resource('product', ProductController::class);
+
+Route::resource('permissions', PermissionController::class);
+
 
 
 
