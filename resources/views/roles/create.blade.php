@@ -12,7 +12,7 @@
 
                     <!-- TITLE -->
                     <h2 class="text-xl font-semibold text-gray-800">
-                        Create Permission
+                        Role Creation Form
                     </h2>
 
                     <!-- LOGO -->
@@ -23,7 +23,7 @@
 
                 </div>
                 <!-- FORM -->
-                <form action="{{ route('permissions.store') }}" method="POST">
+                <form action="{{ route('roles.store') }}" method="POST">
                     @csrf
 
                     <div class="overflow-x-auto">
@@ -34,37 +34,43 @@
                                 <!-- NAME -->
                                 <tr>
                                     <td class="px-6 py-4 font-medium w-1/3">
-                                        Permission Name
+                                        Role Name
                                     </td>
                                     <td class="px-6 py-4">
                                         <input type="text" name="name" value="{{ old('name') }}"
-                                            placeholder="Enter permission name"
-                                            class="w-full px-4 py-2 rounded-lg border border-gray-300 
+                                            placeholder="Enter role name" class="w-full px-4 py-2 rounded-lg border border-gray-300 
                                             focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                                     </td>
                                 </tr>
 
-                                <!-- GUARD -->
+                                <!-- checkbox -->
+                                @if($permissions->isNotEmpty())
                                 <tr>
-                                    <td class="px-6 py-4 font-medium">
-                                        Guard Name
+                                    <td class="px-6 py-4 font-medium align-top">
+                                        List Name Permission
                                     </td>
                                     <td class="px-6 py-4">
-                                        <input type="text" name="guard_name" value="{{ old('guard_name') }}"
-                                            placeholder="Enter guard name"
-                                            class="w-full px-4 py-2 rounded-lg border border-gray-300 
-                                            focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                        @foreach ($permissions as $permission)
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <input type="checkbox" id="permission-{{ $permission->id }}"
+                                                name="permissions[]" value="{{ $permission->name }}"
+                                                class="w-4 h-4 text-blue-600 border-gray-300 rounded">
+                                            <label for="permission-{{ $permission->id }}">
+                                                {{ $permission->name }}
+                                            </label>
+                                        </div>
+                                        @endforeach
                                     </td>
                                 </tr>
+                                @endif
 
                                 <!-- BUTTON -->
                                 <tr>
                                     <td></td>
                                     <td class="px-6 py-4">
-                                        <button type="submit"
-                                            class="bg-blue-600 hover:bg-blue-700 text-white 
+                                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white 
                                             px-6 py-2 rounded-lg shadow-md transition">
-                                            Save Permission
+                                            Save
                                         </button>
                                     </td>
                                 </tr>

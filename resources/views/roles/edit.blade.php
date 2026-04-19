@@ -10,61 +10,75 @@
                 <!-- HEADER -->
                 <div class="px-6 py-4 border-b bg-gray-50 flex items-center justify-between">
 
-                    <!-- TITLE -->
                     <h2 class="text-xl font-semibold text-gray-800">
-                        Create Permission
+                        Edit Role
                     </h2>
 
-                    <!-- LOGO -->
                     <a href="#" class="flex items-center gap-2">
                         <img src="/logo.png" alt="Logo" class="h-8 w-auto">
                         <span class="text-sm font-medium text-gray-700">Logo</span>
                     </a>
 
                 </div>
+
                 <!-- FORM -->
-                <form action="{{ route('permissions.store') }}" method="POST">
+                <form action="{{ route('roles.update', $role->id) }}" method="POST">
                     @csrf
+                    @method('PUT')
 
                     <div class="overflow-x-auto">
                         <table class="min-w-full text-sm text-left text-gray-700">
 
                             <tbody class="divide-y">
 
-                                <!-- NAME -->
+                                <!-- ROLE NAME -->
                                 <tr>
                                     <td class="px-6 py-4 font-medium w-1/3">
-                                        Permission Name
+                                        Role Name
                                     </td>
                                     <td class="px-6 py-4">
-                                        <input type="text" name="name" value="{{ old('name') }}"
-                                            placeholder="Enter permission name"
-                                            class="w-full px-4 py-2 rounded-lg border border-gray-300 
+                                        <input type="text" name="name" value="{{ old('name', $role->name) }}" class="w-full px-4 py-2 rounded-lg border border-gray-300 
                                             focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                                     </td>
                                 </tr>
 
-                                <!-- GUARD -->
+                                <!-- PERMISSIONS -->
+                                @if($permissions->isNotEmpty())
                                 <tr>
-                                    <td class="px-6 py-4 font-medium">
-                                        Guard Name
+                                    <td class="px-6 py-4 font-medium align-top">
+                                        Permissions
                                     </td>
                                     <td class="px-6 py-4">
-                                        <input type="text" name="guard_name" value="{{ old('guard_name') }}"
-                                            placeholder="Enter guard name"
-                                            class="w-full px-4 py-2 rounded-lg border border-gray-300 
-                                            focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+
+                                        @foreach ($permissions as $permission)
+
+                                        <div class="flex items-center gap-2 mb-2">
+
+                                            <input type="checkbox" id="permission-{{ $permission->id }}"
+                                                name="permissions[]" value="{{ $permission->name }}"
+                                                class="w-4 h-4 text-blue-600 border-gray-300 rounded" {{
+                                                $role->permissions->contains('name', $permission->name) ? 'checked' : ''
+                                            }}>
+
+                                            <label for="permission-{{ $permission->id }}">
+                                                {{ $permission->name }}
+                                            </label>
+
+                                        </div>
+
+                                        @endforeach
+
                                     </td>
                                 </tr>
+                                @endif
 
                                 <!-- BUTTON -->
                                 <tr>
                                     <td></td>
                                     <td class="px-6 py-4">
-                                        <button type="submit"
-                                            class="bg-blue-600 hover:bg-blue-700 text-white 
+                                        <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white 
                                             px-6 py-2 rounded-lg shadow-md transition">
-                                            Save Permission
+                                            Update Role
                                         </button>
                                     </td>
                                 </tr>

@@ -11,6 +11,14 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('permission:view category')->only(['index']);
+        $this->middleware('permission:create category')->only(['create', 'store']);
+        $this->middleware('permission:edit category')->only(['edit', 'update']);
+        $this->middleware('permission:delete category')->only(['destroy']);
+    }
+    
     public function index()
     {
         $category = Category::all();

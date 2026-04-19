@@ -4,9 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
 class WarehouseController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view warehouse')->only(['index']);
+        $this->middleware('permission:create warehouse')->only(['create', 'store']);
+        $this->middleware('permission:edit warehouse')->only(['edit', 'update']);
+        $this->middleware('permission:delete warehouse')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */

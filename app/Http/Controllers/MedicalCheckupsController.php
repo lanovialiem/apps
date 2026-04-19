@@ -15,6 +15,15 @@ class MedicalCheckupsController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function __construct()
+    {
+        $this->middleware('permission:view medical checkup')->only(['index']);
+        $this->middleware('permission:create medical checkup')->only(['create', 'store']);
+        $this->middleware('permission:edit medical checkup')->only(['edit', 'update']);
+        $this->middleware('permission:delete medical checkup')->only(['destroy']);
+    }
+    
     public function index()
     {
         // $employees = employee::with('category')->get();

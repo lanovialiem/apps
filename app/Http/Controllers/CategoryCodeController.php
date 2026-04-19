@@ -10,6 +10,14 @@ class CategoryCodeController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('permission:view category_code')->only(['index']);
+        $this->middleware('permission:create category_code')->only(['create', 'store']);
+        $this->middleware('permission:edit category_code')->only(['edit', 'update']);
+        $this->middleware('permission:delete category_code')->only(['destroy']);
+    }
+
     public function index()
     {
         $category_code = category_code::all();

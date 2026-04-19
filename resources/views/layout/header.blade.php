@@ -72,16 +72,58 @@
                                 </a>
                             </li>
                             <li class="group">
+                                <a href="{{ route('users.index') }}"
+                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                    Users
+                                </a>
+                            </li>
+                            <li class="group">
+                                <a href="{{ route('permissions.index') }}"
+                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                    Permissions
+                                </a>
+                            </li>
+                            <li class="group">
+                                <a href="{{ route('roles.index') }}"
+                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                    Roles
+                                </a>
+                            </li>
+                            @if(Route::has('login'))
+                            <li class="group">
                                 <a href="{{ route('login') }}"
                                     class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
                                     Login
                                 </a>
                             </li>
-                            {{-- <li>
-                                <a href="#" class="block text-gray-800 hover:text-primary font-semibold py-2 px-4">
-                                    Reports
-                                </a>
-                            </li> --}}
+                            @endif
+                            <li class="relative group">
+                                @auth
+                                <button id="userDropdownBtn"
+                                    class="text-base text-dark py-2 mx-8 flex items-center gap-1 hover:text-primary">
+                                    😊 | Hi, {{ Auth::user()->name }}
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2"
+                                        viewBox="0 0 24 24">
+                                        <path d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+
+                                <!-- Dropdown -->
+                                <div id="userDropdown"
+                                    class="hidden absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
+
+                                    <a href="{{ route('logout') }}"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                        class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                        Logout
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                                        @csrf
+                                    </form>
+                                </div>
+                                @endauth
+                            </li>
                         </ul>
                     </nav>
                 </div>

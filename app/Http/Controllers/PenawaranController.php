@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Storage;
 
 class PenawaranController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view offer')->only(['index', 'show']);
+        $this->middleware('permission:create offer')->only(['create', 'store']);
+        $this->middleware('permission:edit offer')->only(['edit', 'update']);
+        $this->middleware('permission:delete offer')->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      */

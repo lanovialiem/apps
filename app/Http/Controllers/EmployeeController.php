@@ -9,14 +9,26 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
+
+
 class EmployeeController extends Controller
+
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view employee')->only(['index']);
+        $this->middleware('permission:create employee')->only(['create', 'store']);
+        $this->middleware('permission:edit employee')->only(['edit', 'update']);
+        $this->middleware('permission:delete employee')->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $employee = employee::all();
+        // dd(auth()->user()->roles);
+
         return view('employee.employee', compact('employee'));
     }
 
@@ -57,7 +69,7 @@ class EmployeeController extends Controller
             'start_date'       => 'required|date',
             'end_date'         => 'required|date|after_or_equal:start_date',
             'image_profile'    => 'nullable|image|file|max:1024',
-             ///???///
+            ///???///
             'company'          => 'required|string|max:150',
             'induction_date'   => 'nullable|date',
             'status'           => 'required|string|max:50',
@@ -171,8 +183,8 @@ class EmployeeController extends Controller
         $category = Category::all();
         $category_code = category_code::all();
         $employee = employee::all();
-        $join = employee::with('category','category_code')->get();
-        
-        return view('employee.report', compact(['employee', 'category', 'category_code','join']));
+        $join = employee::with('category', 'category_code')->get();
+
+        return view('employee.report', compact(['employee', 'category', 'category_code', 'join']));
     }
 }

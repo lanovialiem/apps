@@ -19,3 +19,18 @@ window.onscroll = function() {
     }
 };
 
+//dropdown toggle
+const btn = document.getElementById("userDropdownBtn");
+const dropdown = document.getElementById("userDropdown");
+
+if (btn) {
+    btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        dropdown.classList.toggle("hidden");
+    });
+
+    document.addEventListener("click", function () {
+        dropdown.classList.add("hidden");
+    });
+}
+

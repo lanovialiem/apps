@@ -4,128 +4,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Form</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Login</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 
-<body
-    class="bg-gradient-to-r from-[#F28383] from-10% via-[#9D6CD2] via-30% to-[#481EDC] to-90% flex items-center justify-center h-screen">
-    <!DOCTYPE html>
+<body class="bg-gradient-to-br from-[#FF6A2A] via-[#FF8A4C] to-[#FFB36A] flex items-center justify-center h-screen">
 
-    <html lang="en">
+    <div class="flex bg-white/10 backdrop-blur-md rounded-xl shadow-lg overflow-hidden border border-white/20 hover:shadow-2xl transition duration-300">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Auth Modern</title>
-
-        <!-- Tailwind CDN -->
-
-        <script src="https://cdn.tailwindcss.com"></script>
-
-        <!-- Font Awesome -->
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-
-    </head>
-
-    <body
-        class="flex items-center justify-between px-6 py-4 border-b bg-slate-300/50 text-white">
-
-        <div
-            class="flex items-center justify-between px-6 py-4 border-b bg-slate-300/50 text-white">
-
-            ```
-            <!-- LEFT IMAGE -->
-            <div class="hidden md:flex items-center justify-center p-10">
-                <img src="https://illustrations.popsy.co/gray/web-design.svg" class="w-80">
-            </div>
-
-            <!-- RIGHT FORM -->
-            <div class="md:p-12 text-white">
-
-                <!-- TITLE -->
-                <h2 id="formTitle" class="text-3xl font-bold mb-2">Login</h2>
-                <p class="text-white/70 mb-6">Welcome back 👋</p>
-
-                <!-- FORM -->
-                <form class="w-full space-y-6">
-
-                    <!-- NAME (REGISTER ONLY) -->
-                    <div id="nameField" class="hidden">
-                        <input type="text" placeholder="Full Name"
-                            class="w-full px-4 py-3 rounded-lg bg-white/20 focus:outline-none focus:ring-2 focus:ring-cyan-300 placeholder-white/70">
-                    </div>
-
-                    <!-- EMAIL -->
-                    <div class="relative">
-                        <i class="fa-solid fa-envelope absolute left-3 top-3 text-white/70"></i>
-                        <input id="email" name="email" type="email" placeholder="Email"
-                            class="w-full pl-10 pr-4 py-3 rounded-lg bg-white/20 focus:outline-none focus:ring-2 focus:ring-cyan-300 placeholder-white/70">
-                    </div>
-
-                    <!-- PASSWORD -->
-                    <div class="relative">
-                        <i class="fa-solid fa-lock absolute left-3 top-3 text-white/70"></i>
-                        <input id="password" name="password" type="password" placeholder="Password"
-                            class="w-full pl-10 pr-4 py-3 rounded-lg bg-white/20 focus:outline-none focus:ring-2 focus:ring-cyan-300 placeholder-white/70">
-                    </div>
-
-                    <!-- CONFIRM PASSWORD -->
-                    <div id="confirmField" class="hidden relative">
-                        <i class="fa-solid fa-lock absolute left-3 top-3 text-white/70"></i>
-                        <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Confirm Password"
-                            class="w-full pl-10 pr-4 py-3 rounded-lg bg-white/20 focus:outline-none focus:ring-2 focus:ring-cyan-300 placeholder-white/70">
-                    </div>
-
-                    <!-- BUTTON -->
-                    <button id="submit" type="submit"
-                        class="w-full py-3 rounded-lg bg-gradient-to-r from-cyan-400 to-blue-500 font-semibold hover:opacity-90 transition">
-                        Sign In
-                    </button>
-
-                </form>
-
-                <!-- SWITCH -->
-                <p class="text-sm text-white/70 mt-6">
-                    <span id="toggleText">Don't have an account?</span>
-                    <button onclick="toggleForm()" class="text-cyan-300 font-semibold ml-1">
-                        Sign up
-                    </button>
-                </p>
-
-            </div>
-            ```
-
+        <!-- LEFT IMAGE -->
+        <div class="hidden md:flex items-center justify-center p-10">
+            <img src="https://illustrations.popsy.co/gray/web-design.svg" class="w-80">
         </div>
 
-        <!-- SCRIPT -->
+        <!-- RIGHT FORM -->
+        <div class="md:p-12 p-8 text-white w-full md:w-[400px]">
 
-        <script>
-            let isLogin = true;
+            <h2 id="formTitle" class="text-3xl font-bold mb-2 text-white">Login</h2>
+            <p class="text-white/70 mb-6">Welcome back 👋</p>
 
-            function toggleForm() {
-                isLogin = !isLogin;
+            @if ($errors->any())
+            <div class="text-dark mb-3">
+                {{ $errors->first() }}
+            </div>
+            @endif
 
-                document.getElementById('formTitle').innerText = isLogin ? 'Login' : 'Register';
-                document.getElementById('submitBtn').innerText = isLogin ? 'Sign In' : 'Sign Up';
-                document.getElementById('toggleText').innerText = isLogin ?
-                    "Don't have an account?" :
-                    "Already have an account?";
+            <form id="authForm" method="POST" action="{{ route('loginProses') }}" class="space-y-6">
+                @csrf
 
-                document.getElementById('nameField').classList.toggle('hidden');
-                document.getElementById('confirmField').classList.toggle('hidden');
-            }
-        </script>
+                <!-- NAME (REGISTER ONLY) -->
+                <div id="nameField" class="hidden">
+                    <input name="name" type="text" placeholder="Full Name" value="{{ old('name') }}"
+                        class="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#FF6A2A]">
+                </div>
 
-    </body>
+                <!-- EMAIL -->
+                <div>
+                    <input name="email" type="email" placeholder="Email" value="{{ old('email') }}" required
+                        class="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#FF6A2A]">
+                </div>
 
-    </html>
+                <!-- PASSWORD -->
+                <div>
+                    <input name="password" type="password" placeholder="Password" required
+                        class="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#FF6A2A]">
+                </div>
 
+                <!-- CONFIRM PASSWORD (REGISTER ONLY) -->
+                <div id="confirmField" class="hidden">
+                    <input name="password_confirmation" type="password" placeholder="Confirm Password"
+                        class="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#FF6A2A]">
+                </div>
+
+                <!-- BUTTON -->
+                <button id="submit" type="submit"
+                    class="w-full py-3 rounded-lg bg-[#FF6A2A] hover:bg-[#ff7a3d] transition text-white font-semibold">
+                    Sign In
+                </button>
+
+            </form>
+
+            <!-- SWITCH -->
+            <p class="text-sm text-white/70 mt-6">
+                <span id="toggleText">Don't have an account?</span>
+                <button type="button" onclick="toggleForm()" 
+                    class="text-[#FF6A2A] font-semibold ml-1 hover:underline">
+                    Sign up
+                </button>
+            </p>
+
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
+    <script>
+        let isLogin = true;
+
+        function toggleForm() {
+            isLogin = !isLogin;
+
+            document.getElementById('formTitle').innerText = isLogin ? 'Login' : 'Register';
+            document.getElementById('submit').innerText = isLogin ? 'Sign In' : 'Sign Up';
+
+            document.getElementById('toggleText').innerText = isLogin
+                ? "Don't have an account?"
+                : "Already have an account?";
+
+            document.getElementById('nameField').classList.toggle('hidden');
+            document.getElementById('confirmField').classList.toggle('hidden');
+
+            document.getElementById('authForm').action = isLogin
+                ? "{{ route('loginProses') }}"
+                : "{{ route('registerProses') }}";
+        }
+    </script>
 
 </body>
-
 </html>

@@ -26,6 +26,12 @@ class DatabaseSeeder extends Seeder
             category_codesSeeder::class,
             EmployeeSeeder::class,
             WarehouseSeeder::class,
+            PermissionSeeder::class,
+            // RoleSeeder::class,
+            RoleHasPermissionSeeder::class,
+            UserSeeder::class,
+
+
         ]);
     }
 }

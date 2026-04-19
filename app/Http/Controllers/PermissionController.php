@@ -6,13 +6,21 @@ use App\Models\Permission;
 use Illuminate\Http\Request;
 
 
-class PermissionController extends Controller
+
+class PermissionController extends Controller 
 {
+        public function __construct()
+    {
+        $this->middleware('permission:view permission')->only(['index']);
+        $this->middleware('permission:create permission')->only(['create', 'store']);
+        $this->middleware('permission:edit permission')->only(['edit', 'update']);
+        $this->middleware('permission:delete permission')->only(['destroy']);
+    }
     public function index()
     {
         $permissions = Permission::all();
 
-        return view('permissions.list',compact('permissions'));
+        return view('permissions.list', compact('permissions'));
     }
 
     public function create()
@@ -23,44 +31,51 @@ class PermissionController extends Controller
 
     public function store(Request $request)
     {
-        // Validate and store the new permission
         $request->validate([
             'name' => 'required|unique:permissions,name',
             'guard_name' => 'required',
         ]);
 
-        if ($request->has('guard_name')) {
-            $guardName = $request->input('guard_name');
-        } else {
-            $guardName = config('auth.defaults.guard');
-        }
+        Permission::create([
+            'name' => $request->name,
+            'guard_name' => $request->guard_name ?? 'web',
+        ]);
 
-        // Permission::create($request->only('name', 'guard_name'));
-        return redirect()->route('permissions.index')->with('success', 'Permission created successfully.');
+        return redirect()->route('permissions.index')
+            ->with('success', 'Permission created successfully.');
     }
 
-    public function edit($permission)
+    public function edit($id)
     {
-        // return view('permissions.edit', compact('permission'));
+        $permission = Permission::findOrFail($id);
+
+        return view('permissions.edit', compact('permission'));
     }
 
-    public function update(Request $request, $permission)
+    public function update(Request $request, $id)
     {
-        // Validate and update the permission
-        // $request->validate([
-        //     'name' => 'required|unique:permissions,name,' . $permission->id,
-        //     'guard_name' => 'required',
-        // ]);
+        $permission = Permission::findOrFail($id);
 
-        // $permission->update($request->only('name', 'guard_name'));
+        $request->validate([
+            'name' => 'required|unique:permissions,name,' . $permission->id,
+            'guard_name' => 'required',
+        ]);
 
-        return redirect()->route('permissions.index')->with('success', 'Permission updated successfully.');
+        $permission->update([
+            'name' => $request->name,
+            'guard_name' => $request->guard_name ?? 'web',
+        ]);
+
+        return redirect()->route('permissions.index')
+            ->with('success', 'Permission updated successfully.');
     }
 
-    public function destroy($permission)
+    public function destroy($id)
     {
+        $permission = Permission::findOrFail($id);
         $permission->delete();
 
-        return redirect()->route('permissions.index')->with('success', 'Permission deleted successfully.');
+        return redirect()->route('permissions.index')
+            ->with('success', 'Permission deleted successfully.');
     }
 }

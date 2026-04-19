@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 
 class StockController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view stock')->only(['index']);
+        $this->middleware('permission:create stock')->only(['create', 'store']);
+        $this->middleware('permission:edit stock')->only(['edit', 'update']);
+        $this->middleware('permission:delete stock')->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      */
