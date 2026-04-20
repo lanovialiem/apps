@@ -7,11 +7,12 @@
         <h3 class="text-2xl font-semibold text-blue-600">
             Product
         </h3>
-
+        @can('create product')
         <a href="{{ route('product.create') }}"
            class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
             + Add Product
         </a>
+        @endcan
     </div>
 
     <!-- Card -->
@@ -96,11 +97,13 @@
                                         Detail
                                     </a>
 
+                                    @can('edit product')
                                     <a href="{{ route('product.edit', $item->id) }}"
                                        class="px-3 py-1.5 text-xs text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow">
                                         Edit
                                     </a>
-
+                                    @endcan
+                                    @can('delete product')
                                     <form action="{{ route('product.destroy', $item->id) }}"
                                           method="POST"
                                           onsubmit="return confirm('Yakin ingin menghapus data ini?')">
@@ -114,7 +117,7 @@
                                         </button>
 
                                     </form>
-
+                                    @endcan
                                 </div>
                             </td>
 

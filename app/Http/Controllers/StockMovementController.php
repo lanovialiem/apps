@@ -40,6 +40,23 @@ class StockMovementController extends Controller
         ));
     }
 
+    public function add(Request $request)
+    {
+        $stock = Stock::findOrFail($request->stock_id);
+        $type = $request->movement_type; // tambah / kurang
+        $qty = (int) $request->quantity;
+
+        if ($type === 'tambah') {
+            $stock->quantity += $qty;
+        } elseif ($type === 'kurang') {
+            $stock->quantity -= $qty;
+        }
+
+        $stock->save();
+
+        return redirect()->back()->with('success', 'Stock updated');
+    }
+    
     /**
      * Store a newly created resource in storage.
      */

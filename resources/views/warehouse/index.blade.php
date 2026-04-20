@@ -8,10 +8,12 @@
             Warehouse Management
         </h3>
 
+        @can('create warehouse')
         <a href="{{ route('warehouse.create') }}"
            class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
             + Add Warehouse
         </a>
+        @endcan
     </div>
 
     <!-- Card -->
@@ -59,6 +61,7 @@
                             <td class="px-4 py-3">
                                 <div class="flex justify-center">
 
+                                    @can('delete warehouse')
                                     <form action="{{ route('warehouse.destroy', $ware_->id) }}"
                                           method="POST"
                                           onsubmit="return confirm('Yakin ingin menghapus data ini?')">
@@ -72,7 +75,7 @@
                                         </button>
 
                                     </form>
-
+                                    @endcan
                                 </div>
                             </td>
 

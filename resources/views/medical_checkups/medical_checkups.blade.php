@@ -8,10 +8,12 @@
         </h3>
         <!-- Actions -->
         <div class="flex flex-wrap gap-2">
+            @can('create medical checkup')
             <a href="{{ route('medical_checkups.create') }}"
                 class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow transition">
                 + Add MCU
             </a>
+            @endcan
             {{-- <a href="{{ route('medical_checkups.report') }}"
                 class="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg shadow transition">
                 Rekap
@@ -105,6 +107,7 @@
                         <!-- Action -->
                         <td class="px-4 py-3">
                             <div class="flex justify-center">
+                                @can('delete medical checkup')
                                 <form action="{{ route('medical_checkups.destroy', $item->id) }}" method="POST"
                                     onsubmit="return confirm('Yakin ingin menghapus data ini?')">
                                     @csrf
@@ -115,6 +118,7 @@
                                         Hapus
                                     </button>
                                 </form>
+                                @endcan
                             </div>
                         </td>
                     </tr>

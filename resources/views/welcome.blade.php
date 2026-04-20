@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>TET</title>
+    <title>Niteksindo | Elcoblast</title>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="./dist/output.css">
@@ -18,6 +18,7 @@
 {{-- Header start --}}
 @include('layout.header')
 {{-- Header end --}}
+
 <body class="">
     {{-- Hero Start --}}
     <section id="home" class="pt-36">
@@ -27,11 +28,14 @@
                     <h1 class="text-base font-semibold text-primary md:text-xl">Hallo Semua 🖐️,
                         <span class="block font-bold text-dark text-3xl mt-1">PT.Niteksindo Multitech Perkasa</span>
                     </h1>
-                    <h2 class="font-medium text-slate-500 text-lg mb-5 max-w-md">Lorem ipsum dolor sit amet consectetur,
-                        adipisicing elit. Odit cupiditate eius alias nam vel sint numquam distinctio aspernatur laborum
-                        mollitia ipsa corporis dicta vitae, <span class="text-dark">tenetur consequatur quibusdam, error
-                            aliquam laudantium.</span></h2>
-                    <p class="font-medium text-secondary mb-10 leading-relaxed max-w-xl">Surface Prepare Top 10</p>
+                    <h2 class="font-medium text-slate-500 text-lg mb-5 max-w-md"> is a
+                        Blasting and Painting Company. We are offering solution for surface preparation by using various
+                        kind of material such as sandblasting, dry ice blasting and vapor abrasive blasting. <span
+                            class="text-dark">This method has improved cleaning standards of companies industries. The
+                            considerable of using this method are increasing productivity, product quality and
+                            environment friendly.</span></h2>
+                    <p class="font-medium text-secondary mb-10 leading-relaxed max-w-xl">Service Painting and Blasting
+                    </p>
 
                     <a href="#"
                         class="text-base font-semibold text-white bg-primary py-3 px-8 rounded-full hover:opacity-90">Hubungi
@@ -60,12 +64,10 @@
             <div class="flex flex-wrap">
                 <div class="w-full px-4 mb-10 lg:w-1/2">
                     <h4 class="font-bold uppercase text-primary text-lg mb-3">About Me</h4>
-                    <h2 class="font-bold text-dark text-3xl mb-5 max-w-md lg:text-4xl">Lorem ipsum dolor sit, amet
-                        consectetur adipisicing elit. Voluptate iure provident officiis ab laboriosam nam ad ullam
-                        doloremque aliquid amet, asperiores porro, excepturi libero explicabo voluptas cumque quis, rem
-                        quaerat!</h2>
-                    <p class="font-medium text-base text-secondary max-w-xl lg:text-lg">Lorem ipsum dolor sit amet
-                        consectetur adipisicing elit. Repellat ducimus aut veritatis.</p>
+                    <h2 class="font-bold text-dark text-3xl mb-5 max-w-md lg:text-4xl">Is the operation of forcibly
+                        propelling a stream of abrasive material against a surface under high pressure to smooth a rough
+                        surface, roughen a smooth surface, shape a surface or remove surface contaminants.</h2>
+                    <p class="font-medium text-base text-secondary max-w-xl lg:text-lg">Our Blasting Service.</p>
                 </div>
                 <div class="w-full px-4 lg:w-1/2">
                     <h3 class="semi-bold text-dark text-2xl mb-4 lg:text-3xl lg:pt-10">ZZZZ</h3>

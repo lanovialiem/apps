@@ -32,7 +32,8 @@ class PenawaranController extends Controller
     {
         $penawaran = Penawaran::all();
         $projectList = ProjectList::all();
-        return view('penawaran.form', compact(['penawaran', 'projectList']));
+        $offerNumber = "Penawaran_" . rand(min: 10000, max: 19999999999);
+        return view('penawaran.form', compact(['penawaran', 'projectList', 'offerNumber']));
     }
 
     /**

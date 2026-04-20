@@ -5,11 +5,12 @@
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
         <h3 class="text-2xl font-semibold text-blue-600">Penawaran</h3>
-
+        @can('create offer')
         <a href="{{ route('penawaran.create') }}"
            class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
             + Add Penawaran
         </a>
+        @endcan
     </div>
 
     <!-- Card -->
@@ -83,12 +84,13 @@
                                        class="px-3 py-1.5 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 shadow">
                                         Detail
                                     </a>
-
+                                    @can('edit offer')
                                     <a href="{{ route('penawaran.edit', $item->id) }}"
                                        class="px-3 py-1.5 text-xs text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow">
                                         Edit
                                     </a>
-
+                                    @endcan
+                                    @can('delete offer')
                                     <form action="{{ route('penawaran.destroy', $item->id) }}"
                                           method="POST"
                                           onsubmit="return confirm('Yakin ingin menghapus data ini?')">
@@ -100,7 +102,7 @@
                                             Hapus
                                         </button>
                                     </form>
-
+                                    @endcan
                                 </div>
                             </td>
                         </tr>

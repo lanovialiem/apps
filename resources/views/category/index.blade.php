@@ -9,7 +9,7 @@
         </h3>
 
         <a href="{{ route('category.create') }}"
-           class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
+            class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
             + Add Category
         </a>
     </div>
@@ -50,40 +50,41 @@
                                 <div class="flex justify-center gap-2">
 
                                     <a href="{{ route('category.show', $item->id) }}"
-                                       class="px-3 py-1.5 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 shadow">
+                                        class="px-3 py-1.5 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 shadow">
                                         Detail
                                     </a>
+                                    @can('edit category')
+                                        <a href="{{ route('category.edit', $item->id) }}"
+                                            class="px-3 py-1.5 text-xs text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow">
+                                            Edit
+                                        </a>
+                                    @endcan
 
-                                    <a href="{{ route('category.edit', $item->id) }}"
-                                       class="px-3 py-1.5 text-xs text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow">
-                                        Edit
-                                    </a>
+                                    @can('delete category')
+                                        <form action="{{ route('category.destroy', $item->id) }}" method="POST"
+                                            onsubmit="return confirm('Yakin ingin menghapus data ini?')">
 
-                                    <form action="{{ route('category.destroy', $item->id) }}"
-                                          method="POST"
-                                          onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                            @csrf
+                                            @method('DELETE')
 
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button type="submit"
+                                            <button type="submit"
                                                 class="px-3 py-1.5 text-xs text-white bg-red-500 rounded-lg hover:bg-red-600 shadow">
-                                            Hapus
-                                        </button>
+                                                Hapus
+                                            </button>
 
-                                    </form>
+                                        </form>
+                                    @endcan
+                                    </div>
+                                </td>
 
-                                </div>
-                            </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
 
-                        </tr>
-                    @endforeach
-                </tbody>
+                </table>
+            </div>
 
-            </table>
         </div>
-
     </div>
-</div>
 
-@include('layout.footer')
+    @include('layout.footer')

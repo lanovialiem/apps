@@ -50,12 +50,13 @@
                             <!-- Action -->
                             <td class="px-4 py-3">
                                 <div class="flex justify-center gap-2">
-
+                                    @can('edit category_code')
                                     <a href="{{ route('category_code.edit', $item->id) }}"
                                        class="px-3 py-1.5 text-xs text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow">
                                         Edit
                                     </a>
-
+                                    @endcan
+                                    @can('delete category_code')
                                     <form action="{{ route('category_code.destroy', $item->id) }}"
                                           method="POST"
                                           onsubmit="return confirm('Yakin ingin menghapus data ini?')">
@@ -69,6 +70,7 @@
                                         </button>
 
                                     </form>
+                                    @endcan
 
                                 </div>
                             </td>

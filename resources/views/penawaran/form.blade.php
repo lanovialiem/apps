@@ -10,6 +10,8 @@
             <form class="row g-4" method="POST" action="{{ route('penawaran.store') }}" enctype="multipart/form-data">
                 @csrf
 
+                <h2>Nomer Penawaran: {{ $offerNumber }}</h2>
+
                 <div class="col-md-6">
                     <label for="company_name" class="form-label">Company Name</label>
                     <input type="text" class="form-control" id="company_name" name="company_name"

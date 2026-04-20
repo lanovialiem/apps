@@ -30,73 +30,93 @@
                         class="hidden absolute bg-white shadow-lg rounded-lg py-5 max-w-[250px] w-full right-4 top-full lg:block lg:static lg:bg-transparent lg:max-w-full lg:shadow-none lg:rounded-none">
                         <ul class="block lg:flex">
                             <li class="group">
+                                @can('view employee')
                                 <a href="{{ route('employees.index') }}"
                                     class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
                                     Employees
                                 </a>
+                                @endcan
                             </li>
                             <li class="group">
+                                @can('view medical checkup')
                                 <a href="{{ route('medical_checkups.index') }}"
                                     class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
                                     MCU
                                 </a>
+                                @endcan
                             </li>
                             <li class="group">
+                                @can('view offer')
                                 <a href="{{ route('penawaran.index') }}"
                                     class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
                                     Penawaran
                                 </a>
+                                @endcan
                             </li>
                             <li class="group">
+                                @can('view warehouse')
                                 <a href="{{ route('warehouse.index') }}"
                                     class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
                                     Gudang
                                 </a>
+                                @endcan
                             </li>
                             <li class="group">
+                                @can('view stock')
                                 <a href="{{ route('stock.index') }}"
                                     class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
                                     Stok
                                 </a>
+                                @endcan
                             </li>
                             <li class="group">
+                                @can('view stock movement')
                                 <a href="{{ route('stock_movement.index') }}"
                                     class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
                                     Mutasi Stok
                                 </a>
+                                @endcan
                             </li>
                             <li class="group">
+                                @can('view product')
                                 <a href="{{ route('product.index') }}"
                                     class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
                                     Produk
                                 </a>
+                                @endcan
                             </li>
                             <li class="group">
+                                @can('view user')
                                 <a href="{{ route('users.index') }}"
                                     class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
                                     Users
                                 </a>
+                                @endcan
                             </li>
                             <li class="group">
+                                @can('view permissions')
                                 <a href="{{ route('permissions.index') }}"
                                     class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
                                     Permissions
                                 </a>
+                                @endcan
                             </li>
                             <li class="group">
+                                @can('view roles')
                                 <a href="{{ route('roles.index') }}"
                                     class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
                                     Roles
                                 </a>
+                                @endcan
                             </li>
-                            @if(Route::has('login'))
+                            {{-- @if(Route::has('login'))
                             <li class="group">
                                 <a href="{{ route('login') }}"
                                     class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
                                     Login
                                 </a>
                             </li>
-                            @endif
+                            @endif --}}
                             <li class="relative group">
                                 @auth
                                 <button id="userDropdownBtn"

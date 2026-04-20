@@ -8,10 +8,12 @@
             Stock Management
         </h3>
 
+        @can('create stock')
         <a href="{{ route('stock.create') }}"
            class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
             + Add Stock
         </a>
+        @endcan
     </div>
 
     <!-- Card -->
@@ -63,11 +65,14 @@
                             <td class="px-4 py-3">
                                 <div class="flex justify-center gap-2">
 
+                                    @can('edit stock')
                                     <a href="{{ route('stock.edit', $items->id) }}"
                                        class="px-3 py-1.5 text-xs font-medium text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow-sm">
                                         Edit
                                     </a>
+                                    @endcan
 
+                                    @can('delete stock')
                                     <form action="{{ route('stock.destroy', $items->id) }}"
                                           method="POST"
                                           onsubmit="return confirm('Yakin ingin menghapus data ini?')">
@@ -81,7 +86,7 @@
                                         </button>
 
                                     </form>
-
+                                    @endcan
                                 </div>
                             </td>
 
