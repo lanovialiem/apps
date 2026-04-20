@@ -13,14 +13,24 @@ return new class extends Migration
     {
         Schema::create('stock_movements', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('item_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
-            $table->foreignId('warehouse_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
+
+            $table->foreignId('product_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
+
+            $table->foreignId('warehouse_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
+
             $table->integer('quantity');
-            $table->enum('movement_type', ['Tambah', 'Kurang']);
+            $table->integer('previous_stock');
+            $table->integer('new_stock');
+            $table->enum('movement_type', ['tambah', 'kurang']);
             $table->date('movement_date');
-            $table->string('product_name');  // tanggal MCU
             $table->enum('heading_type', ['Project', 'Gudang']);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

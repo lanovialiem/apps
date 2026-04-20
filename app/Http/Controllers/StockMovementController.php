@@ -16,7 +16,9 @@ class StockMovementController extends Controller
      */
     public function index()
     {
-        $stockMovements = StockMovement::with(['product', 'warehouse'])->get();
+        $stockMovements = StockMovement::with(['product', 'warehouse'])
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('stockMovement.index', compact('stockMovements'));
     }
 
@@ -56,53 +58,87 @@ class StockMovementController extends Controller
 
         return redirect()->back()->with('success', 'Stock updated');
     }
-    
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validated(
-            [
-                'warehouse_id' => 'required|exists:warehouses,id',
-                'product_id' => 'required|exists:products,id',
-                'quantity' => 'required|integer|min:0',
-                'movement_type' => 'required|in:tambah,kurang',
-                'movement_date' => 'required|date',
-                'heading_type' => 'required|in:Project,Gudang',
-                'description' => 'nullable|string',
-            ]
-        );
+        $validatedData = $request->validate([
+            'warehouse_id' => 'required|exists:warehouses,id',
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer|min:1',
+            'movement_type' => 'required|in:tambah,kurang',
+            'movement_date' => 'required|date',
+            'heading_type' => 'required|in:Project,Gudang',
+            'description' => 'nullable|string',
+        ]);
 
-        // DB::transaction(function () use ($validatedData) {
-        //     $stockMovement = StockMovement::create($validatedData);
+        DB::transaction(function () use ($validatedData) {
 
-        //     $stock = Stock::where('warehouse_id', $validatedData['warehouse_id'])
-        //         ->where('product_id', $validatedData['product_id'])
-        //         ->first();
+            $stock = Stock::where('warehouse_id', $validatedData['warehouse_id'])
+                ->where('product_id', $validatedData['product_id'])
+                ->lockForUpdate()
+                ->first();
 
-        //     if ($stockMovement->movement_type === 'tambah') {
-        //         if ($stock) {
-        //             $stock->quantity += $validatedData['quantity'];
-        //             $stock->save();
-        //         } else {
-        //             Stock::create([
-        //                 'warehouse_id' => $validatedData['warehouse_id'],
-        //                 'product_id' => $validatedData['product_id'],
-        //                 'quantity' => $validatedData['quantity'],
-        //             ]);
-        //         }
-        //     } elseif ($stockMovement->movement_type === 'kurang') {
-        //         if ($stock && $stock->quantity >= $validatedData['quantity']) {
-        //             $stock->quantity -= $validatedData['quantity'];
-        //             $stock->save();
-        //         } else {
-        //             throw new \Exception('Not enough stock to reduce.');
-        //         }
-        //     }
-        // });
+            $qty = $validatedData['quantity'];
+            $type = $validatedData['movement_type'];
 
-        return redirect()->route('stockMovement.index')->with('success', 'Stock movement created sucess');
+            // ======================
+            // AMBIL PREVIOUS STOCK
+            // ======================
+            $previous = $stock ? $stock->quantity : 0;
+
+            // ======================
+            // HITUNG NEW STOCK
+            // ======================
+            if ($type === 'tambah') {
+                $new = $previous + $qty;
+            } else {
+
+                if (!$stock) {
+                    throw new \Exception('Stock belum ada di gudang ini.');
+                }
+
+                if ($previous < $qty) {
+                    throw new \Exception('Stock tidak mencukupi.');
+                }
+
+                $new = $previous - $qty;
+            }
+
+            // ======================
+            // UPDATE / CREATE STOCK
+            // ======================
+            if ($stock) {
+                $stock->quantity = $new;
+                $stock->save();
+            } else {
+                $stock = Stock::create([
+                    'warehouse_id' => $validatedData['warehouse_id'],
+                    'product_id' => $validatedData['product_id'],
+                    'quantity' => $new,
+                ]);
+            }
+
+            // ======================
+            // SIMPAN HISTORY
+            // ======================
+            StockMovement::create([
+                'warehouse_id' => $validatedData['warehouse_id'],
+                'product_id' => $validatedData['product_id'],
+                'quantity' => $qty,
+                'previous_stock' => $previous,
+                'new_stock' => $new,
+                'movement_type' => $type,
+                'movement_date' => $validatedData['movement_date'],
+                'heading_type' => $validatedData['heading_type'],
+                'description' => $validatedData['description'],
+            ]);
+        });
+
+        return redirect()->route('stock_movement.index')
+            ->with('success', 'Stock movement berhasil disimpan');
     }
 
     /**

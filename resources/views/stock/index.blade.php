@@ -10,7 +10,7 @@
 
         @can('create stock')
         <a href="{{ route('stock.create') }}"
-           class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
+            class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
             + Add Stock
         </a>
         @endcan
@@ -29,6 +29,7 @@
                         <th class="px-4 py-3 w-[50px]">No</th>
                         <th class="px-4 py-3 text-left">Warehouse</th>
                         <th class="px-4 py-3 text-left">Product</th>
+                        <th class="px-4 py-3 text-left">Code</th>
                         <th class="px-4 py-3">Quantity</th>
                         <th class="px-4 py-3">Actions</th>
                     </tr>
@@ -37,60 +38,64 @@
                 <!-- Body -->
                 <tbody class="divide-y">
                     @foreach ($stock as $index => $items)
-                        <tr class="hover:bg-blue-50 transition">
+                    <tr class="hover:bg-blue-50 transition">
 
-                            <!-- No -->
-                            <td class="px-4 py-3 text-center">
-                                {{ $index + 1 }}
-                            </td>
+                        <!-- No -->
+                        <td class="px-4 py-3 text-center">
+                            {{ $index + 1 }}
+                        </td>
 
-                            <!-- Warehouse -->
-                            <td class="px-4 py-3 font-medium text-gray-800">
-                                {{ $items->warehouse->warehouse_name }}
-                            </td>
+                        <!-- Warehouse -->
+                        <td class="px-4 py-3 font-medium text-gray-800">
+                            {{ $items->warehouse->warehouse_name }}
+                        </td>
 
-                            <!-- Product -->
-                            <td class="px-4 py-3 text-gray-700">
-                                {{ $items->product->product_name }}
-                            </td>
+                        <!-- Product -->
+                        <td class="px-4 py-3 text-gray-700">
+                            {{ $items->product->product_name }}
+                        </td>
 
-                            <!-- Quantity -->
-                            <td class="px-4 py-3 text-center">
-                                <span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">
-                                    {{ $items->quantity }}
-                                </span>
-                            </td>
+                        <!-- Product -->
+                        <td class="px-4 py-3 text-gray-700">
+                            {{ $items->product->product_code }}
+                        </td>
 
-                            <!-- Actions -->
-                            <td class="px-4 py-3">
-                                <div class="flex justify-center gap-2">
+                        <!-- Quantity -->
+                        <td class="px-4 py-3 text-center">
+                            <span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">
+                                {{ $items->quantity }}
+                            </span>
+                        </td>
 
-                                    @can('edit stock')
-                                    <a href="{{ route('stock.edit', $items->id) }}"
-                                       class="px-3 py-1.5 text-xs font-medium text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow-sm">
-                                        Edit
-                                    </a>
-                                    @endcan
+                        <!-- Actions -->
+                        <td class="px-4 py-3">
+                            <div class="flex justify-center gap-2">
 
-                                    @can('delete stock')
-                                    <form action="{{ route('stock.destroy', $items->id) }}"
-                                          method="POST"
-                                          onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                @can('edit stock')
+                                <a href="{{ route('stock.edit', $items->id) }}"
+                                    class="px-3 py-1.5 text-xs font-medium text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow-sm">
+                                    Edit
+                                </a>
+                                @endcan
 
-                                        @csrf
-                                        @method('DELETE')
+                                @can('delete stock')
+                                <form action="{{ route('stock.destroy', $items->id) }}" method="POST"
+                                    onsubmit="return confirm('Yakin ingin menghapus data ini?')">
 
-                                        <button type="submit"
-                                                class="px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 shadow-sm">
-                                            Hapus
-                                        </button>
+                                    @csrf
+                                    @method('DELETE')
 
-                                    </form>
-                                    @endcan
-                                </div>
-                            </td>
+                                    <button type="submit"
+                                        class="px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 shadow-sm">
+                                        Hapus
+                                    </button>
 
-                        </tr>
+                                </form>
+                                @endcan
+                            </div>
+                        </td>
+
+                    </tr>
                     @endforeach
                 </tbody>
 

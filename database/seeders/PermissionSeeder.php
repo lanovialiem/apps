@@ -44,6 +44,11 @@ class PermissionSeeder extends Seeder
             'create stock',
             'delete stock',
 
+            'view stock movement',
+            'edit stock movement',
+            'create stock movement',
+            'delete stock movement',
+
             'view product',
             'edit product',
             'create product',

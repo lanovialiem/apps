@@ -17,6 +17,8 @@ class StockMovement extends Model
         'movement_date',
         'heading_type',
         'description',
+        'previous_stock',
+        'new_stock',
     ];
 
     public function product()
