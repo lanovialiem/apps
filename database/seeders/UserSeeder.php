@@ -40,6 +40,6 @@ class UserSeeder extends Seeder
         $lanovia = \App\Models\User::where('name', 'Lanovia')->first();
 
         $syalom->assignRole('Admin Warehouse');
-        $lanovia->assignRole('Admin HRD');
+        $lanovia->assignRole('Super Admin');
     }
 }
