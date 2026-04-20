@@ -37,7 +37,7 @@
                         <th class="px-4 py-3 text-left">Code</th>
                         <th class="px-4 py-3 text-left">Description</th>
                         <th class="px-4 py-3">Price</th>
-                        <th class="px-4 py-3">Stock</th>
+                        <th class="px-4 py-3">Total Stock Product</th>
                         <th class="px-4 py-3">Action</th>
                     </tr>
                 </thead>
@@ -76,7 +76,7 @@
 
                             <!-- Stock -->
                             <td class="px-4 py-3 text-center">
-                                <span class="px-3 py-1 text-xs font-semibold rounded-full
+                                {{-- <span class="px-3 py-1 text-xs font-semibold rounded-full
                                     @if($item->stock_quantity > 10)
                                         bg-green-100 text-green-700
                                     @elseif($item->stock_quantity > 0)
@@ -85,7 +85,8 @@
                                         bg-red-100 text-red-600
                                     @endif">
                                     {{ $item->stock_quantity }}
-                                </span>
+                                </span> --}}
+                                {{ $item->stock->sum('quantity') }}
                             </td>
 
                             <!-- Action -->
