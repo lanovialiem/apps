@@ -5,7 +5,7 @@
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 gap-4">
 
         <!-- Title -->
-        <h3 class="text-2xl font-semibold text-blue-600">
+        <h3 class="text-2xl font-semibold text-blue-600 mt-5">
             Employees
         </h3>
 

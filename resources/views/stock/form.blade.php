@@ -19,7 +19,7 @@
             <!-- Product -->
             <div>
                 <label class="block text-sm font-medium text-gray-600 mb-1">
-                    Product
+                    Product Name
                 </label>
                 <select name="product_id" id="product_id"
                     class="w-full px-3 py-2 rounded-lg border border-gray-300 

@@ -22,11 +22,39 @@
                     <label class="block text-sm font-medium text-gray-600 mb-1">
                         Product Name
                     </label>
-                    <input type="text" name="product_name"
-                        value="{{ old('product_name') }}"
+                    <input type="text" name="product_name" value="{{ old('product_name') }}"
                         class="w-full px-3 py-2 rounded-lg border border-gray-300">
                     @error('product_name')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Product Brand/Merk --}}
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">
+                        Product Brand
+                    </label>
+                    <input type="text" name="product_brand" value="{{ old('product_brand') }}"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300">
+                    @error('product_brand')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Product Unit (pail,pcs,kg,liter) --}}
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Unit</label>
+                    <select name="product_unit"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500">
+                        <option disabled {{ old('product_unit') ? '' : 'selected' }}>Choose...</option>
+                        @foreach ($select_product_unit as $x)
+                        <option value="{{ $x }}" {{ old('product_unit')==$x ? 'selected' : '' }}>
+                            {{ $x }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error('product_unit')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -35,8 +63,7 @@
                     <label class="block text-sm font-medium text-gray-600 mb-1">
                         Product Code
                     </label>
-                    <input type="text" name="product_code"
-                        value="{{ old('product_code') }}"
+                    <input type="text" name="product_code" value="{{ old('product_code') }}"
                         class="w-full px-3 py-2 rounded-lg border border-gray-300">
                     @error('product_code')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -48,7 +75,7 @@
                     <label class="block text-sm font-medium text-gray-600 mb-1">
                         Description
                     </label>
-                    <textarea name="description" rows="3"
+                    <textarea name="description" placeholder="Jenis Cat/Kegunaan" rows="3"
                         class="w-full px-3 py-2 rounded-lg border border-gray-300">{{ old('description') }}</textarea>
                     @error('description')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -60,8 +87,7 @@
                     <label class="block text-sm font-medium text-gray-600 mb-1">
                         Product Price
                     </label>
-                    <input type="number" step="0.01" name="product_price"
-                        value="{{ old('product_price') }}"
+                    <input type="number" step="0.01" name="product_price" value="{{ old('product_price') }}"
                         class="w-full px-3 py-2 rounded-lg border border-gray-300">
                     @error('product_price')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

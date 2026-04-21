@@ -8,10 +8,10 @@
             Product
         </h3>
         @can('create product')
-        <a href="{{ route('product.create') }}"
-           class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
-            + Add Product
-        </a>
+            <a href="{{ route('product.create') }}"
+                class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
+                + Add Product
+            </a>
         @endcan
     </div>
 
@@ -34,6 +34,8 @@
                     <tr>
                         <th class="px-4 py-3 w-[50px]">No</th>
                         <th class="px-4 py-3 text-left">Product Name</th>
+                        <th class="px-4 py-3 text-left">Product Unit</th>
+                        <th class="px-4 py-3 text-left">Product Brand</th>
                         <th class="px-4 py-3 text-left">Code</th>
                         <th class="px-4 py-3 text-left">Description</th>
                         <th class="px-4 py-3">Price</th>
@@ -57,6 +59,17 @@
                                 {{ $item->product_name }}
                             </td>
 
+                            <!-- Unit -->
+                            <td class="px-4 py-3 font-medium text-gray-800">
+                                {{ $item->product_unit }}
+                            </td>
+
+                            <!-- Product Brand -->
+                            <td class="px-4 py-3 font-medium text-gray-800">
+                                {{ $item->product_brand }}
+                            </td>
+
+
                             <!-- Code -->
                             <td class="px-4 py-3">
                                 <span class="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded">
@@ -77,7 +90,7 @@
                             <!-- Stock -->
                             <td class="px-4 py-3 text-center">
                                 {{-- <span class="px-3 py-1 text-xs font-semibold rounded-full
-                                    @if($item->stock_quantity > 10)
+                                    @if ($item->stock_quantity > 10)
                                         bg-green-100 text-green-700
                                     @elseif($item->stock_quantity > 0)
                                         bg-yellow-100 text-yellow-700
@@ -94,30 +107,29 @@
                                 <div class="flex justify-center gap-2">
 
                                     <a href="{{ route('product.show', $item->id) }}"
-                                       class="px-3 py-1.5 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 shadow">
+                                        class="px-3 py-1.5 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 shadow">
                                         Detail
                                     </a>
 
                                     @can('edit product')
-                                    <a href="{{ route('product.edit', $item->id) }}"
-                                       class="px-3 py-1.5 text-xs text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow">
-                                        Edit
-                                    </a>
+                                        <a href="{{ route('product.edit', $item->id) }}"
+                                            class="px-3 py-1.5 text-xs text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow">
+                                            Edit
+                                        </a>
                                     @endcan
                                     @can('delete product')
-                                    <form action="{{ route('product.destroy', $item->id) }}"
-                                          method="POST"
-                                          onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                        <form action="{{ route('product.destroy', $item->id) }}" method="POST"
+                                            onsubmit="return confirm('Yakin ingin menghapus data ini?')">
 
-                                        @csrf
-                                        @method('DELETE')
+                                            @csrf
+                                            @method('DELETE')
 
-                                        <button type="submit"
+                                            <button type="submit"
                                                 class="px-3 py-1.5 text-xs text-white bg-red-500 rounded-lg hover:bg-red-600 shadow">
-                                            Hapus
-                                        </button>
+                                                Hapus
+                                            </button>
 
-                                    </form>
+                                        </form>
                                     @endcan
                                 </div>
                             </td>

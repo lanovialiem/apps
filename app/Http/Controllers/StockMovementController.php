@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\DB;
 
 class StockMovementController extends Controller
 {
+        public function __construct()
+    {
+        $this->middleware('permission:view stock movement')->only(['index']);
+        $this->middleware('permission:create stock movement')->only(['create', 'store']);
+        $this->middleware('permission:edit stock movement')->only(['edit', 'update']);
+        $this->middleware('permission:delete stock movement')->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -42,22 +49,22 @@ class StockMovementController extends Controller
         ));
     }
 
-    public function add(Request $request)
-    {
-        $stock = Stock::findOrFail($request->stock_id);
-        $type = $request->movement_type; // tambah / kurang
-        $qty = (int) $request->quantity;
+    // public function add(Request $request)
+    // {
+    //     $stock = Stock::findOrFail($request->stock_id);
+    //     $type = $request->movement_type; // tambah / kurang
+    //     $qty = (int) $request->quantity;
 
-        if ($type === 'tambah') {
-            $stock->quantity += $qty;
-        } elseif ($type === 'kurang') {
-            $stock->quantity -= $qty;
-        }
+    //     if ($type === 'tambah') {
+    //         $stock->quantity += $qty;
+    //     } elseif ($type === 'kurang') {
+    //         $stock->quantity -= $qty;
+    //     }
 
-        $stock->save();
+    //     $stock->save();
 
-        return redirect()->back()->with('success', 'Stock updated');
-    }
+    //     return redirect()->back()->with('success', 'Stock updated');
+    // }
 
     /**
      * Store a newly created resource in storage.

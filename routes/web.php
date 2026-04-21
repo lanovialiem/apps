@@ -56,7 +56,7 @@ Route::middleware('auth')->group(function () {
 
     // Route::get('/warehouse/{id}/products', [StockMovementController::class, 'getProductsByWarehouse']);
 
-    Route::resource('stock_movement', StockMovementController::class);
+    Route::resource('stock_movement', StockMovementController::class)->middleware('permission:view stock movement|create stock movement|edit stock movement|delete stock movement');
 
     Route::resource('stock', StockController::class)->middleware('permission:view stock|create stock|edit stock|delete stock');
 

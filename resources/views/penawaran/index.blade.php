@@ -3,7 +3,7 @@
 <div class="container mx-auto pt-32 px-4">
 
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3 mt-5">
         <h3 class="text-2xl font-semibold text-blue-600">Penawaran</h3>
         @can('create offer')
         <a href="{{ route('penawaran.create') }}"
@@ -14,7 +14,7 @@
     </div>
 
     <!-- Card -->
-    <div class="bg-white/80 backdrop-blur shadow-xl rounded-2xl overflow-hidden border border-gray-200">
+    <div class="bg-white/80 backdrop-blur shadow-xl rounded-2xl overflow-hidden border border-gray-200 mt-3">
 
         <!-- Title -->
         <div class="px-6 py-4 border-b">

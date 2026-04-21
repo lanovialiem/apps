@@ -22,6 +22,13 @@ class RoleHasPermissionSeeder extends Seeder
             'create stock',
             'edit stock',
             'delete stock',
+
+            'view stock movement',
+            'create stock movement',
+            'edit stock movement',
+            'delete stock movement',
+
+            'view product'
         ]);
 
         // Admin HRD

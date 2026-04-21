@@ -28,7 +28,13 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('product.form');
+        $select_product_unit = [
+            'PAIL',
+            'PCS',
+            'KG',
+            'LTR'
+        ];
+        return view('product.form',compact('select_product_unit'));
     }
 
     /**
@@ -39,6 +45,8 @@ class ProductController extends Controller
         // dd($request->all());
         $validatedData = $request->validate([
             'product_name' => 'required|string|max:100',
+            'product_brand' => 'required|string|max:50',
+            'product_unit' => 'required|string|max:50',
             'product_picture' => 'nullable|image|file|max:1024',
             'product_code' => 'required|string|max:50|unique:products,product_code',
             'description'   => 'nullable|string|max:255',
