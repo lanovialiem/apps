@@ -21,8 +21,13 @@ class Product extends Model
         // 'stock_quantity',
     ];
 
-        public function stock(): HasMany
+    public function stock(): HasMany
     {
         return $this->hasMany(Stock::class);
+    }
+
+    public function Penawaran(): HasMany
+    {
+        return $this->hasMany(Penawaran::class);
     }
 }

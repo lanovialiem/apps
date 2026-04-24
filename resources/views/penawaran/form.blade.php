@@ -12,8 +12,7 @@
         </div>
 
         <!-- Form -->
-        <form method="POST" action="{{ route('penawaran.store') }}" enctype="multipart/form-data"
-            class="p-6 space-y-8">
+        <form method="POST" action="{{ route('penawaran.store') }}" enctype="multipart/form-data" class="p-6 space-y-8">
             @csrf
 
             <!-- Offer Number -->
@@ -54,6 +53,26 @@
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+
+                <!-- Product -->
+                {{-- <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">
+                        Product Name
+                    </label>
+                    <select name="product_id" id="product_id"
+                        class="w-full px-3 py-2 rounded-lg border border-gray-300 
+                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                        <option value="">-- Pilih Product --</option>
+                        @foreach ($products as $product)
+                            <option value="{{ $product->id }}">
+                                {{ $product->product_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('product_id')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div> --}}
 
                 <!-- Contact Person -->
                 <div>
@@ -112,8 +131,7 @@
                 <!-- Description -->
                 <div class="md:col-span-2 lg:col-span-3">
                     <label class="block text-sm font-medium text-gray-600 mb-1">Description</label>
-                    <textarea name="description" rows="3"
-                        class="w-full px-3 py-2 rounded-lg border border-gray-300"
+                    <textarea name="description" rows="3" class="w-full px-3 py-2 rounded-lg border border-gray-300"
                         placeholder="Tambahkan keterangan">{{ old('description') }}</textarea>
                     @error('description')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

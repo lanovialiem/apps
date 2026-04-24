@@ -6,10 +6,10 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3 mt-5">
         <h3 class="text-2xl font-semibold text-blue-600">Penawaran</h3>
         @can('create offer')
-        <a href="{{ route('penawaran.create') }}"
-           class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
-            + Add Penawaran
-        </a>
+            <a href="{{ route('penawaran.create') }}"
+                class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
+                + Add Penawaran
+            </a>
         @endcan
     </div>
 
@@ -30,6 +30,7 @@
                     <tr>
                         <th class="px-4 py-3 w-[50px]">No</th>
                         <th class="px-4 py-3 text-left">Company</th>
+                        <th class="px-4 py-3 text-left">File</th>
                         <th class="px-4 py-3 text-left">Subject</th>
                         <th class="px-4 py-3 text-left">Category</th>
                         <th class="px-4 py-3">Quotation</th>
@@ -49,6 +50,16 @@
                             <td class="px-4 py-3 font-medium text-gray-800">
                                 {{ $item->company_name }}
                             </td>
+
+                            <!-- File-Document -->
+                            {{-- <td class="px-4 py-3 font-medium text-gray-800">
+                                @if ($item->upload_document)
+                                    <img src="{{ asset('storage/dokumen_penawaran/' . $item->upload_document) }}"
+                                        alt="upload_document" class="w-16 h-16 object-cover">
+                                @else
+                                    No Document
+                                @endif
+                            </td> --}}
 
                             <td class="px-4 py-3">
                                 {{ $item->subject_name }}
@@ -81,27 +92,26 @@
                                 <div class="flex justify-center gap-2">
 
                                     <a href="{{ route('penawaran.show', $item->id) }}"
-                                       class="px-3 py-1.5 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 shadow">
+                                        class="px-3 py-1.5 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 shadow">
                                         Detail
                                     </a>
                                     @can('edit offer')
-                                    <a href="{{ route('penawaran.edit', $item->id) }}"
-                                       class="px-3 py-1.5 text-xs text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow">
-                                        Edit
-                                    </a>
+                                        <a href="{{ route('penawaran.edit', $item->id) }}"
+                                            class="px-3 py-1.5 text-xs text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow">
+                                            Edit
+                                        </a>
                                     @endcan
                                     @can('delete offer')
-                                    <form action="{{ route('penawaran.destroy', $item->id) }}"
-                                          method="POST"
-                                          onsubmit="return confirm('Yakin ingin menghapus data ini?')">
-                                        @csrf
-                                        @method('DELETE')
+                                        <form action="{{ route('penawaran.destroy', $item->id) }}" method="POST"
+                                            onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                            @csrf
+                                            @method('DELETE')
 
-                                        <button type="submit"
+                                            <button type="submit"
                                                 class="px-3 py-1.5 text-xs text-white bg-red-500 rounded-lg hover:bg-red-600 shadow">
-                                            Hapus
-                                        </button>
-                                    </form>
+                                                Hapus
+                                            </button>
+                                        </form>
                                     @endcan
                                 </div>
                             </td>

@@ -33,6 +33,7 @@
                 <thead class="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider text-center">
                     <tr>
                         <th class="px-4 py-3 w-[50px]">No</th>
+                        <th class="px-4 py-3 text-left">Product Picture</th>
                         <th class="px-4 py-3 text-left">Product Name</th>
                         <th class="px-4 py-3 text-left">Product Unit</th>
                         <th class="px-4 py-3 text-left">Product Brand</th>
@@ -48,10 +49,20 @@
                 <tbody class="divide-y">
                     @foreach ($products as $key => $item)
                         <tr class="hover:bg-blue-50 transition">
-
+{{-- @dd($products) --}}
                             <!-- No -->
                             <td class="px-4 py-3 text-center">
                                 {{ $key + 1 }}
+                            </td>
+
+                            <!-- pricture -->
+                            <td class="px-4 py-3 font-medium text-gray-800">
+                                @if ($item->product_picture)
+                                    <img src="{{ asset('storage/' . $item->product_picture) }}" alt="product image"
+                                        class="w-16 h-16 object-cover">
+                                @else
+                                    No Product Picture
+                                @endif
                             </td>
 
                             <!-- Name -->
