@@ -35,33 +35,33 @@ if (btn) {
 }
 
 //Button Offering Product-Quantity
-    document.querySelectorAll('.product-checkbox').forEach(cb => {
-        cb.addEventListener('change', function() {
-            const container = document.getElementById('qty-container');
-            const id = this.value;
-            const name = this.dataset.name;
-            const qty = this.dataset.name;
+    // document.querySelectorAll('.product-checkbox').forEach(cb => {
+    //     cb.addEventListener('change', function() {
+    //         const container = document.getElementById('qty-container');
+    //         const id = this.value;
+    //         const name = this.dataset.name;
+    //         const qty = this.dataset.name;
 
 
-            if (this.checked) {
-                container.insertAdjacentHTML('beforeend', `
-                <div id="row-${id}" class="flex items-center space-x-3">
-                    <label class="w-40 text-sm text-gray-700">
-                        ${name}
-                            <input type="hidden" name="product_id[]" value="${id}">
-                    </label>
+    //         if (this.checked) {
+    //             container.insertAdjacentHTML('beforeend', `
+    //             <div id="row-${id}" class="flex items-center space-x-3">
+    //                 <label class="w-40 text-sm text-gray-700">
+    //                     ${name}
+    //                         <input type="hidden" name="product_id[]" value="${id}">
+    //                 </label>
 
-                     <input type="number"
-                           name="qty[${id}]"
-                           min="0"
-                           value="0"
-                           class="block text-sm font-medium text-gray-600 mb-2">
+    //                  <input type="number"
+    //                        name="qty[${id}]"
+    //                        min="0"
+    //                        value="0"
+    //                        class="block text-sm font-medium text-gray-600 mb-2">
                     
-                </div>
-            `);
-            } else {
-                document.getElementById(`row-${id}`)?.remove();
-            }
-        });
-    });
+    //             </div>
+    //         `);
+    //         } else {
+    //             document.getElementById(`row-${id}`)?.remove();
+    //         }
+    //     });
+    // });
 
