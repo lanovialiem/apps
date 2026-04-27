@@ -55,24 +55,32 @@
                 </div>
 
                 <!-- Product -->
-                {{-- <div>
-                    <label class="block text-sm font-medium text-gray-600 mb-1">
-                        Product Name
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-2">
+                        Product
                     </label>
-                    <select name="product_id" id="product_id"
-                        class="w-full px-3 py-2 rounded-lg border border-gray-300 
-                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
-                        <option value="">-- Pilih Product --</option>
+
+                    <!-- CHECKBOX LIST -->
+                    <div class="space-y-2 max-h-40 overflow-y-auto border border-gray-300 rounded-lg p-3">
                         @foreach ($products as $product)
-                            <option value="{{ $product->id }}">
-                                {{ $product->product_name }}
-                            </option>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox"
+                                    class="product-checkbox rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                    value="{{ $product->id }}" data-name="{{ $product->product_name }}">
+
+                                <span class="text-sm text-gray-700">
+                                    {{ $product->product_name }}
+                                </span>
+                            </label>
                         @endforeach
-                    </select>
-                    @error('product_id')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div> --}}
+                    </div>
+
+                    <!-- QTY CONTAINER -->
+                    <div id="qty-container" class="mt-4 space-y-2">
+                    </div>
+                </div>
+
+
 
                 <!-- Contact Person -->
                 <div>

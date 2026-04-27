@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Penawaran;
+use App\Models\Product;
 use App\Models\ProjectList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +23,8 @@ class PenawaranController extends Controller
     public function index()
     {
         $penawaran = Penawaran::all();
-        return view('penawaran.index', compact('penawaran'));
+        $products = Product::all()->keyBy('id');
+        return view('penawaran.index', compact('penawaran', 'products'));
     }
 
     /**
@@ -31,9 +33,10 @@ class PenawaranController extends Controller
     public function create()
     {
         $penawaran = Penawaran::all();
+        $products = Product::all();
         $projectList = ProjectList::all();
         $offerNumber = "Penawaran_" . rand(min: 10000, max: 19999999999);
-        return view('penawaran.form', compact(['penawaran', 'projectList', 'offerNumber']));
+        return view('penawaran.form', compact(['penawaran', 'projectList', 'offerNumber', 'products']));
     }
 
     /**
@@ -43,6 +46,8 @@ class PenawaranController extends Controller
     {
         $validated = $request->validate([
             'company_name'       => 'required|string|max:255',
+            'product_id' => 'required|array|exists:products,id',
+            'qty' => 'required|array|integer|exists:qty,id|min:0',
             'subject_name'       => 'required|string|max:255',
             'category_penawaran' => 'required|string|max:100',
             'contact_person'     => 'required|string|max:100',
@@ -89,6 +94,8 @@ class PenawaranController extends Controller
     {
         $validated = $request->validate([
             'company_name'       => 'required|string|max:255',
+            'product_id' => 'required|array|exists:products,id',
+            'qty' => 'required|array|integer|exists:qty,id|min:0',
             'subject_name'       => 'required|string|max:255',
             'category_penawaran' => 'required|string|max:100',
             'contact_person'     => 'required|string|max:100',

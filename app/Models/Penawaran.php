@@ -12,6 +12,7 @@ class Penawaran extends Model
     protected $fillable = [
         'company_name',
         'product_id',
+        'qty',
         'subject_name',
         'category_penawaran',
         'contact_person',
@@ -26,4 +27,8 @@ class Penawaran extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    protected $casts = [
+        'product_id' => 'array',
+    ];
 }

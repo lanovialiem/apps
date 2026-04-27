@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('penawarans', function (Blueprint $table) {
             $table->id();
             $table->string('company_name');
+            $table->json('product_id')->nullable();
+            $table->json('qty')->nullable();
             $table->string('subject_name')->nullable();
             $table->string('category_penawaran')->nullable();
             $table->string('contact_person')->nullable();

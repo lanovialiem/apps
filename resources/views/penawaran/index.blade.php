@@ -20,7 +20,7 @@
         <div class="px-6 py-4 border-b">
             <h5 class="text-lg font-semibold text-gray-700">List Penawaran</h5>
         </div>
-
+        @dd($penawaran);
         <!-- Table -->
         <div class="overflow-x-auto">
             <table class="w-full text-sm text-gray-600">
@@ -31,6 +31,7 @@
                         <th class="px-4 py-3 w-[50px]">No</th>
                         <th class="px-4 py-3 text-left">Company</th>
                         <th class="px-4 py-3 text-left">File</th>
+                        <th class="px-4 py-3 text-left">Product</th>
                         <th class="px-4 py-3 text-left">Subject</th>
                         <th class="px-4 py-3 text-left">Category</th>
                         <th class="px-4 py-3">Quotation</th>
@@ -52,14 +53,27 @@
                             </td>
 
                             <!-- File-Document -->
-                            {{-- <td class="px-4 py-3 font-medium text-gray-800">
+                            <td class="px-4 py-3 font-medium text-gray-800">
                                 @if ($item->upload_document)
                                     <img src="{{ asset('storage/dokumen_penawaran/' . $item->upload_document) }}"
                                         alt="upload_document" class="w-16 h-16 object-cover">
                                 @else
                                     No Document
                                 @endif
-                            </td> --}}
+                            </td>
+
+                            <!-- Product -->
+                            <td class="px-4 py-3 font-medium text-gray-800">
+                                @php
+                                    $names = collect($item->product_id ?? [])
+                                        ->map(fn($id) => $products[$id]->product_name ?? null)
+                                        ->filter();
+                                @endphp
+
+                                @foreach ($names as $index => $name)
+                                    {{ $index + 1 }}. {{ $name }}<br>
+                                @endforeach
+                            </td>
 
                             <td class="px-4 py-3">
                                 {{ $item->subject_name }}
