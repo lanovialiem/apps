@@ -32,11 +32,12 @@ class PenawaranController extends Controller
      */
     public function create()
     {
+        $orderProducts = [];
         $penawaran = Penawaran::all();
         $products = Product::all();
         $projectList = ProjectList::all();
         $offerNumber = "Penawaran_" . rand(min: 10000, max: 19999999999);
-        return view('penawaran.form', compact(['penawaran', 'projectList', 'offerNumber', 'products']));
+        return view('penawaran.form', compact(['penawaran', 'projectList', 'offerNumber', 'products','orderProducts']));
     }
 
     /**

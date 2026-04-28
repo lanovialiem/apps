@@ -16,22 +16,34 @@ class AuthManualController extends Controller
 
     public function loginProses(Request $request)
     {
-        // dd(Auth::check());
         if (Auth::check()) {
             return redirect()->route('welcome');
         }
+
         $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
+            'email' => ['required', 'email'],
+            'password' => ['required'],
         ]);
+
+        // cek apakah email ada
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!$user) {
+            return back()->withErrors([
+                'email' => 'Please sign up first!'
+            ])->onlyInput('email');
+        }
+
+        // kalau email ada, coba login
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->route('welcome');
         }
 
+        // kalau password salah
         return back()->withErrors([
-            'email' => 'please sign up first!',
-        ]);
+            'password' => 'Password atau Email Salah!'
+        ])->onlyInput('email');
     }
 
     public function logout(Request $request)
