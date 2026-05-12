@@ -47,8 +47,8 @@ class PenawaranController extends Controller
     {
         $validated = $request->validate([
             'company_name'       => 'required|string|max:255',
-            'costumer_name' => 'required|string|max:255',
-            'costumer_email' => 'required|email|max:255',
+            'customer_name' => 'required|string|max:255',
+            'customer_email' => 'required|email|max:255',
         ]);
 
         // Handle upload file jika ada
@@ -94,7 +94,8 @@ class PenawaranController extends Controller
     {
         $validated = $request->validate([
             'company_name'       => 'required|string|max:255',
-            'product_id' => 'required|array|exists:products,id',
+            'customer_name' => 'required|string|max:255',
+            'customer_email' => 'required|email|max:255',
         ]);
 
         // Jika user meng-upload dokumen baru

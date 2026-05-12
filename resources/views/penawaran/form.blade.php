@@ -228,5 +228,31 @@
             alert('jQuery is working! 🎉');
         });
 
+        //Form Submission Validation
+         $('#form-id').on('submit', function(e) {
+        console.log('🚀 Form submitting...');
+        
+        // Basic validation (REMOVED aggressive prevention)
+        const $productSelects = $('select[name="product_id[]"]');
+        const hasValidProducts = $productSelects.filter(function() {
+            return $(this).val() && $(this).val() !== '';
+        }).length > 0;
+
+        const $quantityInputs = $('input[name="quantity[]"]');
+        const hasValidQuantities = $quantityInputs.filter(function() {
+            return $(this).val() >= 1;
+        }).length > 0;
+
+        if (!hasValidProducts || !hasValidQuantities) {
+            e.preventDefault(); // ONLY prevent if truly invalid
+            alert('⚠️ Please select at least one product with quantity ≥ 1');
+            console.log('❌ Validation failed');
+            return false;
+        }
+
+        console.log('✅ Form VALID - SUBMITTING!');
+        // Form will submit normally here ✅
+    });
+
     });
 </script>

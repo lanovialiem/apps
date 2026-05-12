@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('penawarans', function (Blueprint $table) {
             $table->id();
             $table->string('company_name');
-            $table->string('costumer_name')->nullable();
-            $table->string('costumer_email')->nullable();
+            $table->string('customer_name')->nullable();
+            $table->string('customer_email')->nullable();
             $table->timestamps();
         });
     }
