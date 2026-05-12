@@ -14,16 +14,8 @@ return new class extends Migration
         Schema::create('penawarans', function (Blueprint $table) {
             $table->id();
             $table->string('company_name');
-            $table->json('product_id')->nullable();
-            $table->json('qty')->nullable();
-            $table->string('subject_name')->nullable();
-            $table->string('category_penawaran')->nullable();
-            $table->string('contact_person')->nullable();
-            $table->string('no_quotation')->nullable();
-            $table->decimal('purposed_value', 15, 2)->nullable();
-            $table->date('date_sph')->nullable();
-            $table->text('description')->nullable();
-            $table->text('upload_dokumen')->nullable();
+            $table->string('costumer_name')->nullable();
+            $table->string('costumer_email')->nullable();
             $table->timestamps();
         });
     }

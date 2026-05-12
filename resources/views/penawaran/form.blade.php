@@ -1,160 +1,232 @@
 @include('layout.header')
 
-<div class="max-w-5xl mx-auto pt-28 px-4">
-    <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
+<div class="min-h-screen bg-gray-100 py-10 px-4">
+    <div class="max-w-6xl mx-auto">
 
-        <!-- Header -->
-        <div class="flex items-center justify-between px-6 py-4 border-b bg-gray-50">
-            <h2 class="text-lg font-semibold text-gray-800">
-                Surat Penawaran
-            </h2>
-            <img src="{{ asset('images/logo.png') }}" class="h-10" alt="Logo">
-        </div>
+        <!-- Card -->
+        <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-gray-200">
 
-        <!-- Form -->
-        <form method="POST" action="{{ route('penawaran.store') }}" enctype="multipart/form-data"
-            class="p-6 space-y-8" id="form-id">
-            @csrf
-
-            <!-- Offer Number -->
-            <h2 class="text-xl font-bold text-gray-700">
-                Nomor Penawaran: {{ $offerNumber }}
-            </h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                <!-- Company -->
+            <!-- Header -->
+            <div class="flex items-center justify-between px-8 py-5 bg-gradient-to-r from-blue-600 to-indigo-600">
                 <div>
-                    <label class="label">Company Name</label>
-                    <input type="text" name="company_name" value="{{ old('company_name') }}" class="input">
-                    @error('company_name') <p class="error">{{ $message }}</p> @enderror
+                    <h1 class="text-2xl font-bold text-white">
+                        Surat Penawaran
+                    </h1>
+                    <p class="text-sm text-blue-100 mt-1">
+                        Nomor Penawaran: {{ $offerNumber }}
+                    </p>
                 </div>
 
-                <!-- Subject -->
+                <img src="{{ asset('images/logo.png') }}"
+                    class="h-12 w-auto object-contain bg-white p-2 rounded-xl shadow" alt="Logo">
+            </div>
+
+            <!-- Form -->
+            <form method="POST" action="{{ route('penawaran.store') }}" enctype="multipart/form-data"
+                class="p-8 space-y-8" id="form-id">
+
+                @csrf
+
+                <!-- Customer Info -->
                 <div>
-                    <label class="label">Subject</label>
-                    <input type="text" name="subject_name" value="{{ old('subject_name') }}" class="input">
-                    @error('subject_name') <p class="error">{{ $message }}</p> @enderror
-                </div>
+                    <h2 class="text-lg font-semibold text-gray-700 mb-5">
+                        Customer Information
+                    </h2>
 
-                <!-- Category -->
-                <div class="md:col-span-2 lg:col-span-3">
-                    <label class="label">Category</label>
-                    <input type="text" name="category_penawaran" value="{{ old('category_penawaran') }}"
-                        class="input">
-                    @error('category_penawaran') <p class="error">{{ $message }}</p> @enderror
-                </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                <!-- PRODUCT + QTY (LOOP CLEAN) -->
-                <div class="md:col-span-3 space-y-4">
-                    <label class="label">Products</label>
+                        <!-- Company Name -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-2">
+                                Company Name
+                            </label>
 
-                    @foreach ($orderProducts as $index => $item)
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 items-end">
+                            <input type="text" name="company_name" value="{{ old('company_name') }}"
+                                placeholder="Enter company name"
+                                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
 
-                            <!-- Product -->
-                            <label for="product_id">Product</label>
-                            <div>
-                                <select name="orderProducts[{{ $index }}][product_id]"
-                                    class="form-control input">
-                                    <option value="">-- Pilih Product --</option>
-                                    @foreach ($products as $product)
-                                        <option value="{{ $product->id }}"
-                                            {{ $item['product_id'] == $product->id ? 'selected' : '' }}>
-                                            {{ $product->product_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- Qty -->
-                            <div>
-                                <input type="number"
-                                    name="orderProducts[{{ $index }}][quantity]"
-                                    value="{{ $item['quantity'] ?? 0 }}"
-                                    min="0"
-                                    class="form-control input"
-                                    placeholder="Qty">
-                            </div>
-
-                            <!-- Delete -->
-                            <div>
-                                <button type="button"
-                                    class="text-red-500 text-sm"
-                                    wire:click.prevent="removeProduct({{ $index }})">
-                                    Delete
-                                </button>
-                            </div>
-
+                            @error('company_name')
+                                <p class="text-sm text-red-500 mt-1">
+                                    {{ $message }}
+                                </p>
+                            @enderror
                         </div>
-                    @endforeach
 
-                    <!-- Add Button -->
-                    <button type="button"
-                        class="bg-blue-600 text-white px-4 py-2 rounded-lg"
-                        wire:click="addProduct">
-                        + Add Item
+                        <!-- Customer Name -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-2">
+                                Customer Name
+                            </label>
+
+                            <input type="text" name="customer_name" value="{{ old('customer_name') }}"
+                                placeholder="Enter customer name"
+                                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+
+                            @error('customer_name')
+                                <p class="text-sm text-red-500 mt-1">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+
+                        <!-- Customer Email -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-2">
+                                Customer Email
+                            </label>
+
+                            <input type="email" name="customer_email" value="{{ old('customer_email') }}"
+                                placeholder="Enter customer email"
+                                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+
+                            @error('customer_email')
+                                <p class="text-sm text-red-500 mt-1">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Products -->
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold text-gray-700">
+                            Product Selection
+                        </h2>
+
+                        <div class="flex gap-3">
+                            <button type="button" id="add-row"
+                                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl shadow transition">
+                                + Add Row
+                            </button>
+
+                            <button type="button" id="delete-row"
+                                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl shadow transition">
+                                - Delete Row
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="overflow-x-auto border border-gray-200 rounded-2xl">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-gray-50 text-gray-700 uppercase text-xs">
+                                <tr>
+                                    <th class="px-6 py-4">Product</th>
+                                    <th class="px-6 py-4 w-40">Quantity</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="divide-y divide-gray-100">
+                                <tr id="product0" class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4">
+                                        <select name="product_id[]"
+                                            class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+
+                                            <option value="">
+                                                Select Product
+                                            </option>
+
+                                            @foreach ($products as $product)
+                                                <option value="{{ $product->id }}">
+                                                    {{ $product->product_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+
+                                    <td class="px-6 py-4">
+                                        <input type="number" name="quantity[]" min="1" placeholder="0"
+                                            class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="flex items-center justify-between pt-6 border-t">
+
+                    <button type="button" id="hello-button"
+                        class="text-gray-600 hover:text-blue-600 font-medium transition">
+                        Hello
+                    </button>
+
+                    <button type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl shadow-lg transition">
+                        Submit Penawaran
                     </button>
                 </div>
 
-                <!-- Contact -->
-                <div>
-                    <label class="label">Contact Person</label>
-                    <input type="text" name="contact_person" value="{{ old('contact_person') }}"
-                        class="input">
-                    @error('contact_person') <p class="error">{{ $message }}</p> @enderror
-                </div>
-
-                <!-- Quotation -->
-                <div>
-                    <label class="label">No. Quotation</label>
-                    <input type="text" name="no_quotation" value="{{ old('no_quotation') }}"
-                        class="input">
-                    @error('no_quotation') <p class="error">{{ $message }}</p> @enderror
-                </div>
-
-                <!-- Value -->
-                <div>
-                    <label class="label">Purposed Value</label>
-                    <input type="number" step="0.01" name="purposed_value"
-                        value="{{ old('purposed_value') }}" class="input">
-                    @error('purposed_value') <p class="error">{{ $message }}</p> @enderror
-                </div>
-
-                <!-- Date -->
-                <div>
-                    <label class="label">Date SPH</label>
-                    <input type="date" name="date_sph" value="{{ old('date_sph') }}"
-                        class="input">
-                    @error('date_sph') <p class="error">{{ $message }}</p> @enderror
-                </div>
-
-                <!-- Upload -->
-                <div>
-                    <label class="label">Upload Dokumen</label>
-                    <input type="file" name="upload_dokumen" class="input-file">
-                    @error('upload_dokumen') <p class="error">{{ $message }}</p> @enderror
-                </div>
-
-                <!-- Description -->
-                <div class="md:col-span-3">
-                    <label class="label">Description</label>
-                    <textarea name="description" rows="3" class="input">{{ old('description') }}</textarea>
-                    @error('description') <p class="error">{{ $message }}</p> @enderror
-                </div>
-
-            </div>
-
-            <!-- Submit -->
-            <div class="flex justify-end pt-4 border-t">
-                <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl shadow-md">
-                    Submit
-                </button>
-            </div>
-
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 
 @include('layout.footer')
+<script>
+    $(document).ready(function () {
+        let rowCount = 1;
+
+        // Product options template
+        const productOptions = `
+            <option value="">Select Product</option>
+            @foreach ($products as $product)
+                <option value="{{ $product->id }}">
+                    {{ $product->product_name }}
+                </option>
+            @endforeach
+        `;
+
+        // Create new row
+        function createRow(index) {
+            return `
+                <tr id="product${index}" class="hover:bg-gray-50 transition">     
+                    <!-- Product -->
+                    <td class="px-6 py-4">
+                        <select
+                            name="product_id[]"
+                            class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                            ${productOptions}
+                        </select>
+                    </td>
+
+                    <!-- Quantity -->
+                    <td class="px-6 py-4">
+                        <input
+                            type="number"
+                            name="quantity[]"
+                            min="1"
+                            class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    </td>
+                </tr>
+            `;
+        }
+
+        // Add Row
+        $('#add-row').on('click', function (e) {
+            e.preventDefault();
+            $('tbody').append(createRow(rowCount));
+            rowCount++;
+        });
+
+        // Delete Row
+        $('#delete-row').on('click', function (e) {
+            e.preventDefault();
+            const productRows = $('tr[id^="product"]');
+            if (productRows.length > 1) {
+                productRows.last().remove();
+                rowCount--;
+            }
+        });
+
+        // Debug Button
+        $('#hello-button').on('click', function () {
+            alert('jQuery is working! 🎉');
+        });
+
+    });
+</script>

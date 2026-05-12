@@ -47,24 +47,23 @@ class PenawaranController extends Controller
     {
         $validated = $request->validate([
             'company_name'       => 'required|string|max:255',
-            'product_id' => 'required|array|exists:products,id',
-            'qty' => 'required|array|integer|exists:qty,id|min:0',
-            'subject_name'       => 'required|string|max:255',
-            'category_penawaran' => 'required|string|max:100',
-            'contact_person'     => 'required|string|max:100',
-            'no_quotation' => 'required|string|max:100|unique:penawarans,no_quotation',
-            'purposed_value'     => 'required|numeric|min:0',
-            'date_sph'           => 'required|date',
-            'description'        => 'required|string',
-            'upload_dokumen'     => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:5120', // max 5MB
+            'costumer_name' => 'required|string|max:255',
+            'costumer_email' => 'required|email|max:255',
         ]);
 
         // Handle upload file jika ada
-        if ($request->hasFile('upload_dokumen')) {
-            $file = $request->file('upload_dokumen');
-            $path = $file->store('dokumen_penawaran', 'public');
-            $validated['upload_dokumen'] = $path;
-        }
+        // if ($request->hasFile('upload_dokumen')) {
+        //     $file = $request->file('upload_dokumen');
+        //     $path = $file->store('dokumen_penawaran', 'public');
+        //     $validated['upload_dokumen'] = $path;
+        // }
+
+        // $orderProducts = $request->input('product_id', []);
+        // $quantities = $request->input('quantity', []);
+        // for($products=0; $products < count($orderProducts); $products++) {
+        //     $validated['product_id'][] = $orderProducts[$products];
+        //     $validated['qty'][] = $quantities[$products];
+        // }
 
         Penawaran::create($validated);
 
@@ -96,15 +95,6 @@ class PenawaranController extends Controller
         $validated = $request->validate([
             'company_name'       => 'required|string|max:255',
             'product_id' => 'required|array|exists:products,id',
-            'qty' => 'required|array|integer|exists:qty,id|min:0',
-            'subject_name'       => 'required|string|max:255',
-            'category_penawaran' => 'required|string|max:100',
-            'contact_person'     => 'required|string|max:100',
-            'no_quotation' => 'required|string|max:100|unique:penawarans,no_quotation,' . $penawaran->id,
-            'purposed_value'     => 'required|numeric|min:0',
-            'date_sph'           => 'required|date',
-            'description'        => 'required|string',
-            'upload_dokumen'     => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:5120',
         ]);
 
         // Jika user meng-upload dokumen baru

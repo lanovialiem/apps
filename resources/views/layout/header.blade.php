@@ -9,6 +9,8 @@
 
     @vite(['src/input.css', 'src/script.js'])
     {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 </head>
 
 <body>
@@ -31,85 +33,85 @@
                         <ul class="block lg:flex">
                             <li class="group">
                                 @can('view employee')
-                                <a href="{{ route('employees.index') }}"
-                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                    Employees
-                                </a>
+                                    <a href="{{ route('employees.index') }}"
+                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                        Employees
+                                    </a>
                                 @endcan
                             </li>
                             <li class="group">
                                 @can('view medical checkup')
-                                <a href="{{ route('medical_checkups.index') }}"
-                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                    MCU
-                                </a>
+                                    <a href="{{ route('medical_checkups.index') }}"
+                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                        MCU
+                                    </a>
                                 @endcan
                             </li>
                             <li class="group">
                                 @can('view offer')
-                                <a href="{{ route('penawaran.index') }}"
-                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                    Penawaran
-                                </a>
+                                    <a href="{{ route('penawaran.index') }}"
+                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                        Penawaran
+                                    </a>
                                 @endcan
                             </li>
                             <li class="group">
                                 @can('view warehouse')
-                                <a href="{{ route('warehouse.index') }}"
-                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                    Gudang
-                                </a>
+                                    <a href="{{ route('warehouse.index') }}"
+                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                        Gudang
+                                    </a>
                                 @endcan
                             </li>
                             <li class="group">
                                 @can('view stock')
-                                <a href="{{ route('stock.index') }}"
-                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                    Stok
-                                </a>
+                                    <a href="{{ route('stock.index') }}"
+                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                        Stok
+                                    </a>
                                 @endcan
                             </li>
                             <li class="group">
                                 @can('view stock movement')
-                                <a href="{{ route('stock_movement.index') }}"
-                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                    Perpindahan Stok
-                                </a>
+                                    <a href="{{ route('stock_movement.index') }}"
+                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                        Perpindahan Stok
+                                    </a>
                                 @endcan
                             </li>
                             <li class="group">
                                 @can('view product')
-                                <a href="{{ route('product.index') }}"
-                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                    Produk
-                                </a>
+                                    <a href="{{ route('product.index') }}"
+                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                        Produk
+                                    </a>
                                 @endcan
                             </li>
                             <li class="group">
                                 @can('view user')
-                                <a href="{{ route('users.index') }}"
-                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                    Users
-                                </a>
+                                    <a href="{{ route('users.index') }}"
+                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                        Users
+                                    </a>
                                 @endcan
                             </li>
                             <li class="group">
                                 @can('view permissions')
-                                <a href="{{ route('permissions.index') }}"
-                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                    Permissions
-                                </a>
+                                    <a href="{{ route('permissions.index') }}"
+                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                        Permissions
+                                    </a>
                                 @endcan
                             </li>
                             <li class="group">
                                 @can('view roles')
-                                <a href="{{ route('roles.index') }}"
-                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                    Roles
-                                </a>
+                                    <a href="{{ route('roles.index') }}"
+                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
+                                        Roles
+                                    </a>
                                 @endcan
                             </li>
-                            {{-- @if(Route::has('login'))
+                            {{-- @if (Route::has('login'))
                             <li class="group">
                                 <a href="{{ route('login') }}"
                                     class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
@@ -119,29 +121,30 @@
                             @endif --}}
                             <li class="relative group">
                                 @auth
-                                <button id="userDropdownBtn"
-                                    class="text-base text-dark py-2 mx-8 flex items-center gap-1 hover:text-primary">
-                                    😊 | Hi, {{ Auth::user()->name }}
-                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2"
-                                        viewBox="0 0 24 24">
-                                        <path d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </button>
+                                    <button id="userDropdownBtn"
+                                        class="text-base text-dark py-2 mx-8 flex items-center gap-1 hover:text-primary">
+                                        😊 | Hi, {{ Auth::user()->name }}
+                                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2"
+                                            viewBox="0 0 24 24">
+                                            <path d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
 
-                                <!-- Dropdown -->
-                                <div id="userDropdown"
-                                    class="hidden absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
+                                    <!-- Dropdown -->
+                                    <div id="userDropdown"
+                                        class="hidden absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
 
-                                    <a href="{{ route('logout') }}"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                        class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                                        Logout
-                                    </a>
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                            class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                            Logout
+                                        </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                                        @csrf
-                                    </form>
-                                </div>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                            class="hidden">
+                                            @csrf
+                                        </form>
+                                    </div>
                                 @endauth
                             </li>
                         </ul>

@@ -11,21 +11,19 @@ class Penawaran extends Model
     use HasFactory;
     protected $fillable = [
         'company_name',
-        'product_id',
-        'qty',
-        'subject_name',
-        'category_penawaran',
-        'contact_person',
-        'no_quotation',
-        'purposed_value',
-        'date_sph',
-        'description',
-        'upload_dokumen',
+        'customer_name',
+        'customer_email',
+
     ];
 
     public function product(): HasMany
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class)->withPivot('quantity');
+    }
+
+    public function orderProducts()
+    {
+        return $this->hasMany(OrderProduct::class);
     }
 
     protected $casts = [
