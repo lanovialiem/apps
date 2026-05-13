@@ -1,6 +1,6 @@
 @include('layout.header')
 
-<div class="min-h-screen bg-gray-100 py-10 px-4">
+<div class="container mx-auto pt-32 px-4 py-10">
     <div class="max-w-6xl mx-auto">
 
         <!-- Card -->
@@ -168,7 +168,7 @@
 
 @include('layout.footer')
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         let rowCount = 1;
 
         // Product options template
@@ -207,14 +207,14 @@
         }
 
         // Add Row
-        $('#add-row').on('click', function (e) {
+        $('#add-row').on('click', function(e) {
             e.preventDefault();
             $('tbody').append(createRow(rowCount));
             rowCount++;
         });
 
         // Delete Row
-        $('#delete-row').on('click', function (e) {
+        $('#delete-row').on('click', function(e) {
             e.preventDefault();
             const productRows = $('tr[id^="product"]');
             if (productRows.length > 1) {
@@ -224,35 +224,43 @@
         });
 
         // Debug Button
-        $('#hello-button').on('click', function () {
+        $('#hello-button').on('click', function() {
             alert('jQuery is working! 🎉');
         });
 
         //Form Submission Validation
-         $('#form-id').on('submit', function(e) {
-        console.log('🚀 Form submitting...');
-        
-        // Basic validation (REMOVED aggressive prevention)
-        const $productSelects = $('select[name="product_id[]"]');
-        const hasValidProducts = $productSelects.filter(function() {
-            return $(this).val() && $(this).val() !== '';
-        }).length > 0;
+        $('#form-id').on('submit', function(e) {
+            e.preventDefault();
 
-        const $quantityInputs = $('input[name="quantity[]"]');
-        const hasValidQuantities = $quantityInputs.filter(function() {
-            return $(this).val() >= 1;
-        }).length > 0;
+            $.ajax({
+                url: "{{ route('penawaran.store') }}",
+                method: "POST",
+                data: $(this).serialize(),
+                success: function(response) {
+                    alert('Data berhasil disimpan');
+                    console.log(response);
+                    // reset form
+                    $('#form-id')[0].reset();
+                    // remove extra rows
+                    $('tr[id^="product"]').not(':first').remove();
+                },
 
-        if (!hasValidProducts || !hasValidQuantities) {
-            e.preventDefault(); // ONLY prevent if truly invalid
-            alert('⚠️ Please select at least one product with quantity ≥ 1');
-            console.log('❌ Validation failed');
-            return false;
-        }
+                error: function(xhr) {
+                    console.log(xhr);
 
-        console.log('✅ Form VALID - SUBMITTING!');
-        // Form will submit normally here ✅
-    });
-
+                    // VALIDATION ERROR
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+                        let errorMessage = '';
+                        $.each(errors, function(key, value) {
+                            errorMessage += '• ' + value[0] + '\n';
+                        });
+                        alert(errorMessage);
+                    } else {
+                        alert('❌ Terjadi kesalahan server');
+                    }
+                }
+            });
+        });
     });
 </script>

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OrderProduct;
 use App\Models\Penawaran;
 use App\Models\Product;
 use App\Models\ProjectList;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class PenawaranController extends Controller
@@ -37,7 +39,7 @@ class PenawaranController extends Controller
         $products = Product::all();
         $projectList = ProjectList::all();
         $offerNumber = "Penawaran_" . rand(min: 10000, max: 19999999999);
-        return view('penawaran.form', compact(['penawaran', 'projectList', 'offerNumber', 'products','orderProducts']));
+        return view('penawaran.form', compact(['penawaran', 'projectList', 'offerNumber', 'products', 'orderProducts']));
     }
 
     /**
@@ -46,30 +48,48 @@ class PenawaranController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'company_name'       => 'required|string|max:255',
+            'company_name' => 'required|string|max:255',
             'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email|max:255',
+            'customer_email' => 'required|email|unique:penawarans,customer_email|max:255',
+            'product_id' => 'required|array',
+            'product_id.*' => 'required|exists:products,id',
+            'quantity' => 'required|array',
+            'quantity.*' => 'required|integer|min:1',
+        ], [
+            //Error Messages
+            'company_name.required' => 'Company name wajib diisi',
+            'customer_name.required' => 'Customer name wajib diisi',
+            'customer_email.required' => 'Email wajib diisi',
+            'customer_email.email' => 'Format email tidak valid',
+            'customer_email.unique' => 'Email sudah digunakan',
+            'product_id.required' => 'Product wajib dipilih',
+            'quantity.required' => 'Quantity wajib diisi',
+            'quantity.*.min' => 'Quantity minimal 1',
+
         ]);
 
-        // Handle upload file jika ada
-        // if ($request->hasFile('upload_dokumen')) {
-        //     $file = $request->file('upload_dokumen');
-        //     $path = $file->store('dokumen_penawaran', 'public');
-        //     $validated['upload_dokumen'] = $path;
-        // }
+        // SAVE MAIN PENAWARAN
+        $penawaran = Penawaran::create([
+            'company_name' => $request->company_name,
+            'customer_name' => $request->customer_name,
+            'customer_email' => $request->customer_email,
+        ]);
 
-        // $orderProducts = $request->input('product_id', []);
-        // $quantities = $request->input('quantity', []);
-        // for($products=0; $products < count($orderProducts); $products++) {
-        //     $validated['product_id'][] = $orderProducts[$products];
-        //     $validated['qty'][] = $quantities[$products];
-        // }
+        // SAVE PRODUCTS
+        foreach ($request->product_id as $index => $productId) {
+            OrderProduct::create([
+                'penawaran_id' => $penawaran->id,
+                'product_id' => $productId,
+                'quantity' => $request->quantity[$index],
+            ]);
+        }
 
-        Penawaran::create($validated);
-
-        return redirect()->route('penawaran.index')
-            ->with('success', 'Data penawaran berhasil disimpan.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil disimpan'
+        ]);
     }
+
 
     /**
      * Display the specified resource.
@@ -95,7 +115,7 @@ class PenawaranController extends Controller
         $validated = $request->validate([
             'company_name'       => 'required|string|max:255',
             'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email|max:255',
+            'customer_email' => 'required|email|unique:penawarans,email,' . $penawaran->id . '|max:255',
         ]);
 
         // Jika user meng-upload dokumen baru
