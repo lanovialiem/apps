@@ -206,10 +206,46 @@
             `;
         }
 
+        function updateProductOptions() {
+
+            // ambil semua product yang sudah dipilih
+            let selectedProducts = [];
+            
+            $('select[name="product_id[]"]').each(function() {
+                let value = $(this).val();
+                if (value) {
+                    selectedProducts.push(value);
+                }
+            });
+
+            // reset semua option
+            $('select[name="product_id[]"]').each(function() {
+
+                let currentSelect = $(this);
+                let currentValue = currentSelect.val();
+
+                currentSelect.find('option').prop('disabled', false);
+
+                // disable option yang sudah dipilih di select lain
+                currentSelect.find('option').each(function() {
+                    let optionValue = $(this).val();
+
+                    if (
+                        optionValue &&
+                        optionValue !== currentValue &&
+                        selectedProducts.includes(optionValue)
+                    ) {
+                        $(this).prop('disabled', true);
+                    }
+                });
+            });
+        }
+
         // Add Row
         $('#add-row').on('click', function(e) {
             e.preventDefault();
             $('tbody').append(createRow(rowCount));
+            updateProductOptions();
             rowCount++;
         });
 
@@ -219,6 +255,7 @@
             const productRows = $('tr[id^="product"]');
             if (productRows.length > 1) {
                 productRows.last().remove();
+                updateProductOptions();
                 rowCount--;
             }
         });

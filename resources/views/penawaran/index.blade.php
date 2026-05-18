@@ -4,7 +4,10 @@
 
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3 mt-5">
-        <h3 class="text-2xl font-semibold text-blue-600">Penawaran</h3>
+        <h3 class="text-2xl font-semibold text-blue-600">
+            Penawaran
+        </h3>
+
         @can('create offer')
             <a href="{{ route('penawaran.create') }}"
                 class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
@@ -14,13 +17,15 @@
     </div>
 
     <!-- Card -->
-    <div class="bg-white/80 backdrop-blur shadow-xl rounded-2xl overflow-hidden border border-gray-200 mt-3">
+    <div class="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-200">
 
         <!-- Title -->
         <div class="px-6 py-4 border-b">
-            <h5 class="text-lg font-semibold text-gray-700">List Penawaran</h5>
+            <h5 class="text-lg font-semibold text-gray-700">
+                List Penawaran
+            </h5>
         </div>
-        @dd($penawaran);
+
         <!-- Table -->
         <div class="overflow-x-auto">
             <table class="w-full text-sm text-gray-600">
@@ -28,96 +33,104 @@
                 <!-- Head -->
                 <thead class="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider text-center">
                     <tr>
-                        <th class="px-4 py-3 w-[50px]">No</th>
-                        <th class="px-4 py-3 text-left">Company</th>
-                        <th class="px-4 py-3 text-left">File</th>
-                        <th class="px-4 py-3 text-left">Product</th>
-                        <th class="px-4 py-3 text-left">Subject</th>
-                        <th class="px-4 py-3 text-left">Category</th>
-                        <th class="px-4 py-3">Quotation</th>
-                        <th class="px-4 py-3">Value</th>
-                        <th class="px-4 py-3">Date</th>
-                        <th class="px-4 py-3 text-left">Description</th>
-                        <th class="px-4 py-3">Action</th>
+                        <th class="px-4 py-3 w-[50px]">
+                            No
+                        </th>
+                        <th class="px-4 py-3 text-left">
+                            Company Name
+                        </th>
+                        <th class="px-4 py-3 text-left">
+                            Customer Name
+                        </th>
+                        <th class="px-4 py-3 text-left">
+                            Customer Email
+                        </th>
+                        <th class="px-4 py-3 text-left">
+                            Products
+                        </th>
+                        <th class="px-4 py-3 text-center">
+                            Action
+                        </th>
                     </tr>
                 </thead>
 
                 <!-- Body -->
                 <tbody class="divide-y">
-                    @foreach ($penawaran as $key => $item)
-                        <tr class="hover:bg-blue-50 transition">
-                            <td class="px-4 py-3 text-center">{{ $key + 1 }}</td>
 
+                    @forelse ($penawaran as $key => $item)
+                        <tr class="hover:bg-blue-50 transition">
+
+                            <!-- No -->
+                            <td class="px-4 py-3 text-center">
+                                {{ $key + 1 }}
+                            </td>
+
+                            <!-- Company -->
                             <td class="px-4 py-3 font-medium text-gray-800">
                                 {{ $item->company_name }}
                             </td>
 
-                            <!-- File-Document -->
-                            <td class="px-4 py-3 font-medium text-gray-800">
-                                @if ($item->upload_document)
-                                    <img src="{{ asset('storage/dokumen_penawaran/' . $item->upload_document) }}"
-                                        alt="upload_document" class="w-16 h-16 object-cover">
-                                @else
-                                    No Document
-                                @endif
-                            </td>
-
-                            <!-- Product -->
-                            <td class="px-4 py-3 font-medium text-gray-800">
-                                @php
-                                    $names = collect($item->product_id ?? [])
-                                        ->map(fn($id) => $products[$id]->product_name ?? null)
-                                        ->filter();
-                                @endphp
-
-                                @foreach ($names as $index => $name)
-                                    {{ $index + 1 }}. {{ $name }}<br>
-                                @endforeach
-                            </td>
-
+                            <!-- Customer -->
                             <td class="px-4 py-3">
-                                {{ $item->subject_name }}
+                                {{ $item->customer_name }}
                             </td>
 
+                            <!-- Email -->
                             <td class="px-4 py-3">
-                                <span class="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded">
-                                    {{ $item->category_penawaran }}
-                                </span>
+                                {{ $item->customer_email }}
                             </td>
 
-                            <td class="px-4 py-3 text-center">
-                                {{ $item->no_quotation }}
-                            </td>
+                            <!-- Product Details -->
+                            <td class="px-4 py-3">
+                                @forelse ($item->orderProducts as $index => $order)
+                                    <div
+                                        class="flex items-center justify-between gap-4 px-4 py-2 mb-2 rounded-xl bg-gray-50 border border-gray-100">
+                                        <!-- Product Name -->
+                                        <div class="flex items-start gap-2">
+                                            <span class="text-xs font-semibold text-blue-600 mt-0.5">
+                                                {{ $index + 1 }}.
+                                            </span>
+                                            <span class="text-sm text-gray-700">
+                                                {{ $order->product->product_name ?? '-' }}
+                                            </span>
+                                        </div>
 
-                            <td class="px-4 py-3 text-right font-semibold text-green-600">
-                                Rp {{ number_format($item->purposed_value, 0, ',', '.') }}
-                            </td>
-
-                            <td class="px-4 py-3 text-center">
-                                {{ \Carbon\Carbon::parse($item->date_sph)->format('d M Y') }}
-                            </td>
-
-                            <td class="px-4 py-3 text-gray-500">
-                                {{ Str::limit($item->description, 40) }}
+                                        <!-- Quantity -->
+                                        <div
+                                            class="min-w-[60px] text-center px-3 py-1 rounded-lg bg-blue-100 text-blue-700 text-xs font-semibold">
+                                            Qty: {{ $order->quantity }}
+                                        </div>
+                                    </div>
+                                @empty
+                                    <span class="text-gray-400 text-sm">
+                                        No Product
+                                    </span>
+                                @endforelse
                             </td>
 
                             <!-- Action -->
                             <td class="px-4 py-3">
                                 <div class="flex justify-center gap-2">
 
-                                    <a href="{{ route('penawaran.show', $item->id) }}"
+                                    <!-- Detail -->
+                                    {{-- <a href="{{ route('penawaran.show', $item->id) }}"
                                         class="px-3 py-1.5 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 shadow">
                                         Detail
                                     </a>
+
                                     @can('edit offer')
+                                        <!-- Edit -->
                                         <a href="{{ route('penawaran.edit', $item->id) }}"
                                             class="px-3 py-1.5 text-xs text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow">
                                             Edit
                                         </a>
-                                    @endcan
+                                    @endcan --}}
+
                                     @can('delete offer')
+                                        <!-- Delete -->
                                         <form action="{{ route('penawaran.destroy', $item->id) }}" method="POST"
                                             onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+
                                             @csrf
                                             @method('DELETE')
 
@@ -127,24 +140,23 @@
                                             </button>
                                         </form>
                                     @endcan
+
                                 </div>
                             </td>
                         </tr>
-                    @endforeach
 
-                    @if ($penawaran->isEmpty())
+                    @empty
                         <tr>
-                            <td colspan="9" class="text-center py-6 text-gray-400">
+                            <td colspan="7" class="text-center py-6 text-gray-400">
                                 No data available.
                             </td>
                         </tr>
-                    @endif
-                </tbody>
+                    @endforelse
 
+                </tbody>
             </table>
         </div>
     </div>
-
 </div>
 
 @include('layout.footer')

@@ -112,29 +112,6 @@ class PenawaranController extends Controller
      */
     public function update(Request $request, Penawaran $penawaran)
     {
-        $validated = $request->validate([
-            'company_name'       => 'required|string|max:255',
-            'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email|unique:penawarans,email,' . $penawaran->id . '|max:255',
-        ]);
-
-        // Jika user meng-upload dokumen baru
-        if ($request->hasFile('upload_dokumen')) {
-            // Hapus file lama jika ada
-            if ($penawaran->upload_dokumen && Storage::disk('public')->exists($penawaran->upload_dokumen)) {
-                Storage::disk('public')->delete($penawaran->upload_dokumen);
-            }
-
-            // Simpan file baru
-            $file = $request->file('upload_dokumen');
-            $path = $file->store('dokumen_penawaran', 'public');
-            $validated['upload_dokumen'] = $path;
-        }
-
-        $penawaran->update($validated);
-
-        return redirect()->route('penawaran.index')
-            ->with('success', 'Data penawaran berhasil diperbarui.');
     }
 
     /**
