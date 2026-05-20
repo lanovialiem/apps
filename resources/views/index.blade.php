@@ -15,8 +15,10 @@
     <!-- Styles -->
 </head>
 
+{{-- views home --}}
+
 {{-- Header start --}}
-@include('layout.header')
+@include('home.header')
 {{-- Header end --}}
 
 <body class="">
@@ -113,7 +115,7 @@
     {{-- About Section End --}}
 
     {{-- Portfolio Section Start --}}
-    @include('layout.footer')
+    @include('home.footer')
     {{-- Portfolio Section End --}}
 </body>
 

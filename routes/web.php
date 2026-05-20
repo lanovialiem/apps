@@ -29,11 +29,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('welcome');
+    Route::get('/welcome', function () {
+        return view('welcome.welcome');
     })->name('welcome');
-
-
 
 
     Route::get('employees/report', [EmployeeController::class, 'report_'])->name('employees.report');
@@ -75,6 +73,9 @@ Route::middleware('auth')->group(function () {
 
 // Route::get('medical_checkups/delete/{id}', [MedicalCheckupsController::class, 'deleteMedical'])
 //     ->name('medical.delete');
+    Route::get('/', function () {
+        return view('index');
+    })->name('home');
 
 
 //Route untuk login dan logout
