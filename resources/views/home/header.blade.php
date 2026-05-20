@@ -40,12 +40,14 @@
                                     </a>
                                 </li>
                             @endif
+                            @if (Auth::check())
                             <li class="group">
                                 <a href="{{ route('welcome') }}"
                                     class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
                                     Admin Dashboard
                                 </a>
                             </li>
+                            @endif
                             <li class="relative group">
                                 @auth
                                     <button id="userDropdownBtn"
@@ -82,3 +84,18 @@
     </header>
 
     <script src="src/script.js"></script>
+    <script>
+        const btn = document.getElementById("userDropdownBtn");
+        const dropdown = document.getElementById("userDropdown");
+
+        if (btn) {
+            btn.addEventListener("click", function(e) {
+                e.stopPropagation();
+                dropdown.classList.toggle("hidden");
+            });
+
+            document.addEventListener("click", function() {
+                dropdown.classList.add("hidden");
+            });
+        }
+    </script>

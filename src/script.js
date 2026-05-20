@@ -19,7 +19,7 @@ window.onscroll = function() {
     }
 };
 
-//dropdown toggle
+//dropdown toggle home
 const btn = document.getElementById("userDropdownBtn");
 const dropdown = document.getElementById("userDropdown");
 

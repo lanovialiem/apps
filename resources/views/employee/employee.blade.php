@@ -47,7 +47,7 @@
         {{-- head end --}}
 
         {{-- body start --}}
-        <div class="bg-white/80 backdrop-blur shadow-xl rounded-2xl overflow-hidden border border-gray-200">
+        <div class="bg-slate-100 backdrop-blur shadow-xl rounded-2xl overflow-hidden border border-gray-200">
 
             <!-- Header -->
             <div class="flex items-center justify-between px-6 py-4 border-b">
@@ -58,7 +58,7 @@
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-gray-600">
 
-                    <thead class="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider">
+                    <thead class="bg-gray-900 text-white uppercase text-xs tracking-wider">
                         <tr>
                             <th class="px-6 py-3 text-left">No</th>
                             <th class="px-6 py-3 text-left">Identity ID</th>

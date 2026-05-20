@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <header class="bg-transparent absolute top-0 left-0 w-full flex items-center z-10">
+    {{-- <header class="bg-transparent absolute top-0 left-0 w-full flex items-center z-10">
         <div class="container">
             <div class="flex items-center justify-between relative">
                 <div class="px-4">
@@ -119,7 +119,7 @@
                                 </a>
                             </li>
                             @endif --}}
-                            <li class="relative group">
+    {{-- <li class="relative group">
                                 @auth
                                     <button id="userDropdownBtn"
                                         class="text-base text-dark py-2 mx-8 flex items-center gap-1 hover:text-primary">
@@ -153,6 +153,120 @@
             </div>
         </div>
 
+    </header> --}}
+
+    <header>
+        <!-- start: Navbar -->
+        <div
+            class="dark:bg-gray-900 dark:text-white bg-white sticky top-0 left-0 z-30 flex items-center gap-3 px-4 py-3 shadow-md shadow-black/5">
+
+            <!-- Sidebar Toggle -->
+            <button type="button" class="sidebar-toggle text-lg text-gray-600 lg:hidden">
+                <i class="ri-menu-line"></i>
+            </button>
+
+            <!-- Breadcrumb -->
+            <div class="hidden sm:flex items-center text-sm min-w-0">
+                <a href="#" class="text-gray-400 hover:text-gray-600 font-medium truncate">
+                    Dashboard
+                </a>
+                <span class="mx-2 text-gray-500">/</span>
+                <span class="text-gray-600 font-medium truncate">
+                    Analytics
+                </span>
+            </div>
+
+            <!-- Right Menu -->
+            <div class="ml-auto flex items-center gap-2 sm:gap-3">
+
+                <!-- Search -->
+                <div class="dropdown relative">
+                    <button type="button"
+                        class="dropdown-toggle flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100">
+                        <i class="ri-search-line"></i>
+                    </button>
+
+                    <div
+                        class="dropdown-menu absolute right-0 mt-2 hidden w-[300px] max-w-[90vw] rounded-xl border border-gray-100 bg-white shadow-lg">
+
+                        <div class="p-4">
+                            <div class="relative">
+                                <input type="text" placeholder="Search..."
+                                    class="w-full rounded-lg border border-gray-200 bg-gray-50 py-2 pl-10 pr-4 text-sm outline-none focus:border-blue-500">
+
+                                <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Notification -->
+                <div class="dropdown relative">
+                    <button type="button"
+                        class="dropdown-toggle flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100">
+                        <i class="ri-notification-3-line"></i>
+                    </button>
+
+                    <div
+                        class="dropdown-menu absolute right-0 mt-2 hidden w-[320px] max-w-[90vw] rounded-xl border border-gray-100 bg-white shadow-lg">
+
+                        <div class="border-b p-4 font-semibold">
+                            Notifications
+                        </div>
+
+                        <div class="max-h-80 overflow-y-auto">
+                            <a href="#" class="flex items-center gap-3 p-4 hover:bg-gray-50">
+                                <img src="https://placehold.co/40x40" class="h-10 w-10 rounded-full object-cover">
+
+                                <div>
+                                    <div class="text-sm font-medium text-gray-700">
+                                        New Order
+                                    </div>
+
+                                    <div class="text-xs text-gray-400">
+                                        from customer
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Profile -->
+                <div class="dropdown relative">
+                    <button type="button" class="dropdown-toggle flex items-center">
+                        <img src="https://placehold.co/40x40" class="h-9 w-9 rounded-full object-cover">
+                    </button>
+
+                    <ul
+                        class="dropdown-menu absolute right-0 mt-2 hidden w-44 rounded-xl border border-gray-100 bg-white py-2 shadow-lg">
+
+                        <li>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                Profile
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                Settings
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="block px-4 py-2 text-sm text-red-500 hover:bg-red-50">
+                                Logout
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <!-- end: Navbar -->
     </header>
 
     <script src="src/script.js"></script>
