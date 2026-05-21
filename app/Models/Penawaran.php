@@ -26,6 +26,11 @@ class Penawaran extends Model
         return $this->hasMany(OrderProduct::class);
     }
 
+        public function approval()
+    {
+        return $this->hasMany(Approval::class);
+    }
+
     protected $casts = [
         'product_id' => 'array',
     ];

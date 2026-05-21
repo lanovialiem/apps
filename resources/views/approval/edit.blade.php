@@ -1,5 +1,4 @@
 @include('layout.header')
-
 <div class="container mx-auto pt-32 px-4">
 
     <!-- Header -->
@@ -112,30 +111,38 @@
                             </td>
 
                             <!-- Status -->
-                            <td class="px-4 py-3 text-center">
-                                @if ($item->status == 'pending')
-                                    <span class="px-3 py-1 rounded-lg bg-yellow-100 text-yellow-700 text-xs font-semibold">
-                                        Pending
-                                    </span>
-                                @elseif ($item->status == 'approved')
-                                    <span class="px-3 py-1 rounded-lg bg-green-100 text-green-700 text-xs font-semibold">
-                                        Approved
-                                    </span>
-                                @elseif ($item->status == 'rejected')
-                                    <span class="px-3 py-1 rounded-lg bg-red-100 text-red-700 text-xs font-semibold">
-                                        Rejected
-                                    </span>
-                                @else
-                                    <span class="px-3 py-1 rounded-lg bg-gray-100 text-gray-500 text-xs font-semibold">
-                                        Unknown
-                                    </span>
-                                @endif
+                            <td class="px-4 py-3">
+
+                                <form action="{{ route('approval.update', $item->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <select name="status" onchange="this.form.submit()"
+                                        class="px-3 py-2 rounded-lg border text-xs font-semibold cursor-pointer transition-all duration-200
+            @if ($item->status == 'pending') bg-yellow-100 text-yellow-700 border-yellow-300
+            @elseif($item->status == 'approved')
+                bg-green-100 text-green-700 border-green-300
+            @elseif($item->status == 'rejected')
+                bg-red-100 text-red-700 border-red-300
+            @else
+                bg-gray-100 text-gray-500 border-gray-300 @endif
+        ">
+                                        <option value="pending" {{ $item->status == 'pending' ? 'selected' : '' }}>
+                                            Pending
+                                        </option>
+                                        <option value="approved" {{ $item->status == 'approved' ? 'selected' : '' }}>
+                                            Approved
+                                        </option>
+                                        <option value="rejected" {{ $item->status == 'rejected' ? 'selected' : '' }}>
+                                            Rejected
+                                        </option>
+                                    </select>
+                                </form>
                             </td>
 
                             <!-- Action -->
                             <td class="px-4 py-3">
                                 <div class="flex justify-center gap-2">
-
                                     <!-- Detail -->
                                     {{-- <a href="{{ route('penawaran.show', $item->id) }}"
                                         class="px-3 py-1.5 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 shadow">

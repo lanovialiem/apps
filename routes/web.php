@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\AuthManualController;
 use App\Http\Controllers\CategoryCodeController;
 use App\Http\Controllers\CategoryController;
@@ -60,11 +61,15 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('product', ProductController::class)->middleware('permission:view product|create product|edit product|delete product');
 
-    Route::resource('permissions', PermissionController::class);//->middleware('permission:view permission|create permission|edit permission|delete permission');
+    Route::resource('permissions', PermissionController::class); //->middleware('permission:view permission|create permission|edit permission|delete permission');
 
-    Route::resource('roles', RoleController::class);//->middleware('permission:view role|create role|edit role|delete role');
+    Route::resource('roles', RoleController::class); //->middleware('permission:view role|create role|edit role|delete role');
 
-    Route::resource('users', UserController::class);//->middleware('permission:view user|create user|edit user|delete user');
+    Route::resource('users', UserController::class); //->middleware('permission:view user|create user|edit user|delete user');
+    
+    Route::resource('approvals', ApprovalController::class); //->middleware('permission:view approval|create approval|edit approval|delete approval');
+    
+
 });
 
 
@@ -73,9 +78,9 @@ Route::middleware('auth')->group(function () {
 
 // Route::get('medical_checkups/delete/{id}', [MedicalCheckupsController::class, 'deleteMedical'])
 //     ->name('medical.delete');
-    Route::get('/', function () {
-        return view('index');
-    })->name('home');
+Route::get('/', function () {
+    return view('index');
+})->name('home');
 
 
 //Route untuk login dan logout
