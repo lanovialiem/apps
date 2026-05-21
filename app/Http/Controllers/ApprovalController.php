@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Approval;
+use App\Models\OrderProduct;
 use App\Models\Penawaran;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -26,9 +27,11 @@ class ApprovalController extends Controller
 
     public function create()
     {
-        $roles = Role::all();
+        $penawarans = Penawaran::with('orderProducts')->get();
+        // dd($penawarans);
+        $roles = Role::with('users')->get();
         $users = User::all();
-        return view('approval.create', compact(['roles', 'users']));
+        return view('approval.create', compact(['penawarans', 'roles', 'users']));
     }
 
     public function approve($id)
