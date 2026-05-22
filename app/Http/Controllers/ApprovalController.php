@@ -28,10 +28,11 @@ class ApprovalController extends Controller
     public function create()
     {
         $penawarans = Penawaran::with('orderProducts')->get();
-        // dd($penawarans);
+        $orderProducts = OrderProduct::with('product')->get();
+        // dd($orderProducts);
         $roles = Role::with('users')->get();
         $users = User::all();
-        return view('approval.create', compact(['penawarans', 'roles', 'users']));
+        return view('approval.create', compact(['penawarans', 'orderProducts', 'roles', 'users']));
     }
 
     public function approve($id)
@@ -81,7 +82,8 @@ class ApprovalController extends Controller
 
         Approval::create($request->all());
 
-        return redirect()->route('approval.index')->with('success', 'Approval created successfully.');
+        return redirect()->route('approvals.index')
+            ->with('success', 'Approval created successfully.');
     }
 
     public function show($id)

@@ -11,7 +11,7 @@ class Approval extends Model
 
     protected $fillable = [
         'penawaran_id',
-        'user_id',
+        // 'user_id',
         'name',
         'role',
         'description',
@@ -19,8 +19,9 @@ class Approval extends Model
         'level'
     ];
 
-public function approval()
+    public function approval()
     {
         return $this->belongsTo(Approval::class);
     }
 }
+//tambahkan relation

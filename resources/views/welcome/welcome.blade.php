@@ -219,7 +219,9 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
     <script src="src/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+    @stack('scripts')
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const toggles = document.querySelectorAll('.sidebar-dropdown-toggle');

@@ -25,8 +25,9 @@ class PenawaranController extends Controller
     public function index()
     {
         $penawaran = Penawaran::all();
+        $orderProducts = Penawaran::with('orderProducts')->get();
         $products = Product::all()->keyBy('id');
-        return view('penawaran.index', compact('penawaran', 'products'));
+        return view('penawaran.index', compact('penawaran', 'orderProducts', 'products'));
     }
 
     /**
@@ -94,9 +95,23 @@ class PenawaranController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Penawaran $penawaran)
+    public function show($id)
     {
-        return view('penawaran.show', compact('penawaran'));
+
+        // $data = DB::table('penawarans')
+        //     ->join('order_product', 'penawarans.id', '=', 'order_product.penawaran_id')
+        //     ->join('products', 'products.id', '=', 'order_product.product_id')
+        //     ->select(
+        //         'penawarans.*',
+        //         'products.name as product_name',
+        //         'order_product.quantity'
+        //     )
+        //     ->get();
+
+        $penawaran = Penawaran::with('orderProducts.product')
+            ->findOrFail($id);
+
+        return response()->json($penawaran); 
     }
 
     /**
@@ -110,9 +125,7 @@ class PenawaranController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Penawaran $penawaran)
-    {
-    }
+    public function update(Request $request, Penawaran $penawaran) {}
 
     /**
      * Remove the specified resource from storage.
