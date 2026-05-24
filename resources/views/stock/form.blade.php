@@ -1,5 +1,8 @@
-@include('layout.header')
+{{-- @include('layout.header') --}}
 
+@extends('welcome.welcome')
+
+@section('content')
 <div class="max-w-3xl mx-auto pt-32 px-4">
     <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
 
@@ -22,7 +25,7 @@
                     Product Name
                 </label>
                 <select name="product_id" id="product_id"
-                    class="w-full px-3 py-2 rounded-lg border border-gray-300 
+                    class="w-full text-black bg-white px-3 py-2 rounded-lg border border-gray-300 
                     focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                     <option value="">-- Pilih Product --</option>
                     @foreach ($products as $product)
@@ -42,7 +45,7 @@
                     Warehouse
                 </label>
                 <select name="warehouse_id" id="warehouse_id"
-                    class="w-full px-3 py-2 rounded-lg border border-gray-300 
+                    class="w-full text-black bg-white px-3 py-2 rounded-lg border border-gray-300 
                     focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                     <option value="">-- Pilih Warehouse --</option>
                     @foreach ($warehouses as $warehouse)
@@ -62,7 +65,7 @@
                     Quantity
                 </label>
                 <input type="number" name="quantity" min="0"
-                    class="w-full px-3 py-2 rounded-lg border border-gray-300 
+                    class="w-full text-black bg-white px-3 py-2 rounded-lg border border-gray-300 
                     focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                 @error('quantity')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -80,5 +83,6 @@
         </form>
     </div>
 </div>
+@endsection
 
-@include('layout.footer')
+{{-- @include('layout.footer') --}}

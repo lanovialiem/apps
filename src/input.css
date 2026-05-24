@@ -56,6 +56,16 @@ body {
     padding: 2px 6px;
 }
 
+@layer components {
+  .sidebar-menu li.active > a {
+    @apply bg-primary text-white;
+  }
+
+  .sidebar-menu li.active > a:hover {
+    @apply bg-primary text-white;
+  }
+}
+
 /* start */
 /*! tailwindcss v4.1.3 | MIT License | https://tailwindcss.com */
 /* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');

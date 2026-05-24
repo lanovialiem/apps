@@ -53,13 +53,13 @@
 
                     {{-- Penawaran --}}
                     <div class="md:col-span-2">
-                        <label for="penawaran_id" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <label for="penawaran_id" class="block text-sm font-semibold text-black mb-2">
 
                             Pilih Penawaran
                         </label>
 
                         <select name="penawaran_id" id="penawaran_id"
-                            class="w-full rounded-xl border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            class="w-full rounded-xl border  text-black bg-white border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-blue-500">
 
                             <option value="">
                                 -- Pilih Penawaran --
@@ -86,40 +86,39 @@
 
                     {{-- Nama Approval --}}
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        <label class="block text-sm font-semibold text-black mb-2">
                             Nama Approval
                         </label>
                         <input type="hidden" name="name" value="{{ Auth::user()->name }}">
-                        <div class="bg-gray-50 border rounded-xl px-4 py-3 text-gray-700">
+                        <div class="bg-gray-50 border rounded-xl px-4 py-3 text-black">
                             {{ Auth::user()->name }}
                         </div>
                     </div>
 
                     {{-- Role --}}
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        <label class="block text-sm font-semibold text-black mb-2">
                             Role Penanggung Jawab
                         </label>
                         <input type="hidden" name="role" value="{{ Auth::user()->roles->first()->name ?? '' }}">
-                        <div class="bg-gray-50 border rounded-xl px-4 py-3 text-gray-700">
+                        <div class="bg-gray-50 border rounded-xl px-4 py-3 text-black">
                             {{ Auth::user()->roles->first()->name ?? 'No Role Assigned' }}
                         </div>
                     </div>
 
                     {{-- Level --}}
                     <div>
-                        <label for="level" class="block text-sm font-semibold text-gray-700 mb-2">
-
+                        <label for="level" class="block text-sm font-semibold text-black mb-2">
                             Level Approval
                         </label>
 
                         <input type="number" name="level" id="level" min="1" value="{{ old('level', 1) }}"
-                            class="w-full rounded-xl border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            class="w-full rounded-xl border  text-black bg-white border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                     </div>
 
                     {{-- Status --}}
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        <label class="block text-sm font-semibold text-black mb-2">
                             Status
                         </label>
 
@@ -169,13 +168,13 @@
 
                     {{-- Description --}}
                     <div class="md:col-span-2">
-                        <label for="description" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <label for="description" class="block text-sm font-semibold text-black mb-2">
 
                             Catatan / Deskripsi
                         </label>
 
                         <textarea name="description" id="description" rows="4" placeholder="Tambahkan catatan approval..."
-                            class="w-full rounded-xl border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-blue-500">{{ old('description') }}</textarea>
+                            class="w-full rounded-xl text-black bg-white border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-blue-500">{{ old('description') }}</textarea>
                     </div>
 
                 </div>
@@ -184,7 +183,7 @@
                 <div class="flex items-center justify-end gap-3 mt-10 pt-6 border-t">
 
                     <a href="{{ route('approvals.index') }}"
-                        class="px-5 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium transition">
+                        class="px-5 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-black font-medium transition">
 
                         Batal
                     </a>
@@ -221,7 +220,7 @@
                 <div class="md:col-span-2">
                     <div class="bg-gray-50 rounded-2xl border border-gray-200 p-6">
 
-                        <h3 class="text-xl font-bold text-gray-700 mb-5">
+                        <h3 class="text-xl font-bold text-black mb-5">
                             Detail Penawaran
                         </h3>
 
@@ -232,7 +231,7 @@
                                     Customer Name
                                 </p>
 
-                                <p class="font-semibold text-gray-700">
+                                <p class="font-semibold text-black">
                                     ${data.customer_name ?? '-'}
                                 </p>
                             </div>
@@ -242,7 +241,7 @@
                                     Company Name
                                 </p>
 
-                                <p class="font-semibold text-gray-700">
+                                <p class="font-semibold text-black">
                                     ${data.company_name ?? '-'}
                                 </p>
                             </div>
@@ -342,7 +341,7 @@
                     <div class="md:col-span-2">
                         <div class="bg-gray-50 rounded-2xl border border-gray-200 p-6">
 
-                            <h3 class="text-xl font-bold text-gray-700 mb-5">
+                            <h3 class="text-xl font-bold text-black mb-5">
                                 Detail Penawaran
                             </h3>
 
@@ -353,7 +352,7 @@
                                         Customer Name
                                     </p>
 
-                                    <p class="font-semibold text-gray-700">
+                                    <p class="font-semibold text-black">
                                         ${data.customer_name ?? '-'}
                                     </p>
                                 </div>
@@ -363,7 +362,7 @@
                                         Company Name
                                     </p>
 
-                                    <p class="font-semibold text-gray-700">
+                                    <p class="font-semibold text-black">
                                         ${data.company_name ?? '-'}
                                     </p>
                                 </div>

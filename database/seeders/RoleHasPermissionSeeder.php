@@ -28,6 +28,13 @@ class RoleHasPermissionSeeder extends Seeder
             'edit stock movement',
             'delete stock movement',
 
+            'view approval',
+            'create approval',
+            'edit approval',
+            'delete approval',
+
+            'view offer',
+
             'view product'
         ]);
 

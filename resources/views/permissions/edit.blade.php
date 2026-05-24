@@ -1,7 +1,6 @@
-<section>
-    @vite(['src/input.css'])
-
-    <div class="min-h-screen bg-gray-100 py-12">
+@extends('welcome.welcome')
+@section('content')
+<div class="min-h-screen bg-gray-100 py-12">
         <div class="max-w-4xl mx-auto px-4">
 
             <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
@@ -75,4 +74,4 @@
 
         </div>
     </div>
-</section>
+@endsection

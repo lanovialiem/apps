@@ -1,5 +1,7 @@
-@include('layout.header')
+{{-- @include('layout.header') --}}
 
+@extends('welcome.welcome')
+@section('content')
 <div class="container mx-auto pt-32 px-4">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
         <!-- Title -->
@@ -137,8 +139,9 @@
     </div>
 
 </div>
+@endsection
 
-@include('layout.footer')
+{{-- @include('layout.footer') --}}
 
 {{-- @push('scripts')
 <scripts>

@@ -34,6 +34,37 @@ if (btn) {
     });
 }
 
+//dropdown toggle sidebar welcome
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggles = document.querySelectorAll('.sidebar-dropdown-toggle');
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const currentMenu =
+                        this.parentElement.querySelector('.sidebar-dropdown-menu');
+                    const currentArrow =
+                        this.parentElement.querySelector('.sidebar-arrow');
+
+                    // tutup semua menu lain
+                    document.querySelectorAll('.sidebar-dropdown-menu').forEach(menu => {
+                        if (menu !== currentMenu) {
+                            menu.classList.add('hidden');
+                        }
+                    });
+
+                    document.querySelectorAll('.sidebar-arrow').forEach(arrow => {
+                        if (arrow !== currentArrow) {
+                            arrow.classList.remove('rotate-90');
+                        }
+                    });
+
+                    // toggle current
+                    currentMenu.classList.toggle('hidden');
+                    currentArrow.classList.toggle('rotate-90');
+                });
+            });
+        });
+
+
 document.addEventListener("DOMContentLoaded", function () {
     
     // 1. Hamburger Menu

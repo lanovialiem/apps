@@ -1,5 +1,8 @@
-@include('layout.header')
+    {{-- @include('layout.header') --}}
 
+@extends('welcome.welcome')
+
+@section('content')
 <div class="max-w-3xl mx-auto pt-32 px-4">
     <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
 
@@ -84,5 +87,5 @@
         </form>
     </div>
 </div>
-
-@include('layout.footer')
+@endsection
+{{-- @include('layout.footer') --}}

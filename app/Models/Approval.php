@@ -19,9 +19,13 @@ class Approval extends Model
         'level'
     ];
 
-    public function approval()
+    public function penawaran()
     {
-        return $this->belongsTo(Approval::class);
+        return $this->belongsTo(Penawaran::class);
+    }
+
+    public function histories(){
+        return $this->hasMany(ApprovalHistory::class);
     }
 }
 //tambahkan relation

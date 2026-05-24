@@ -1,5 +1,7 @@
-@include('layout.header')
+{{-- @include('layout.header') --}}
 
+@extends('welcome.welcome')
+@section('content')
 <div class="container mx-auto pt-32 px-4">
 
     <!-- Header -->
@@ -10,7 +12,7 @@
 
         @can('create warehouse')
         <a href="{{ route('warehouse.create') }}"
-           class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
+            class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
             + Add Warehouse
         </a>
         @endcan
@@ -37,49 +39,48 @@
                 <!-- Body -->
                 <tbody class="divide-y">
                     @foreach ($warehouse as $index => $ware_)
-                        <tr class="hover:bg-blue-50 transition">
+                    <tr class="hover:bg-blue-50 transition">
 
-                            <td class="px-4 py-3 text-center">
-                                {{ $index + 1 }}
-                            </td>
+                        <td class="px-4 py-3 text-center">
+                            {{ $index + 1 }}
+                        </td>
 
-                            <td class="px-4 py-3 font-medium text-gray-800">
-                                {{ $ware_->warehouse_name }}
-                            </td>
+                        <td class="px-4 py-3 font-medium text-gray-800">
+                            {{ $ware_->warehouse_name }}
+                        </td>
 
-                            <td class="px-4 py-3">
-                                <span class="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded">
-                                    {{ $ware_->warehouse_code }}
-                                </span>
-                            </td>
+                        <td class="px-4 py-3">
+                            <span class="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded">
+                                {{ $ware_->warehouse_code }}
+                            </span>
+                        </td>
 
-                            <td class="px-4 py-3 text-gray-600">
-                                {{ $ware_->warehouse_location }}
-                            </td>
+                        <td class="px-4 py-3 text-gray-600">
+                            {{ $ware_->warehouse_location }}
+                        </td>
 
-                            <!-- Action -->
-                            <td class="px-4 py-3">
-                                <div class="flex justify-center">
+                        <!-- Action -->
+                        <td class="px-4 py-3">
+                            <div class="flex justify-center">
 
-                                    @can('delete warehouse')
-                                    <form action="{{ route('warehouse.destroy', $ware_->id) }}"
-                                          method="POST"
-                                          onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                @can('delete warehouse')
+                                <form action="{{ route('warehouse.destroy', $ware_->id) }}" method="POST"
+                                    onsubmit="return confirm('Yakin ingin menghapus data ini?')">
 
-                                        @csrf
-                                        @method('DELETE')
+                                    @csrf
+                                    @method('DELETE')
 
-                                        <button type="submit"
-                                                class="px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 shadow-sm">
-                                            Hapus
-                                        </button>
+                                    <button type="submit"
+                                        class="px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 shadow-sm">
+                                        Hapus
+                                    </button>
 
-                                    </form>
-                                    @endcan
-                                </div>
-                            </td>
+                                </form>
+                                @endcan
+                            </div>
+                        </td>
 
-                        </tr>
+                    </tr>
                     @endforeach
                 </tbody>
 
@@ -88,5 +89,6 @@
 
     </div>
 </div>
+@endsection
 
-@include('layout.footer')
+{{-- @include('layout.footer') --}}

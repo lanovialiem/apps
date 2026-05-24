@@ -1,5 +1,8 @@
-@include('layout.header')
+{{-- @include('layout.header') --}}
 
+@extends('welcome.welcome')
+
+@section('content')
 <div class="container mx-auto pt-32 px-4 py-10">
     <div class="max-w-6xl mx-auto">
 
@@ -43,12 +46,12 @@
 
                             <input type="text" name="company_name" value="{{ old('company_name') }}"
                                 placeholder="Enter company name"
-                                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                                class="w-full rounded-xl border border-gray-300 text-black px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
 
                             @error('company_name')
-                                <p class="text-sm text-red-500 mt-1">
-                                    {{ $message }}
-                                </p>
+                            <p class="text-sm text-red-500 mt-1">
+                                {{ $message }}
+                            </p>
                             @enderror
                         </div>
 
@@ -60,12 +63,12 @@
 
                             <input type="text" name="customer_name" value="{{ old('customer_name') }}"
                                 placeholder="Enter customer name"
-                                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                                class="w-full rounded-xl border border-gray-300 text-black px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
 
                             @error('customer_name')
-                                <p class="text-sm text-red-500 mt-1">
-                                    {{ $message }}
-                                </p>
+                            <p class="text-sm text-red-500 mt-1">
+                                {{ $message }}
+                            </p>
                             @enderror
                         </div>
 
@@ -77,12 +80,12 @@
 
                             <input type="email" name="customer_email" value="{{ old('customer_email') }}"
                                 placeholder="Enter customer email"
-                                class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                                class="w-full rounded-xl border border-gray-300 text-black px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
 
                             @error('customer_email')
-                                <p class="text-sm text-red-500 mt-1">
-                                    {{ $message }}
-                                </p>
+                            <p class="text-sm text-red-500 mt-1">
+                                {{ $message }}
+                            </p>
                             @enderror
                         </div>
 
@@ -112,34 +115,35 @@
                     <!-- Table -->
                     <div class="overflow-x-auto border border-gray-200 rounded-2xl">
                         <table class="w-full text-sm text-left">
-                            <thead class="bg-gray-50 text-gray-700 uppercase text-xs">
-                                <tr>
+                            <thead class="bg-gray-50 text-gray-700 uppercase text-medium leading-normal">
+                                <tr class="text-gray-700 uppercase text-sm leading-normal">
                                     <th class="px-6 py-4">Product</th>
                                     <th class="px-6 py-4 w-40">Quantity</th>
                                 </tr>
                             </thead>
 
                             <tbody class="divide-y divide-gray-100">
-                                <tr id="product0" class="hover:bg-gray-50 transition">
+                                <tr id="product0"
+                                    class="hover:bg-gray-50 transition bg-gray-50 text-gray-700 uppercase text-medium leading-normal">
                                     <td class="px-6 py-4">
                                         <select name="product_id[]"
-                                            class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                            class="w-full rounded-xl border  text-black bg-white border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
 
                                             <option value="">
                                                 Select Product
                                             </option>
 
                                             @foreach ($products as $product)
-                                                <option value="{{ $product->id }}">
-                                                    {{ $product->product_name }}
-                                                </option>
+                                            <option value="{{ $product->id }}">
+                                                {{ $product->product_name }}
+                                            </option>
                                             @endforeach
                                         </select>
                                     </td>
 
                                     <td class="px-6 py-4">
                                         <input type="number" name="quantity[]" min="1" placeholder="0"
-                                            class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                            class="w-full rounded-xl border  text-black bg-white border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                                     </td>
                                 </tr>
                             </tbody>
@@ -165,8 +169,10 @@
         </div>
     </div>
 </div>
+@endsection
 
-@include('layout.footer')
+{{-- @include('layout.footer') --}}
+@push('scripts')
 <script>
     $(document).ready(function() {
         let rowCount = 1;
@@ -189,7 +195,7 @@
                     <td class="px-6 py-4">
                         <select
                             name="product_id[]"
-                            class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                            class="w-full rounded-xl border  text-black bg-white border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                             ${productOptions}
                         </select>
                     </td>
@@ -200,7 +206,7 @@
                             type="number"
                             name="quantity[]"
                             min="1"
-                            class="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                            class="w-full rounded-xl border  text-black bg-white border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </td>
                 </tr>
             `;
@@ -301,3 +307,4 @@
         });
     });
 </script>
+@endpush

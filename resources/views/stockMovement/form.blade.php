@@ -1,5 +1,6 @@
-@include('layout.header')
-
+{{-- @include('layout.header') --}}
+@extends('welcome.welcome')
+@section('content')
 <div class="max-w-5xl mx-auto pt-28 px-4">
     <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
 
@@ -24,7 +25,7 @@
                     </label>
 
                     <select name="warehouse_id"
-                        class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500">
+                        class="w-full text-black bg-white px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500">
 
                         <option value="" disabled {{ old('warehouse_id') ? '' : 'selected' }}>
                             Pilih dari gudang mana?
@@ -50,7 +51,7 @@
                         Nama Produk
                     </label>
                     <select name="product_id"
-                        class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500">
+                        class="w-full text-black bg-white px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500">
                         <option disabled {{ old('product_id') ? '' : 'selected' }}>Choose...</option>
                         @foreach ($products as $x)
                             <option value="{{ $x->id }}" {{ old('product_id') == $x->id ? 'selected' : '' }}>
@@ -69,7 +70,7 @@
                         Tipe Mutasi
                     </label>
                     <select name="movement_type"
-                        class="w-full px-3 py-2 rounded-lg border border-gray-300 
+                        class="w-full text-black bg-white px-3 py-2 rounded-lg border border-gray-300 
                         focus:ring-2 focus:ring-blue-500">
                         <option value="">-- Pilih Tipe Mutasi --</option>
                         @foreach ($movementTypes as $type)
@@ -89,7 +90,7 @@
                         Quantity
                     </label>
                     <input type="number" name="quantity" min="0" value="{{ old('quantity') }}"
-                        class="w-full px-3 py-2 rounded-lg border border-gray-300 
+                        class="w-full text-black bg-white px-3 py-2 rounded-lg border border-gray-300 
                         focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                     @error('quantity')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -102,7 +103,7 @@
                         Tanggal Mutasi
                     </label>
                     <input type="date" name="movement_date" value="{{ old('movement_date') }}"
-                        class="w-full px-3 py-2 rounded-lg border border-gray-300 
+                        class="w-full text-black bg-white px-3 py-2 rounded-lg border border-gray-300 
                         focus:ring-2 focus:ring-blue-500">
                     @error('movement_date')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -115,7 +116,7 @@
                         Tujuan Mutasi
                     </label>
                     <select name="heading_type"
-                        class="w-full px-3 py-2 rounded-lg border border-gray-300 
+                        class="w-full text-black bg-white px-3 py-2 rounded-lg border border-gray-300 
                         focus:ring-2 focus:ring-blue-500">
                         <option value="">-- Pilih Tujuan Mutasi --</option>
                         @foreach ($headTypes as $type)
@@ -134,7 +135,7 @@
                     <label class="block text-sm font-medium text-gray-600 mb-1">
                         Description
                     </label>
-                    <textarea name="description" rows="3" class="w-full px-3 py-2 rounded-lg border border-gray-300"
+                    <textarea name="description" rows="3" class="w-full text-black bg-white px-3 py-2 rounded-lg border border-gray-300"
                         placeholder="Enter additional notes">{{ old('description') }}</textarea>
                     @error('description')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -154,8 +155,8 @@
         </form>
     </div>
 </div>
-
-@include('layout.footer')
+@endsection
+{{-- @include('layout.footer') --}}
 
 {{-- <script>
     document.getElementById('warehouse_id').addEventListener('change', function () {

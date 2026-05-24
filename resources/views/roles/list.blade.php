@@ -1,10 +1,11 @@
 @vite(['src/input.css'])
-
+@extends('welcome.welcome')
+@section('content')
 <div class="py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <!-- TITLE -->
-        <h1 class="text-2xl font-bold text-gray-800">Roles</h1>
+        <h1 class="text-2xl font-bold text-white-800">Roles</h1>
 
         <!-- SUCCESS MESSAGE -->
         @if (session('success'))
@@ -16,7 +17,7 @@
         <!-- BUTTON -->
         <button class="mb-10 mt-10 flex items-center justify-between">
             <a href="{{ route('roles.create') }}"
-                class="bg-slate-700 text-white px-4 py-2 rounded-md hover:bg-slate-600">
+                class="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-slate-600">
                 Create
             </a>
         </button>
@@ -24,7 +25,7 @@
         <!-- TABLE -->
         <table class="min-w-full bg-white border border-gray-200">
             <thead>
-                <tr class="bg-gray-50 text-dark rounded-sm">
+                <tr class="bg-gray-50 text-gray-700 uppercase text-sm leading-normal">
                     <th class="py-2 px-4 border-b">No</th>
                     <th class="py-2 px-4 border-b">Name</th>
                     <th class="py-2 px-4 border-b">Permissions</th>
@@ -35,7 +36,7 @@
 
             <tbody>
                 @foreach ($roles as $role)
-                <tr>
+                <tr class="bg-gray-50 text-gray-700 uppercase text-sm leading-normal">
                     <td class="py-2 px-4 border-b">{{ $loop->iteration }}</td>
                     <td class="py-2 px-4 border-b">{{ $role->name }}</td>
                     <td class="py-2 px-4 border-b">
@@ -76,3 +77,6 @@
 
     </div>
 </div>
+@endsection
+
+{{-- @include('layout.footer') --}}

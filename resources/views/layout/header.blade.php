@@ -158,9 +158,9 @@
     <header>
         <!-- start: Navbar -->
         <div
-            class="dark:bg-gray-900 dark:text-white bg-white sticky top-0 left-0 z-30 flex items-center gap-3 px-4 py-3 shadow-md shadow-black/5">
+            class="bg-white border-b border-gray-100 dark:text-white sticky top-0 left-0 z-30 flex items-center gap-3 px-4 py-3 shadow-md shadow-black/5"
 
-            <!-- Sidebar Toggle -->
+            {{-- <!-- Sidebar Toggle --> --}}
             <button type="button" class="sidebar-toggle text-lg text-gray-600 lg:hidden">
                 <i class="ri-menu-line"></i>
             </button>

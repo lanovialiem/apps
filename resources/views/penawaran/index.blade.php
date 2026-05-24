@@ -1,6 +1,8 @@
-@include('layout.header')
+{{-- @include('layout.header') --}}
+@extends('welcome.welcome')
 
-<div class="container mx-auto pt-32 px-4">
+@section('content')
+    <div class="container mx-auto pt-32 px-4">
 
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3 mt-5">
@@ -181,5 +183,6 @@
         </div>
     </div>
 </div>
+@endsection
 
-@include('layout.footer')
+{{-- @include('layout.footer') --}}

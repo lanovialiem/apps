@@ -8,7 +8,9 @@ export default {
     },
     extend: {
       colors: {
-        primary: '#FF6A2A',
+        primary: '#F97316', // orange modern (Tailwind orange-500)
+        primaryDark: '#EA580C',
+        primaryLight: '#FDBA74',
         dark: '#1E1E1E',
       },
       screens: {

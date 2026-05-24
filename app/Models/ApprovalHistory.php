@@ -18,4 +18,19 @@ class ApprovalHistory extends Model
         'status',
         'level'
     ];
+
+    public function approval()
+{
+    return $this->belongsTo(Approval::class);
+}
+
+    public function penawaran()
+    {
+        return $this->belongsTo(Penawaran::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

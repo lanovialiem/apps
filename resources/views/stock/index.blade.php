@@ -1,5 +1,7 @@
-@include('layout.header')
+{{-- @include('layout.header') --}}
 
+@extends('welcome.welcome')
+@section('content')
 <div class="container mx-auto pt-32 px-4">
 
     <!-- Header -->
@@ -104,5 +106,6 @@
 
     </div>
 </div>
+@endsection
 
-@include('layout.footer')
+{{-- @include('layout.footer') --}}

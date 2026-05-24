@@ -1,9 +1,11 @@
 @vite(['src/input.css'])
 
+@extends('welcome.welcome')
+@section('content')
 <div class="py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <h1 class="text-2xl font-bold text-gray-800">Users</h1>
+        <h1 class="text-2xl font-bold text-white-800">Users</h1>
 
         @if (session('success'))
         <div class="mt-4 mb-4 px-4 py-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
@@ -21,7 +23,7 @@
         <table class="min-w-full bg-white border border-gray-200">
 
             <thead>
-                <tr class="bg-gray-50">
+                <tr class="bg-gray-50 text-gray-700 uppercase text-sm leading-normal">
                     <th class="py-2 px-4 border-b">No</th>
                     <th class="py-2 px-4 border-b">Name</th>
                     <th class="py-2 px-4 border-b">Email</th>
@@ -34,7 +36,7 @@
             <tbody>
 
                 @foreach ($users as $user)
-                <tr>
+                <tr class="bg-gray-50 text-gray-700 uppercase text-sm leading-normal">
 
                     <td class="py-2 px-4 border-b">
                         {{ $loop->iteration }}
@@ -87,3 +89,6 @@
 
     </div>
 </div>
+@endsection
+
+{{-- @include('layout.footer') --}}
