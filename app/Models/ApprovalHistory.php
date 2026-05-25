@@ -33,4 +33,9 @@ class ApprovalHistory extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function approvalLevel()
+    {
+        return $this->belongsTo(ApprovalLevel::class, 'level', 'level');
+    }
 }

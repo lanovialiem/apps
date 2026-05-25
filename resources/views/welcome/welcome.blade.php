@@ -15,19 +15,18 @@
 </head>
 {{-- SideBar --}}
 @php
-function isActive($route)
-{
-return request()->routeIs($route)
-? 'bg-orange-500 text-white'
-: 'text-gray-300';
-}
+    function isActive($route)
+    {
+        return request()->routeIs($route) ? 'bg-orange-500 text-white' : 'text-gray-300';
+    }
 @endphp
 
 <body
     class="dark:bg-gray-900 dark:text-white text-gray-800 font-inter hover:text-primary text-primary border-r-2 border-primary">
 
     <!-- start: Sidebar -->
-    <div class="sidebar-menu fixed left-0 top-0 w-64 h-full bg-gray-900 text-white p-4 z-50 
+    <div
+        class="sidebar-menu fixed left-0 top-0 w-64 h-full bg-gray-900 text-white p-4 z-50 
     transform -translate-x-full md:translate-x-0 transition-transform duration-300">
 
         <a href="#" class="flex items-center pb-4 border-b border-b-gray-800">
@@ -46,11 +45,12 @@ return request()->routeIs($route)
 
             <li class="mb-1 group">
                 @can('view employee')
-                <a href="{{ route('employees.index') }}" class="flex items-center py-2 px-4 rounded-md
+                    <a href="{{ route('employees.index') }}"
+                        class="flex items-center py-2 px-4 rounded-md
    {{ isActive('employees.*') }}">
-                    <i class="ri-instance-line mr-3 text-lg"></i>
-                    <span class="text-sm">Employees</span>
-                </a>
+                        <i class="ri-instance-line mr-3 text-lg"></i>
+                        <span class="text-sm">Employees</span>
+                    </a>
                 @endcan
             </li>
 
@@ -84,7 +84,7 @@ return request()->routeIs($route)
                     </li>
                 </ul> --}}
 
-                {{-- Menu dropdown Warehouse --}}
+            {{-- Menu dropdown Warehouse --}}
             <li class="mb-1 group">
 
                 <!-- Button -->
@@ -95,56 +95,58 @@ return request()->routeIs($route)
 
                     <span class="text-sm">Warehouse</span>
 
-                    <i class="ri-arrow-right-s-line ml-auto transition-transform duration-300 sidebar-arrow
+                    <i
+                        class="ri-arrow-right-s-line ml-auto transition-transform duration-300 sidebar-arrow
             {{ request()->routeIs('warehouse.*', 'stock.*', 'stock_movement.*') ? 'rotate-90' : '' }}">
                     </i>
                 </button>
 
                 <!-- Dropdown -->
-                <ul class="sidebar-dropdown-menu pl-10 mt-2 space-y-2
+                <ul
+                    class="sidebar-dropdown-menu pl-10 mt-2 space-y-2
         {{ request()->routeIs('warehouse.*', 'stock.*', 'stock_movement.*') ? '' : 'hidden' }}">
 
                     {{-- Warehouse --}}
                     @can('view warehouse')
-                    <li class="mb-1 group">
-                        <a href="{{ route('warehouse.index') }}"
-                            class="flex items-center py-2 px-4 rounded-md {{ isActive('warehouse.*') }}">
+                        <li class="mb-1 group">
+                            <a href="{{ route('warehouse.index') }}"
+                                class="flex items-center py-2 px-4 rounded-md {{ isActive('warehouse.*') }}">
 
-                            <i class="ri-instance-line mr-3 text-lg"></i>
+                                <i class="ri-instance-line mr-3 text-lg"></i>
 
-                            <span class="text-sm">Warehouses</span>
-                        </a>
-                    </li>
+                                <span class="text-sm">Warehouses</span>
+                            </a>
+                        </li>
                     @endcan
 
                     {{-- Stock --}}
                     @can('view stock')
-                    <li class="group">
-                        <a href="{{ route('stock.index') }}"
-                            class="flex items-center py-2 px-4 rounded-md {{ isActive('stock.*') }}">
+                        <li class="group">
+                            <a href="{{ route('stock.index') }}"
+                                class="flex items-center py-2 px-4 rounded-md {{ isActive('stock.*') }}">
 
-                            <i class="ri-instance-line mr-3 text-lg"></i>
+                                <i class="ri-instance-line mr-3 text-lg"></i>
 
-                            <span class="text-sm">
-                                Stok
-                            </span>
-                        </a>
-                    </li>
+                                <span class="text-sm">
+                                    Stok
+                                </span>
+                            </a>
+                        </li>
                     @endcan
 
                     {{-- Stock Movement --}}
                     @can('view stock movement')
-                    <li class="group">
-                        <a href="{{ route('stock_movement.index') }}"
-                            class="flex items-center py-2 px-4 rounded-md {{ isActive('stock_movement.*') }}">
+                        <li class="group">
+                            <a href="{{ route('stock_movement.index') }}"
+                                class="flex items-center py-2 px-4 rounded-md {{ isActive('stock_movement.*') }}">
 
-                            <i class="ri-instance-line mr-3 text-lg"></i>
+                                <i class="ri-instance-line mr-3 text-lg"></i>
 
-                            <span class="text-sm">
-                                Perpindahan Stok
-                            </span>
-                        </a>
-                    </li>
+                                <span class="text-sm">
+                                    Perpindahan Stok
+                                </span>
+                            </a>
+                        </li>
                     @endcan
 
                 </ul>
@@ -153,112 +155,114 @@ return request()->routeIs($route)
 
             {{-- MCU --}}
             @can('view medical checkup')
-            <li class="mb-1 group">
-                <a href="{{ route('medical_checkups.index') }}"
-                    class="flex items-center py-2 px-4 rounded-md {{ isActive('medical_checkups.*') }}">
+                <li class="mb-1 group">
+                    <a href="{{ route('medical_checkups.index') }}"
+                        class="flex items-center py-2 px-4 rounded-md {{ isActive('medical_checkups.*') }}">
 
-                    <i class="ri-instance-line mr-3 text-lg"></i>
+                        <i class="ri-instance-line mr-3 text-lg"></i>
 
-                    <span class="text-sm">MCU</span>
-                </a>
-            </li>
+                        <span class="text-sm">MCU</span>
+                    </a>
+                </li>
             @endcan
 
             {{-- Penawaran --}}
             @can('view offer')
-            <li class="group">
-                <a href="{{ route('penawaran.index') }}"
-                    class="flex items-center py-2 px-4 rounded-md {{ isActive('penawaran.*') }}">
+                <li class="group">
+                    <a href="{{ route('penawaran.index') }}"
+                        class="flex items-center py-2 px-4 rounded-md {{ isActive('penawaran.*') }}">
 
-                    <i class="ri-instance-line mr-3 text-lg"></i>
+                        <i class="ri-instance-line mr-3 text-lg"></i>
 
-                    <span class="text-sm">
-                        Penawaran
-                    </span>
-                </a>
-            </li>
+                        <span class="text-sm">
+                            Penawaran
+                        </span>
+                    </a>
+                </li>
             @endcan
 
             {{-- Product --}}
             @can('view product')
-            <li class="group">
-                <a href="{{ route('product.index') }}"
-                    class="flex items-center py-2 px-4 rounded-md {{ isActive('product.*') }}">
+                <li class="group">
+                    <a href="{{ route('product.index') }}"
+                        class="flex items-center py-2 px-4 rounded-md {{ isActive('product.*') }}">
 
-                    <i class="ri-instance-line mr-3 text-lg"></i>
+                        <i class="ri-instance-line mr-3 text-lg"></i>
 
-                    <span class="text-sm">
-                        Produk
-                    </span>
-                </a>
-            </li>
+                        <span class="text-sm">
+                            Produk
+                        </span>
+                    </a>
+                </li>
             @endcan
 
             {{-- Menu dropdown User --}}
             <li class="mb-1 group">
 
                 @can('view user')
-                <!-- Button -->
-                <button type="button"
-                    class="sidebar-dropdown-toggle w-full flex items-center py-2 px-4 text-gray-300 hover:bg-gray-800 rounded-md">
+                    <!-- Button -->
+                    <button type="button"
+                        class="sidebar-dropdown-toggle w-full flex items-center py-2 px-4 text-gray-300 hover:bg-gray-800 rounded-md">
 
-                    <i class="ri-folder-line mr-3 text-lg"></i>
+                        <i class="ri-folder-line mr-3 text-lg"></i>
 
-                    <span class="text-sm">User</span>
+                        <span class="text-sm">User</span>
 
-                    <i class="ri-arrow-right-s-line ml-auto transition-transform duration-300 sidebar-arrow
+                        <i
+                            class="ri-arrow-right-s-line ml-auto transition-transform duration-300 sidebar-arrow
             {{ request()->routeIs('users.*', 'permissions.*', 'roles.*') ? 'rotate-90' : '' }}">
-                    </i>
-                </button>
+                        </i>
+                    </button>
 
-                <!-- Dropdown -->
-                <ul class="sidebar-dropdown-menu pl-10 mt-2 space-y-2
+                    <!-- Dropdown -->
+                    <ul
+                        class="sidebar-dropdown-menu pl-10 mt-2 space-y-2
         {{ request()->routeIs('users.*', 'permissions.*', 'roles.*') ? '' : 'hidden' }}">
 
-                    {{-- Users --}}
-                    <li class="group">
-                        <a href="{{ route('users.index') }}"
-                            class="flex items-center py-2 px-4 rounded-md {{ isActive('users.*') }}">
+                        {{-- Users --}}
+                        <li class="group">
+                            <a href="{{ route('users.index') }}"
+                                class="flex items-center py-2 px-4 rounded-md {{ isActive('users.*') }}">
 
-                            <i class="ri-instance-line mr-3 text-lg"></i>
+                                <i class="ri-instance-line mr-3 text-lg"></i>
 
-                            <span class="text-sm">
-                                Users
-                            </span>
-                        </a>
-                    </li>
+                                <span class="text-sm">
+                                    Users
+                                </span>
+                            </a>
+                        </li>
 
-                    {{-- Permissions --}}
-                    @can('view permissions')
-                    <li class="group">
-                        <a href="{{ route('permissions.index') }}"
-                            class="flex items-center py-2 px-4 rounded-md {{ isActive('permissions.*') }}">
+                        {{-- Permissions --}}
+                        @can('view permissions')
+                            <li class="group">
+                                <a href="{{ route('permissions.index') }}"
+                                    class="flex items-center py-2 px-4 rounded-md {{ isActive('permissions.*') }}">
 
-                            <i class="ri-instance-line mr-3 text-lg"></i>
+                                    <i class="ri-instance-line mr-3 text-lg"></i>
 
-                            <span class="text-sm">
-                                Permissions
-                            </span>
-                        </a>
-                    </li>
-                    @endcan
+                                    <span class="text-sm">
+                                        Permissions
+                                    </span>
+                                </a>
+                            </li>
+                        @endcan
 
-                    {{-- Roles --}}
-                    @can('view roles')
-                    <li class="group">
-                        <a href="{{ route('roles.index') }}"
-                            class="flex items-center py-2 px-4 rounded-md {{ isActive('roles.*') }} hover:bg-gray-800">
+                        {{-- Roles --}}
+                        @can('view roles')
+                            <li class="group">
+                                <a href="{{ route('roles.index') }}"
+                                    class="flex items-center py-2 px-4 rounded-md {{ isActive('roles.*') }} hover:bg-gray-800">
 
-                            <i class="ri-instance-line mr-3 text-lg"></i>
+                                    <i class="ri-instance-line mr-3 text-lg"></i>
 
-                            <span class="text-sm">
-                                Roles
-                            </span>
-                        </a>
-                    </li>
-                    @endcan
+                                    <span class="text-sm">
+                                        Roles
+                                    </span>
+                                </a>
+                            </li>
+                        @endcan
 
-                </ul>
+                    </ul>
                 @endcan
             </li>
         </ul>
@@ -273,7 +277,7 @@ return request()->routeIs($route)
         class="bg-gray-900 text-gray-300 w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main">
 
         {{-- Navbar Start --}}
-        @include('layout.header')
+        {{-- @include('layout.header') --}}
         {{-- Navbar End --}}
 
         <h1>ISI</h1>

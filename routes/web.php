@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApprovalController;
+use App\Http\Controllers\ApprovalLevelController;
 use App\Http\Controllers\AuthManualController;
 use App\Http\Controllers\CategoryCodeController;
 use App\Http\Controllers\CategoryController;
@@ -61,16 +62,18 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('product', ProductController::class)->middleware('permission:view product|create product|edit product|delete product');
 
-    Route::resource('permissions', PermissionController::class); //->middleware('permission:view permission|create permission|edit permission|delete permission');
+    Route::resource('permissions', PermissionController::class)->middleware('permission:view permission|create permission|edit permission|delete permission');
 
-    Route::resource('roles', RoleController::class); //->middleware('permission:view role|create role|edit role|delete role');
+    Route::resource('roles', RoleController::class)->middleware('permission:view role|create role|edit role|delete role');
 
-    Route::resource('users', UserController::class); //->middleware('permission:view user|create user|edit user|delete user');
+    Route::resource('users', UserController::class)->middleware('permission:view user|create user|edit user|delete user');
 
-    Route::resource('approvals', ApprovalController::class); //->middleware('permission:view approval|create approval|edit approval|delete approval');
+    Route::resource('approvals', ApprovalController::class)->middleware('permission:view approval|create approval|edit approval|delete approval');
     Route::post('/penawaran/{id}/approve', [ApprovalController::class, 'approve']);
     Route::post('/penawaran/{id}/reject', [ApprovalController::class, 'reject']);
     Route::get('/penawaran/{id}/history', [ApprovalController::class, 'history'])->name('approval.history');
+
+    Route::resource('approval_levels', ApprovalLevelController::class); //->middleware('permission:view approval level|create approval level|edit approval level|delete approval level');
 });
 
 

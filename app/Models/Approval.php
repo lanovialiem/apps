@@ -24,8 +24,14 @@ class Approval extends Model
         return $this->belongsTo(Penawaran::class);
     }
 
-    public function histories(){
+    public function histories()
+    {
         return $this->hasMany(ApprovalHistory::class);
+    }
+
+    public function approvalLevel()
+    {
+        return $this->belongsTo(ApprovalLevel::class, 'level', 'level');
     }
 }
 //tambahkan relation
