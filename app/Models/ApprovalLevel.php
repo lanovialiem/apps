@@ -11,7 +11,6 @@ class ApprovalLevel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
         'level',
         'role'
     ];
@@ -26,8 +25,8 @@ class ApprovalLevel extends Model
         return $this->hasManyThrough(ApprovalHistory::class, Approval::class, 'level', 'approval_id', 'level', 'id');
     }
 
-    // public function role()
-    // {
-    //     return $this->hasOne(Role::class, 'name', 'role');
-    // }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 }

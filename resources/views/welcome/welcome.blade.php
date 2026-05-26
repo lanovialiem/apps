@@ -10,6 +10,7 @@
     <title>Dashboard</title>
     @vite(['src/input.css', 'src/script.js'])
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 
 </head>
@@ -25,8 +26,8 @@
     class="dark:bg-gray-900 dark:text-white text-gray-800 font-inter hover:text-primary text-primary border-r-2 border-primary">
 
     <!-- start: Sidebar -->
-    <div
-        class="sidebar-menu fixed left-0 top-0 w-64 h-full bg-gray-900 text-white p-4 z-50 
+    <div id="sidebar"
+        class="sidebar-menu fixed left-0 top-0 w-64 h-full bg-gray-900 text-white p-4 z-50
     transform -translate-x-full md:translate-x-0 transition-transform duration-300">
 
         <a href="#" class="flex items-center pb-4 border-b border-b-gray-800">
@@ -277,10 +278,10 @@
         class="bg-gray-900 text-gray-300 w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main">
 
         {{-- Navbar Start --}}
-        {{-- @include('layout.header') --}}
+        @include('layout.header')
         {{-- Navbar End --}}
 
-        <h1>ISI</h1>
+        {{-- <h1>ISI</h1> --}}
         {{-- @include('layout.header') --}}
         @yield('content')
         {{-- @include('layout.footer') --}}
@@ -324,5 +325,68 @@
             });
         });
     </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+        const toggle = document.getElementById("sidebar-toggle");
+
+        // OPEN / CLOSE SIDEBAR
+        toggle.addEventListener("click", function () {
+
+            sidebar.classList.toggle("-translate-x-full");
+            overlay.classList.toggle("hidden");
+
+        });
+
+        // CLOSE WHEN CLICK OVERLAY
+        overlay.addEventListener("click", function () {
+
+            sidebar.classList.add("-translate-x-full");
+            overlay.classList.add("hidden");
+
+        });
+
+        // DROPDOWN MENU
+        const toggles = document.querySelectorAll('.sidebar-dropdown-toggle');
+
+        toggles.forEach(toggle => {
+
+            toggle.addEventListener('click', function () {
+
+                const currentMenu =
+                    this.parentElement.querySelector('.sidebar-dropdown-menu');
+
+                const currentArrow =
+                    this.parentElement.querySelector('.sidebar-arrow');
+
+                document.querySelectorAll('.sidebar-dropdown-menu')
+                    .forEach(menu => {
+
+                        if (menu !== currentMenu) {
+                            menu.classList.add('hidden');
+                        }
+
+                    });
+
+                document.querySelectorAll('.sidebar-arrow')
+                    .forEach(arrow => {
+
+                        if (arrow !== currentArrow) {
+                            arrow.classList.remove('rotate-90');
+                        }
+
+                    });
+
+                currentMenu.classList.toggle('hidden');
+                currentArrow.classList.toggle('rotate-90');
+
+            });
+
+        });
+
+    });
+</script>
 
 </html>

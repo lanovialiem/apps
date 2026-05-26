@@ -1,272 +1,141 @@
-<!DOCTYPE html>
-<html lang="en">
+<nav class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Niteksindo | Elcoblast</title>
+    <div class="w-full px-4">
 
-    @vite(['src/input.css', 'src/script.js'])
-    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <div class="flex h-16 items-center">
 
-</head>
+            <!-- Mobile button -->
+            {{-- <div class="flex items-center sm:hidden">
+                <button type="button" command="--toggle" commandfor="mobile-menu"
+                    class="inline-flex items-center justify-center rounded-md p-2 text-gray-500 hover:bg-gray-100">
 
-<body>
-    {{-- <header class="bg-transparent absolute top-0 left-0 w-full flex items-center z-10">
-        <div class="container">
-            <div class="flex items-center justify-between relative">
-                <div class="px-4">
-                    <a href="/" class="font-bold text-lg text-primary block py-6">
-                        NMP
-                    </a>
-                </div>
-                <div class="flex items-center px-4">
-                    <button id="hamburger" name="hamburger" type="button" class="block absolute right-4 lg:hidden">
-                        <span class="hamburger-line transition duration-300 ease-in-out origin-top-left"></span>
-                        <span class="hamburger-line transition duration-300 ease-in-out"></span>
-                        <span class="hamburger-line transition duration-300 ease-in-out origin-bottom-left"></span>
-                    </button>
-                    <nav id="nav-menu"
-                        class="hidden absolute bg-white shadow-lg rounded-lg py-5 max-w-[250px] w-full right-4 top-full lg:block lg:static lg:bg-transparent lg:max-w-full lg:shadow-none lg:rounded-none">
-                        <ul class="block lg:flex">
-                            <li class="group">
-                                @can('view employee')
-                                    <a href="{{ route('employees.index') }}"
-                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                        Employees
-                                    </a>
-                                @endcan
-                            </li>
-                            <li class="group">
-                                @can('view medical checkup')
-                                    <a href="{{ route('medical_checkups.index') }}"
-                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                        MCU
-                                    </a>
-                                @endcan
-                            </li>
-                            <li class="group">
-                                @can('view offer')
-                                    <a href="{{ route('penawaran.index') }}"
-                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                        Penawaran
-                                    </a>
-                                @endcan
-                            </li>
-                            <li class="group">
-                                @can('view warehouse')
-                                    <a href="{{ route('warehouse.index') }}"
-                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                        Gudang
-                                    </a>
-                                @endcan
-                            </li>
-                            <li class="group">
-                                @can('view stock')
-                                    <a href="{{ route('stock.index') }}"
-                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                        Stok
-                                    </a>
-                                @endcan
-                            </li>
-                            <li class="group">
-                                @can('view stock movement')
-                                    <a href="{{ route('stock_movement.index') }}"
-                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                        Perpindahan Stok
-                                    </a>
-                                @endcan
-                            </li>
-                            <li class="group">
-                                @can('view product')
-                                    <a href="{{ route('product.index') }}"
-                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                        Produk
-                                    </a>
-                                @endcan
-                            </li>
-                            <li class="group">
-                                @can('view user')
-                                    <a href="{{ route('users.index') }}"
-                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                        Users
-                                    </a>
-                                @endcan
-                            </li>
-                            <li class="group">
-                                @can('view permissions')
-                                    <a href="{{ route('permissions.index') }}"
-                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                        Permissions
-                                    </a>
-                                @endcan
-                            </li>
-                            <li class="group">
-                                @can('view roles')
-                                    <a href="{{ route('roles.index') }}"
-                                        class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                        Roles
-                                    </a>
-                                @endcan
-                            </li>
-                            {{-- @if (Route::has('login'))
-                            <li class="group">
-                                <a href="{{ route('login') }}"
-                                    class="text-base text-dark py-2 mx-8 flex group-hover:text-primary">
-                                    Login
-                                </a>
-                            </li>
-                            @endif --}}
-    {{-- <li class="relative group">
-                                @auth
-                                    <button id="userDropdownBtn"
-                                        class="text-base text-dark py-2 mx-8 flex items-center gap-1 hover:text-primary">
-                                        😊 | Hi, {{ Auth::user()->name }}
-                                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2"
-                                            viewBox="0 0 24 24">
-                                            <path d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </button>
+                    <!-- Hamburger -->
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        class="size-6 in-aria-expanded:hidden">
 
-                                    <!-- Dropdown -->
-                                    <div id="userDropdown"
-                                        class="hidden absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
+                        <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
 
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                            class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                                            Logout
-                                        </a>
+                    <!-- Close -->
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        class="size-6 not-in-aria-expanded:hidden">
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                            class="hidden">
-                                            @csrf
-                                        </form>
-                                    </div>
-                                @endauth
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
+                        <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div> --}}
 
-    </header> --}}
+            <!-- Logo -->
+            <div class="flex items-center ml-3">
+                {{-- hamburger line --}}
+                <button type="button" id="sidebar-toggle"
+                    class="relative rounded-full p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
 
-    <header>
-        <!-- start: Navbar -->
-        <div
-            class="bg-white border-b border-gray-100 dark:text-white sticky top-0 left-0 z-30 flex items-center gap-3 px-4 py-3 shadow-md shadow-black/5"
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
 
-            {{-- <!-- Sidebar Toggle --> --}}
-            <button type="button" class="sidebar-toggle text-lg text-gray-600 lg:hidden">
-                <i class="ri-menu-line"></i>
-            </button>
-
-            <!-- Breadcrumb -->
-            <div class="hidden sm:flex items-center text-sm min-w-0">
-                <a href="#" class="text-gray-400 hover:text-gray-600 font-medium truncate">
-                    Dashboard
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                </button>
+                <a href="/" class="text-2xl font-bold text-indigo-600">
+                    Niteksindo
                 </a>
-                <span class="mx-2 text-gray-500">/</span>
-                <span class="text-gray-600 font-medium truncate">
-                    Analytics
-                </span>
             </div>
 
-            <!-- Right Menu -->
-            <div class="ml-auto flex items-center gap-2 sm:gap-3">
-
-                <!-- Search -->
-                <div class="dropdown relative">
-                    <button type="button"
-                        class="dropdown-toggle flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100">
-                        <i class="ri-search-line"></i>
-                    </button>
-
-                    <div
-                        class="dropdown-menu absolute right-0 mt-2 hidden w-[300px] max-w-[90vw] rounded-xl border border-gray-100 bg-white shadow-lg">
-
-                        <div class="p-4">
-                            <div class="relative">
-                                <input type="text" placeholder="Search..."
-                                    class="w-full rounded-lg border border-gray-200 bg-gray-50 py-2 pl-10 pr-4 text-sm outline-none focus:border-blue-500">
-
-                                <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+            <!-- Right -->
+            <div class="ml-auto flex items-center gap-3">
 
                 <!-- Notification -->
-                <div class="dropdown relative">
-                    <button type="button"
-                        class="dropdown-toggle flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100">
-                        <i class="ri-notification-3-line"></i>
+                <button type="button"
+                    class="relative rounded-full p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="size-6">
+
+                        <path
+                            d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+
+                <!-- Profile -->
+                <div x-data="{ open: false }" class="relative">
+
+                    <!-- Button -->
+                    <button @click="open = !open" class="flex rounded-full hover:bg-gray-100 hover:text-gray-700">
+                        <img <img src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" 
+                        class="mr-2 mt-2 size-10 rounded-sm border border-gray-200 object-cover">
+
                     </button>
 
-                    <div
-                        class="dropdown-menu absolute right-0 mt-2 hidden w-[320px] max-w-[90vw] rounded-xl border border-gray-100 bg-white shadow-lg">
+                    <!-- Dropdown -->
+                    <div x-show="open" @click.away="open = false" x-transition
+                        class="absolute right-0 mt-2 w-56 overflow-hidden rounded-xl bg-white shadow-xl border border-gray-100 z-50">
 
-                        <div class="border-b p-4 font-semibold">
-                            Notifications
+                        <!-- User -->
+                        <div class="border-b px-4 py-3">
+                            <p class="text-sm text-gray-500">
+                                Signed in as
+                            </p>
+
+                            <p class="truncate text-sm font-semibold text-gray-800">
+                                {{ Auth::user()->name ?? 'User' }}
+                            </p>
                         </div>
 
-                        <div class="max-h-80 overflow-y-auto">
-                            <a href="#" class="flex items-center gap-3 p-4 hover:bg-gray-50">
-                                <img src="https://placehold.co/40x40" class="h-10 w-10 rounded-full object-cover">
+                        <!-- Menu -->
+                        {{-- <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            Profile
+                        </a>
 
-                                <div>
-                                    <div class="text-sm font-medium text-gray-700">
-                                        New Order
-                                    </div>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            Settings
+                        </a> --}}
 
-                                    <div class="text-xs text-gray-400">
-                                        from customer
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+                        <!-- Logout -->
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <button type="submit"
+                                class="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50">
+                                Logout
+                            </button>
+                        </form>
 
                     </div>
                 </div>
-
-                <!-- Profile -->
-                <div class="dropdown relative">
-                    <button type="button" class="dropdown-toggle flex items-center">
-                        <img src="https://placehold.co/40x40" class="h-9 w-9 rounded-full object-cover">
-                    </button>
-
-                    <ul
-                        class="dropdown-menu absolute right-0 mt-2 hidden w-44 rounded-xl border border-gray-100 bg-white py-2 shadow-lg">
-
-                        <li>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                                Profile
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                                Settings
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="block px-4 py-2 text-sm text-red-500 hover:bg-red-50">
-                                Logout
-                            </a>
-                        </li>
-
-                    </ul>
-                </div>
-
             </div>
-        </div>
-        <!-- end: Navbar -->
-    </header>
 
-    <script src="src/script.js"></script>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    {{-- <el-disclosure id="mobile-menu" hidden class="block border-t border-gray-200 bg-white sm:hidden">
+
+        <div class="space-y-1 px-2 py-3">
+
+            @can('view employee')
+                <a href="{{ route('employees.index') }}"
+                    class="block rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">
+                    Employees
+                </a>
+            @endcan
+
+            @can('view medical checkup')
+                <a href="{{ route('medical_checkups.index') }}"
+                    class="block rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">
+                    MCU
+                </a>
+            @endcan
+
+            @can('view warehouse')
+                <a href="{{ route('warehouse.index') }}"
+                    class="block rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">
+                    Warehouse
+                </a>
+            @endcan
+
+        </div>
+    </el-disclosure> --}}
+</nav>

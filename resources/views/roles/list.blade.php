@@ -6,7 +6,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <!-- TITLE -->
-            <h1 class="text-2xl font-bold text-white-800">Roles</h1>
+            <h1 class="m-10 text-2xl font-bold text-white-800">Roles</h1>
 
             <!-- SUCCESS MESSAGE -->
             @if (session('success'))
@@ -71,31 +71,11 @@
                             <form action="{{ route('approval_levels.store') }}" method="POST">
                                 @csrf
                                 <div class="px-8 py-6 space-y-6">
-                                    {{-- NAME --}}
-                                    <div>
-
-                                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">
-                                            Nama Approval
-                                        </label>
-
-                                        <input type="text" name="name" id="name" value="{{ old('name') }}"
-                                            placeholder="Masukkan nama approval"
-                                            class="w-full rounded-2xl border border-gray-300 bg-gray-50 px-4 py-3 text-gray-800 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-
-                                        @error('name')
-                                            <p class="mt-2 text-xs text-red-500">
-                                                {{ $message }}
-                                            </p>
-                                        @enderror
-
-                                    </div>
 
                                     {{-- GRID --}}
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
                                         {{-- LEVEL --}}
                                         <div>
-
                                             <label for="level" class="block text-sm font-semibold text-gray-700 mb-2">
                                                 Level
                                             </label>
@@ -109,14 +89,11 @@
                                                     {{ $message }}
                                                 </p>
                                             @enderror
-
                                         </div>
 
                                         {{-- ROLE --}}
                                         <div>
-
                                             <label for="role" class="block text-sm font-semibold text-gray-700 mb-2">
-
                                                 Role
                                             </label>
 
@@ -129,11 +106,8 @@
                                                     {{ $message }}
                                                 </p>
                                             @enderror
-
                                         </div>
-
                                     </div>
-
                                 </div>
 
                                 {{-- FOOTER --}}
@@ -142,14 +116,12 @@
                                     {{-- CANCEL --}}
                                     <button type="button" command="close" commandfor="dialog"
                                         class="rounded-xl bg-white px-5 py-2.5 text-sm font-medium text-gray-700 border border-gray-300 hover:bg-gray-100 transition">
-
                                         Cancel
                                     </button>
 
                                     {{-- SUBMIT --}}
                                     <button type="submit"
                                         class="rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-blue-700 transition">
-
                                         Save Approval
                                     </button>
 
@@ -202,6 +174,56 @@
 
                                 <!-- DELETE -->
                                 <form action="{{ route('roles.destroy', $role->id) }}" method="POST" class="inline-block">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="submit" onclick="return confirm('Are you sure?')"
+                                        class="inline-flex items-center px-3 py-1.5 text-sm font-medium 
+            text-white bg-red-600 rounded-md hover:bg-red-700 
+            transition duration-200 shadow-sm">
+                                        Delete
+                                    </button>
+                                </form>
+
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+
+            </table>
+
+            <h1 class="m-10 text-2xl font-bold text-white-800">Add Level</h1>
+
+            <!-- TABLE -->
+            <table class="min-w-full bg-white border border-gray-200">
+                <thead>
+                    <tr class="bg-gray-50 text-gray-700 uppercase text-sm leading-normal">
+                        <th class="py-2 px-4 border-b">No</th>
+                        <th class="py-2 px-4 border-b">Name</th>
+                        <th class="py-2 px-4 border-b">Level</th>
+                        <th class="py-2 px-4 border-b">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach ($approvalLevels as $role)
+                        <tr class="bg-gray-50 text-gray-700 uppercase text-sm leading-normal">
+                            <td class="py-2 px-4 border-b">{{ $loop->iteration }}</td>
+                            {{-- <td class="py-2 px-4 border-b">{{ $role->role->name }}</td> --}}
+                            <td class="py-2 px-4 border-b">{{ $role->level }}</td>
+                            <td class="py-2 px-4 border-b space-x-2">
+
+                                <!-- EDIT -->
+                                {{-- <a href="{{ route('approval_levels.edit', $role->id) }}"
+                                    class="inline-flex items-center px-3 py-1.5 text-sm font-medium 
+        text-white bg-blue-600 rounded-md hover:bg-blue-700 
+        transition duration-200 shadow-sm">
+                                    Edit
+                                </a> --}}
+
+                                <!-- DELETE -->
+                                <form action="{{ route('approval_levels.destroy', $role->id) }}" method="POST"
+                                    class="inline-block">
                                     @csrf
                                     @method('DELETE')
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApprovalLevel;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -17,7 +18,8 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::all();
-        return view('roles.list', compact('roles'));
+        $approvalLevels = ApprovalLevel::with('role')->get();
+        return view('roles.list', compact('roles', 'approvalLevels'));
     }
 
     public function create()

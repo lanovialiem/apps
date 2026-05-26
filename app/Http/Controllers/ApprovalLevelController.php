@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ApprovalLevel;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class ApprovalLevelController extends Controller
 {
@@ -13,7 +14,7 @@ class ApprovalLevelController extends Controller
     public function index()
     {
         $approvalLevels = ApprovalLevel::all();
-        return view('approval_levels.index', compact('approvalLevels'));
+        return view('roles.index', compact('approvalLevels'));
     }
 
     /**
@@ -21,7 +22,8 @@ class ApprovalLevelController extends Controller
      */
     public function create()
     {
-        return view('approval_levels.create');
+        $roles = Role::all();
+        return view('approval_levels.create', compact('roles'));
     }
 
     /**
@@ -29,6 +31,17 @@ class ApprovalLevelController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'level' => 'required|integer|min:1',
+            'role' => 'required|exists:roles,id'
+        ]);
+
+        ApprovalLevel::create($request);
+
+
+        // Table Role
+        return redirect()->route('roles.index')
+            ->with('success', 'Role created successfully.');
     }
 
     /**
@@ -60,6 +73,9 @@ class ApprovalLevelController extends Controller
      */
     public function destroy(ApprovalLevel $approvalLevel)
     {
-        //
+        $approvalLevel->delete();
+
+        return redirect()->route('roles.index')
+            ->with('success', 'Approval level deleted successfully.');
     }
 }
