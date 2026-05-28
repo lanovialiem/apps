@@ -14,7 +14,7 @@ class ApprovalLevelController extends Controller
     public function index()
     {
         $approvalLevels = ApprovalLevel::all();
-        return view('roles.index', compact('approvalLevels'));
+        return view('roles.list', compact('approvalLevels'));
     }
 
     /**
@@ -33,17 +33,17 @@ class ApprovalLevelController extends Controller
     {
         $request->validate([
             'level' => 'required|integer|min:1',
-            'role' => 'required|exists:roles,id'
+            'role_id' => 'required|exists:roles,id'
         ]);
 
-        ApprovalLevel::create($request);
+        ApprovalLevel::create([
+            'level' => $request->level,
+            'role_id' => $request->role_id
+        ]);
 
-
-        // Table Role
         return redirect()->route('roles.index')
-            ->with('success', 'Role created successfully.');
+            ->with('success', 'Approval level created successfully.');
     }
-
     /**
      * Display the specified resource.
      */

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('approval_levels', function (Blueprint $table) {
             $table->id();
             $table->integer('level');
-            $table->string('role');
+            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
             $table->timestamps();
         });
     }

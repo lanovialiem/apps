@@ -68,12 +68,13 @@
                             </div>
 
                             {{-- FORM --}}
-                            <form action="{{ route('approval_levels.store') }}" method="POST">
+                            <form id="add-level-form" action="{{ route('approval_levels.store') }}" method="POST">
                                 @csrf
                                 <div class="px-8 py-6 space-y-6">
 
                                     {{-- GRID --}}
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
                                         {{-- LEVEL --}}
                                         <div>
                                             <label for="level" class="block text-sm font-semibold text-gray-700 mb-2">
@@ -82,51 +83,58 @@
 
                                             <input type="number" name="level" id="level" min="1"
                                                 value="{{ old('level') }}" placeholder="Masukkan level"
-                                                class="w-full rounded-2xl border border-gray-300 bg-gray-50 px-4 py-3 text-gray-800 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                                class="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 text-gray-800 shadow-sm
+                   focus:border-blue-500 focus:ring-blue-500 focus:outline-none transition">
 
                                             @error('level')
-                                                <p class="mt-2 text-xs text-red-500">
-                                                    {{ $message }}
-                                                </p>
+                                                <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                                             @enderror
                                         </div>
 
                                         {{-- ROLE --}}
                                         <div>
-                                            <label for="role" class="block text-sm font-semibold text-gray-700 mb-2">
+                                            <label for="role_id" class="block text-sm font-semibold text-gray-700 mb-2">
                                                 Role
                                             </label>
 
-                                            <input type="text" name="role" id="role" value="{{ old('role') }}"
-                                                placeholder="Masukkan role"
-                                                class="w-full rounded-2xl border border-gray-300 bg-gray-50 px-4 py-3 text-gray-800 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                            <select name="role_id" id="role_id" value="{{ old('role_id') }}"
+                                                class="w-full appearance-none rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-700 shadow-sm
+                   focus:border-blue-500 focus:ring-blue-500 focus:outline-none transition">
 
-                                            @error('role')
-                                                <p class="mt-2 text-xs text-red-500">
-                                                    {{ $message }}
-                                                </p>
+                                                <option value="" disabled selected>
+                                                    Select Role
+                                                </option>
+
+                                                @foreach ($roles as $role)
+                                                    <option value="{{ $role->id }}">
+                                                        {{ $role->name }}
+                                                    </option>
+                                                @endforeach
+
+                                            </select>
+
+                                            @error('role_id')
+                                                <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                                             @enderror
                                         </div>
+
                                     </div>
-                                </div>
 
-                                {{-- FOOTER --}}
-                                <div class="flex items-center justify-end gap-3 border-t bg-gray-50 px-8 py-5">
+                                    {{-- FOOTER --}}
+                                    <div class="flex items-center justify-end gap-3 border-t bg-gray-50 px-8 py-5">
 
-                                    {{-- CANCEL --}}
-                                    <button type="button" command="close" commandfor="dialog"
-                                        class="rounded-xl bg-white px-5 py-2.5 text-sm font-medium text-gray-700 border border-gray-300 hover:bg-gray-100 transition">
-                                        Cancel
-                                    </button>
+                                        {{-- CANCEL --}}
+                                        <button type="button" command="close" commandfor="dialog"
+                                            class="rounded-xl bg-white px-5 py-2.5 text-sm font-medium text-gray-700 border border-gray-300 hover:bg-gray-100 transition">
+                                            Cancel
+                                        </button>
 
-                                    {{-- SUBMIT --}}
-                                    <button type="submit"
-                                        class="rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-blue-700 transition">
-                                        Save Approval
-                                    </button>
-
-                                </div>
-
+                                        {{-- SUBMIT --}}
+                                        <button type="submit"
+                                            class="rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-blue-700 transition">
+                                            Save Approval
+                                        </button>
+                                    </div>
                             </form>
 
                         </el-dialog-panel>
@@ -176,7 +184,6 @@
                                 <form action="{{ route('roles.destroy', $role->id) }}" method="POST" class="inline-block">
                                     @csrf
                                     @method('DELETE')
-
                                     <button type="submit" onclick="return confirm('Are you sure?')"
                                         class="inline-flex items-center px-3 py-1.5 text-sm font-medium 
             text-white bg-red-600 rounded-md hover:bg-red-700 
@@ -184,66 +191,143 @@
                                         Delete
                                     </button>
                                 </form>
-
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
-
             </table>
-
             <h1 class="m-10 text-2xl font-bold text-white-800">Add Level</h1>
 
             <!-- TABLE -->
-            <table class="min-w-full bg-white border border-gray-200">
-                <thead>
-                    <tr class="bg-gray-50 text-gray-700 uppercase text-sm leading-normal">
-                        <th class="py-2 px-4 border-b">No</th>
-                        <th class="py-2 px-4 border-b">Name</th>
-                        <th class="py-2 px-4 border-b">Level</th>
-                        <th class="py-2 px-4 border-b">Action</th>
-                    </tr>
-                </thead>
+            <div class="overflow-x-auto rounded-2xl border border-gray-200 shadow-sm bg-white">
 
-                <tbody>
-                    @foreach ($approvalLevels as $role)
-                        <tr class="bg-gray-50 text-gray-700 uppercase text-sm leading-normal">
-                            <td class="py-2 px-4 border-b">{{ $loop->iteration }}</td>
-                            {{-- <td class="py-2 px-4 border-b">{{ $role->role->name }}</td> --}}
-                            <td class="py-2 px-4 border-b">{{ $role->level }}</td>
-                            <td class="py-2 px-4 border-b space-x-2">
-
-                                <!-- EDIT -->
-                                {{-- <a href="{{ route('approval_levels.edit', $role->id) }}"
-                                    class="inline-flex items-center px-3 py-1.5 text-sm font-medium 
-        text-white bg-blue-600 rounded-md hover:bg-blue-700 
-        transition duration-200 shadow-sm">
-                                    Edit
-                                </a> --}}
-
-                                <!-- DELETE -->
-                                <form action="{{ route('approval_levels.destroy', $role->id) }}" method="POST"
-                                    class="inline-block">
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button type="submit" onclick="return confirm('Are you sure?')"
-                                        class="inline-flex items-center px-3 py-1.5 text-sm font-medium 
-            text-white bg-red-600 rounded-md hover:bg-red-700 
-            transition duration-200 shadow-sm">
-                                        Delete
-                                    </button>
-                                </form>
-
-                            </td>
+                <table class="min-w-full divide-y divide-gray-200">
+                    {{-- HEADER --}}
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                No
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Name
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Level
+                            </th>
+                            <th class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Action
+                            </th>
                         </tr>
-                    @endforeach
-                </tbody>
+                    </thead>
 
-            </table>
+                    {{-- BODY --}}
+                    <tbody class="bg-white divide-y divide-gray-100">
+                        @foreach ($approvalLevels as $item)
+                            <tr class="hover:bg-gray-50 transition">
+                                {{-- NO --}}
+                                <td class="px-6 py-4 text-sm text-gray-700">
+                                    {{ $loop->iteration }}
+                                </td>
+                                {{-- NAME --}}
+                                <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                                    {{ $item->role->name ?? '-' }}
+                                </td>
+                                {{-- LEVEL --}}
+                                <td class="px-6 py-4 text-sm text-gray-700">
+                                    <span
+                                        class="inline-flex px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold">
+                                        Level {{ $item->level }}
+                                    </span>
+                                </td>
 
+                                {{-- ACTION --}}
+                                <td class="px-6 py-4 text-center">
+                                    <form action="{{ route('approval_levels.destroy', $item->id) }}" method="POST"
+                                        class="inline-block" onsubmit="return confirm('Are you sure?')">
+
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="inline-flex items-center px-3 py-1.5 text-xs font-semibold text-white bg-red-500 rounded-lg hover:bg-red-600 transition">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-@endsection
+    @endsection
 
-{{-- @include('layout.footer') --}}
+    {{-- @include('layout.footer') --}}
+    @push('scripts')
+        <script>
+            $(document).ready(function() {
+                // MODAL
+                const dialog = document.getElementById('dialog');
+
+                // OPEN MODAL
+                $('[command="show-modal"]').on('click', function() {
+                    dialog.showModal();
+                });
+
+                // CLOSE MODAL
+                $('[command="close"]').on('click', function() {
+                    dialog.close();
+                });
+
+                // FORM SUBMIT
+                $('#add-level-form').on('submit', function(e) {
+                    e.preventDefault();
+
+                    $.ajax({
+                        url: {{ route('approval_levels.store') }},
+                        method: "POST",
+                        data: $(this).serialize(),
+
+                        success: function(response) {
+
+                            alert('✅ Approval level berhasil disimpan');
+
+                            console.log(response);
+
+                            // RESET FORM
+                            $('#add-level-form')[0].reset();
+
+                            // CLOSE MODAL
+                            dialog.close();
+
+                            // OPTIONAL RELOAD
+                            location.reload();
+
+                            /*
+                            kalau tidak mau reload,
+                            append row ke table pakai JS
+                            */
+                        },
+
+                        error: function(xhr) {
+
+                            console.log(xhr);
+
+                            // VALIDATION ERROR
+                            if (xhr.status === 422) {
+                                let errors = xhr.responseJSON.errors;
+                                let errorMessage = '';
+                                $.each(errors, function(key, value) {
+                                    errorMessage += '• ' + value[0] + '\n';
+                                });
+                                alert(errorMessage);
+
+                            } else {
+                                alert('❌ Terjadi kesalahan server');
+                            }
+                        }
+                    });
+                });
+
+            });
+        </script>
+    @endpush

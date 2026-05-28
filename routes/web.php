@@ -28,8 +28,8 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
 
+*/
 Route::middleware('auth')->group(function () {
     Route::get('/welcome', function () {
         return view('welcome.welcome');

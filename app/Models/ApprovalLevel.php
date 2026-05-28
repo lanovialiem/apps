@@ -12,7 +12,7 @@ class ApprovalLevel extends Model
 
     protected $fillable = [
         'level',
-        'role'
+        'role_id'
     ];
 
     public function approvals()
