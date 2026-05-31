@@ -72,6 +72,28 @@ class RoleHasPermissionSeeder extends Seeder
             'delete offer',
         ]);
 
+        $manager = Role::create(['name' => 'Manager']);
+        $manager->givePermissionTo([
+            'view approval',
+            'create approval',
+            'edit approval',
+            'delete approval',
+            
+            'view offer',
+            'view product',
+        ]);
+
+        $director = Role::create(['name' => 'Director']);
+        $director->givePermissionTo([
+            'view approval',
+            'create approval',
+            'edit approval',
+            'delete approval',
+            
+            'view offer',
+            'view product',
+        ]);
+
         // Super Admin
         $superAdmin = Role::create(['name' => 'Super Admin']);
         $superAdmin->givePermissionTo(Permission::all());

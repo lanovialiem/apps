@@ -38,7 +38,7 @@ class ApprovalLevelController extends Controller
 
         ApprovalLevel::create([
             'level' => $request->level,
-            'role_id' => $request->role_id
+            'role_id' => $request->role_id,
         ]);
 
         return redirect()->route('roles.index')

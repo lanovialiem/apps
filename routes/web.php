@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 |
 
 */
+
 Route::middleware('auth')->group(function () {
     Route::get('/welcome', function () {
         return view('welcome.welcome');
@@ -74,6 +75,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/penawaran/{id}/history', [ApprovalController::class, 'history'])->name('approval.history');
 
     Route::resource('approval_levels', ApprovalLevelController::class); //->middleware('permission:view approval level|create approval level|edit approval level|delete approval level');
+    // Route::post('/penawaran/{id}/approve', [ApprovalController::class, 'approve'])
+    //     ->name('approvals.approve');
+
+    // Route::post('/penawaran/{id}/reject', [ApprovalController::class, 'reject'])
+    //     ->name('approvals.reject');
 });
 
 

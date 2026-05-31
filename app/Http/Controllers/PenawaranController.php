@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Approval;
+use App\Models\ApprovalLevel;
 use App\Models\OrderProduct;
 use App\Models\Penawaran;
 use App\Models\Product;
@@ -24,10 +26,11 @@ class PenawaranController extends Controller
      */
     public function index()
     {
-        $penawaran = Penawaran::all();
-        $orderProducts = Penawaran::with('orderProducts')->get();
+        $penawaran = Penawaran::latest()->get();
+        $orderProducts = Penawaran::with('orderProducts')->latest()->get();
         $products = Product::all()->keyBy('id');
-        return view('penawaran.index', compact('penawaran', 'orderProducts', 'products'));
+        $approvals = Approval::with('penawaran')->latest()->get();
+        return view('penawaran.index', compact('penawaran', 'orderProducts', 'products', 'approvals'));
     }
 
     /**
@@ -39,8 +42,38 @@ class PenawaranController extends Controller
         $penawaran = Penawaran::all();
         $products = Product::all();
         $projectList = ProjectList::all();
-        $offerNumber = "Penawaran_" . rand(min: 10000, max: 19999999999);
+        $offerNumber = $this->generateOfferNumber();
+
         return view('penawaran.form', compact(['penawaran', 'projectList', 'offerNumber', 'products', 'orderProducts']));
+    }
+
+    private function generateOfferNumber()
+    {
+        $romanMonth = [
+            1 => 'I',
+            2 => 'II',
+            3 => 'III',
+            4 => 'IV',
+            5 => 'V',
+            6 => 'VI',
+            7 => 'VII',
+            8 => 'VIII',
+            9 => 'IX',
+            10 => 'X',
+            11 => 'XI',
+            12 => 'XII'
+        ];
+
+        do {
+            $number = random_int(1, 5000);
+            $month = $romanMonth[date('n')];
+            $year = date('Y');
+            $unique = strtoupper(substr(uniqid(), -4));
+
+            $offerNumber = $number . "/NMP/" . $month . "/" . $year . "/" . $unique;
+        } while (Penawaran::where('offer_number', $offerNumber)->exists());
+
+        return $offerNumber;
     }
 
     /**
@@ -71,9 +104,12 @@ class PenawaranController extends Controller
 
         // SAVE MAIN PENAWARAN
         $penawaran = Penawaran::create([
+            'user_id' => auth()->id(),
             'company_name' => $request->company_name,
             'customer_name' => $request->customer_name,
             'customer_email' => $request->customer_email,
+            'offer_number' => $this->generateOfferNumber(),
+            'status' => 'pending',
         ]);
 
         // SAVE PRODUCTS
@@ -85,9 +121,28 @@ class PenawaranController extends Controller
             ]);
         }
 
+        $levels = ApprovalLevel::with('role')
+            ->orderBy('level')
+            ->get();
+
+        foreach ($levels as $index => $level) {
+
+            Approval::create([
+                'penawaran_id' => $penawaran->id,
+                'approval_level_id' => $level->id,
+                'user_id' => $penawaran->user->id,
+                'role' => $level->role->name,
+                'description' => null,
+                'sequence' => $index + 1,
+                'status' => $index == 0
+                    ? 'pending'
+                    : 'waiting',
+            ]);
+        }
+
         return response()->json([
             'success' => true,
-            'message' => 'Data berhasil disimpan'
+            'message' => 'Data berhasil disimpan',
         ]);
     }
 
@@ -111,7 +166,7 @@ class PenawaranController extends Controller
         $penawaran = Penawaran::with('orderProducts.product')
             ->findOrFail($id);
 
-        return response()->json($penawaran); 
+        return response()->json($penawaran);
     }
 
     /**

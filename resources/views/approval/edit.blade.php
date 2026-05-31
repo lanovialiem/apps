@@ -1,192 +1,201 @@
-@include('layout.header')
-<div class="container mx-auto pt-32 px-4">
+@extends('welcome.welcome')
 
-    <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3 mt-5">
-        <h3 class="text-2xl font-semibold text-blue-600">
-            Penawaran
-        </h3>
+@section('content')
+<div class="min-h-screen py-10 px-4 bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100">
 
-        @can('create offer')
-            <a href="{{ route('penawaran.create') }}"
-                class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
-                + Add Penawaran
-            </a>
-        @endcan
-    </div>
+    <div class="max-w-3xl mx-auto">
 
-    <!-- Card -->
-    <div class="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-200">
+        {{-- Card --}}
+        <div class="bg-white rounded-[28px] shadow-2xl border border-gray-100 overflow-hidden">
 
-        <!-- Title -->
-        <div class="px-6 py-4 border-b">
-            <h5 class="text-lg font-semibold text-gray-700">
-                List Penawaran
-            </h5>
-        </div>
+            {{-- Header --}}
+            <div class="bg-gradient-to-r from-blue-700 via-indigo-600 to-blue-500 px-8 py-6">
 
-        <!-- Table -->
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm text-gray-600">
+                <h1 class="text-2xl font-bold text-white">
+                    Edit Approval
+                </h1>
 
-                <!-- Head -->
-                <thead class="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider text-center">
-                    <tr>
-                        <th class="px-4 py-3 w-[50px]">
-                            No
-                        </th>
-                        <th class="px-4 py-3 text-left">
-                            Company Name
-                        </th>
-                        <th class="px-4 py-3 text-left">
-                            Customer Name
-                        </th>
-                        <th class="px-4 py-3 text-left">
-                            Customer Email
-                        </th>
-                        <th class="px-4 py-3 text-left">
-                            Products
-                        </th>
-                        <th class="px-4 py-3 text-center">
-                            Status
-                        </th>
-                        <th class="px-4 py-3 text-center">
-                            Action
-                        </th>
-                    </tr>
-                </thead>
+                <p class="text-blue-100 text-sm mt-1">
+                    Ubah status approval penawaran
+                </p>
 
-                <!-- Body -->
-                <tbody class="divide-y">
+            </div>
 
-                    @forelse ($penawaran as $key => $item)
-                        <tr class="hover:bg-blue-50 transition">
+            {{-- Body --}}
+            <div class="p-8">
 
-                            <!-- No -->
-                            <td class="px-4 py-3 text-center">
-                                {{ $key + 1 }}
-                            </td>
+                <form action="{{ route('approvals.update', $approval->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
 
-                            <!-- Company -->
-                            <td class="px-4 py-3 font-medium text-gray-800">
-                                {{ $item->company_name }}
-                            </td>
+                    {{-- Info --}}
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-600 mb-2">
+                            Company
+                        </label>
 
-                            <!-- Customer -->
-                            <td class="px-4 py-3">
-                                {{ $item->customer_name }}
-                            </td>
+                        <div class="px-4 py-3 rounded-xl bg-gray-50 border text-gray-700">
+                            {{ $approval->penawaran->company_name ?? '-' }}
+                        </div>
+                    </div>
 
-                            <!-- Email -->
-                            <td class="px-4 py-3">
-                                {{ $item->customer_email }}
-                            </td>
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-600 mb-2">
+                            Nomor
+                        </label>
 
-                            <!-- Product Details -->
-                            <td class="px-4 py-3">
-                                @forelse ($item->orderProducts as $index => $order)
-                                    <div
-                                        class="flex items-center justify-between gap-4 px-4 py-2 mb-2 rounded-xl bg-gray-50 border border-gray-100">
-                                        <!-- Product Name -->
-                                        <div class="flex items-start gap-2">
-                                            <span class="text-xs font-semibold text-blue-600 mt-0.5">
-                                                {{ $index + 1 }}.
+                        <div class="px-4 py-3 rounded-xl bg-gray-50 border text-gray-700">
+                            {{ $approval->penawaran->offer_number ?? '-' }}
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-600 mb-2">
+                            Customer
+                        </label>
+
+                        <div class="px-4 py-3 rounded-xl bg-gray-50 border text-gray-700">
+                            {{ $approval->penawaran->customer_name ?? '-' }}
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-600 mb-2">
+                            Email
+                        </label>
+
+                        <div class="px-4 py-3 rounded-xl bg-gray-50 border text-gray-700">
+                            {{ $approval->penawaran->customer_email ?? '-' }}
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+
+                        <label class="block text-sm font-semibold text-gray-600 mb-2">
+                            Product Details
+                        </label>
+
+                        <div class="rounded-xl border bg-gray-50 overflow-hidden">
+
+                            <table class="w-full text-sm text-left">
+
+                                <thead class="bg-gray-100 text-gray-600 text-xs uppercase tracking-wider">
+                                    <tr>
+                                        <th class="px-4 py-3 w-12">#</th>
+                                        <th class="px-4 py-3">Product Name</th>
+                                        <th class="px-4 py-3 w-40 text-center">Quantity</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="divide-y divide-gray-200">
+
+                                    @forelse ($approval->penawaran->orderProducts ?? [] as $index => $order)
+
+                                    <tr class="hover:bg-white transition">
+
+                                        {{-- Number --}}
+                                        <td class="px-4 py-3 font-semibold text-gray-600">
+                                            {{ $index + 1 }}
+                                        </td>
+
+                                        {{-- Product Name --}}
+                                        <td class="px-4 py-3 text-gray-700">
+                                            {{ $order->product->product_name ?? '-' }}
+                                        </td>
+
+                                        {{-- Quantity --}}
+                                        <td class="px-4 py-3 text-center">
+                                            <span
+                                                class="px-3 py-1 rounded-lg bg-blue-100 text-blue-700 text-xs font-semibold">
+                                                {{ $order->quantity }}
                                             </span>
-                                            <span class="text-sm text-gray-700">
-                                                {{ $order->product->product_name ?? '-' }}
-                                            </span>
-                                        </div>
+                                        </td>
 
-                                        <!-- Quantity -->
-                                        <div
-                                            class="min-w-[60px] text-center px-3 py-1 rounded-lg bg-blue-100 text-blue-700 text-xs font-semibold">
-                                            Qty: {{ $order->quantity }}
-                                        </div>
-                                    </div>
-                                @empty
-                                    <span class="text-gray-400 text-sm">
-                                        No Product
-                                    </span>
-                                @endforelse
-                            </td>
+                                    </tr>
 
-                            <!-- Status -->
-                            <td class="px-4 py-3">
+                                    @empty
 
-                                <form action="{{ route('approval.update', $item->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
+                                    <tr>
+                                        <td colspan="3" class="px-4 py-6 text-center text-gray-400">
+                                            No Product Available
+                                        </td>
+                                    </tr>
 
-                                    <select name="status" onchange="this.form.submit()"
-                                        class="px-3 py-2 rounded-lg border text-xs font-semibold cursor-pointer transition-all duration-200
-            @if ($item->status == 'pending') bg-yellow-100 text-yellow-700 border-yellow-300
-            @elseif($item->status == 'approved')
-                bg-green-100 text-green-700 border-green-300
-            @elseif($item->status == 'rejected')
-                bg-red-100 text-red-700 border-red-300
-            @else
-                bg-gray-100 text-gray-500 border-gray-300 @endif
-        ">
-                                        <option value="pending" {{ $item->status == 'pending' ? 'selected' : '' }}>
-                                            Pending
-                                        </option>
-                                        <option value="approved" {{ $item->status == 'approved' ? 'selected' : '' }}>
-                                            Approved
-                                        </option>
-                                        <option value="rejected" {{ $item->status == 'rejected' ? 'selected' : '' }}>
-                                            Rejected
-                                        </option>
-                                    </select>
-                                </form>
-                            </td>
+                                    @endforelse
 
-                            <!-- Action -->
-                            <td class="px-4 py-3">
-                                <div class="flex justify-center gap-2">
-                                    <!-- Detail -->
-                                    {{-- <a href="{{ route('penawaran.show', $item->id) }}"
-                                        class="px-3 py-1.5 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 shadow">
-                                        Detail
-                                    </a>
+                                </tbody>
+                            </table>
 
-                                    @can('edit offer')
-                                        <!-- Edit -->
-                                        <a href="{{ route('penawaran.edit', $item->id) }}"
-                                            class="px-3 py-1.5 text-xs text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow">
-                                            Edit
-                                        </a>
-                                    @endcan --}}
+                        </div>
+                    </div>
 
-                                    @can('delete offer')
-                                        <!-- Delete -->
-                                        <form action="{{ route('penawaran.destroy', $item->id) }}" method="POST"
-                                            onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                    {{-- Role --}}
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold text-gray-600 mb-2">
+                            Role
+                        </label>
 
-                                            @csrf
-                                            @method('DELETE')
+                        <div class="px-4 py-3 rounded-xl bg-indigo-50 text-indigo-700 border font-semibold">
+                            {{ $approval->role }}
+                        </div>
+                    </div>
 
-                                            <button type="submit"
-                                                class="px-3 py-1.5 text-xs text-white bg-red-500 rounded-lg hover:bg-red-600 shadow">
-                                                Hapus
-                                            </button>
-                                        </form>
-                                    @endcan
-                                </div>
-                            </td>
-                        </tr>
+                    {{-- Status --}}
+                    <div class="mb-8">
+                        <label class="block text-sm font-semibold text-gray-600 mb-2">
+                            Status Approval
+                        </label>
 
-                    @empty
-                        <tr>
-                            <td colspan="7" class="text-center py-6 text-gray-400">
-                                No data available.
-                            </td>
-                        </tr>
-                    @endforelse
+                        @php
+                        $status = strtolower($approval->status ?? '');
+                        @endphp
 
-                </tbody>
-            </table>
+                        <select name="status" class="w-full px-4 py-3 rounded-xl border text-sm font-semibold cursor-pointer transition
+                            @if($status == 'pending') bg-yellow-50 text-yellow-700
+                            @elseif($status == 'waiting') bg-gray-50 text-gray-700 
+                            @elseif($status == 'approved') bg-green-50 text-green-700 
+                            @elseif($status == 'rejected') bg-red-50 text-red-700 
+                            @endif
+                            ">
+                            {{--
+                            <option value="pending" {{ $status=='pending' ? 'selected' : '' }}>
+                                Pending
+                            </option>
+
+                            <option value="waiting" {{ $status=='waiting' ? 'selected' : '' }}>
+                                Waiting
+                            </option> --}}
+
+                            <option value="approved" {{ $status=='approved' ? 'selected' : '' }}>
+                                Approved
+                            </option>
+
+                            <option value="rejected" {{ $status=='rejected' ? 'selected' : '' }}>
+                                Rejected
+                            </option>
+
+                        </select>
+                    </div>
+
+                    {{-- Buttons --}}
+                    <div class="flex justify-end gap-3">
+
+                        <a href="{{ route('approvals.index') }}"
+                            class="px-5 py-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 transition">
+                            Cancel
+                        </a>
+
+                        <button type="submit"
+                            class="px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 shadow transition">
+                            save
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
         </div>
     </div>
 </div>
-
-@include('layout.footer')
+@endsection

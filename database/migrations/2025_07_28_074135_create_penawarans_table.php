@@ -13,9 +13,14 @@ return new class extends Migration
     {
         Schema::create('penawarans', function (Blueprint $table) {
             $table->id();
+            $table->string('offer_number')->unique();
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->string('company_name');
             $table->string('customer_name')->nullable();
             $table->string('customer_email')->nullable();
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }

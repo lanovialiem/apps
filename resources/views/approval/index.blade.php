@@ -23,10 +23,10 @@
                         </p>
                     </div>
 
-                    <a href="{{ route('approvals.create') }}"
+                    {{-- <a href="{{ route('approvals.create') }}"
                         class="bg-white text-blue-700 font-semibold px-5 py-3 rounded-2xl shadow hover:bg-blue-50 transition">
                         + Tambah Approval
-                    </a>
+                    </a> --}}
 
                 </div>
             </div>
@@ -36,24 +36,27 @@
 
                 <div class="overflow-x-auto rounded-3xl border border-gray-200">
 
-                    <table class="w-full text-sm text-left">
+                    <table class="min-w-full w-full text-base text-left whitespace-nowrap">
 
                         {{-- Table Head --}}
                         <thead
                             class="bg-gradient-to-r from-slate-800 to-slate-700 text-white uppercase text-xs tracking-wider">
 
                             <tr>
-
                                 <th class="px-6 py-5">
                                     #
                                 </th>
 
                                 <th class="px-6 py-5">
-                                    Company Name
+                                    Company
                                 </th>
 
                                 <th class="px-6 py-5">
-                                    Nama
+                                    No Letter
+                                </th>
+
+                                <th class="px-6 py-5">
+                                    Author
                                 </th>
 
                                 <th class="px-6 py-5">
@@ -68,8 +71,12 @@
                                     Status
                                 </th>
 
-                                <th class="px-6 py-5 text-center">
+                                {{-- <th class="px-6 py-5 text-center">
                                     Level
+                                </th> --}}
+
+                                <th class="px-6 py-5 text-center">
+                                    Sequence
                                 </th>
 
                                 <th class="px-6 py-5">
@@ -85,11 +92,8 @@
 
                         {{-- Table Body --}}
                         <tbody class="divide-y divide-gray-100">
-
                             @forelse ($approvals as $approval)
-
                             <tr class="hover:bg-blue-50/40 transition duration-200">
-
                                 {{-- ID --}}
                                 <td class="px-6 py-5 font-semibold text-gray-700">
                                     {{ $loop->iteration }}
@@ -99,15 +103,21 @@
                                 <td class="px-6 py-5">
                                     <span class="px-3 py-1 rounded-xl bg-blue-100 text-blue-700 text-xs font-bold">
 
-                                        #{{ $approval->penawaran->company_name ?? 'N/A' }}
+                                        {{ $approval->penawaran->company_name ?? 'N/A' }}
+                                    </span>
+                                </td>
+
+                                {{-- Nomor surat --}}
+                                <td class="px-6 py-5">
+                                    <span class="px-3 py-1 rounded-xl bg-blue-100 text-blue-700 text-xs font-bold">
+                                        {{ $approval->penawaran->offer_number ?? 'N/A' }}
                                     </span>
                                 </td>
 
                                 {{-- Name --}}
                                 <td class="px-6 py-5">
-
                                     <div class="font-semibold text-gray-800">
-                                        {{ $approval->name }}
+                                        {{ $approval->user->name ?? 'N/A'}}
                                     </div>
 
                                 </td>
@@ -129,29 +139,35 @@
 
                                 {{-- Status --}}
                                 <td class="px-6 py-5">
+                                    @php
+                                    $status = strtolower($approval->status ?? '');
+                                    @endphp
 
-                                    @if ($approval->status == 'approved')
-                                    <span class="px-3 py-1 rounded-xl bg-green-100 text-green-700 text-xs font-bold">
-                                        Approved
+                                    <span class="px-3 py-1 rounded-full text-xs font-semibold
+        @if($status === 'pending') bg-yellow-100 text-yellow-800
+        {{-- @elseif($status === 'waiting') bg-gray-100 text-gray-700 --}}
+        @elseif($status === 'approved') bg-green-100 text-green-700
+        @elseif($status === 'rejected') bg-red-100 text-red-700
+        @else bg-gray-100 text-gray-500
+        @endif
+    ">
+                                        {{ ucfirst($status ?: 'No Status available') }}
                                     </span>
-
-                                    @elseif ($approval->status == 'pending')
-                                    <span class="px-3 py-1 rounded-xl bg-yellow-100 text-yellow-700 text-xs font-bold">
-                                        Pending
-                                    </span>
-
-                                    @else
-                                    <span class="px-3 py-1 rounded-xl bg-red-100 text-red-700 text-xs font-bold">
-                                        Rejected
-                                    </span>
-                                    @endif
                                 </td>
 
                                 {{-- Level --}}
+                                {{-- <td class="px-6 py-5 text-center">
+                                    <span
+                                        class="w-9 h-9 inline-flex items-center justify-center rounded-full bg-slate-800 text-white font-bold text-sm">
+                                        {{ $approval->approval_level_id }}
+                                    </span>
+                                </td> --}}
+
+                                {{-- Sequence --}}
                                 <td class="px-6 py-5 text-center">
                                     <span
                                         class="w-9 h-9 inline-flex items-center justify-center rounded-full bg-slate-800 text-white font-bold text-sm">
-                                        {{ $approval->level }}
+                                        {{ $approval->sequence }}
                                     </span>
                                 </td>
 
@@ -165,16 +181,21 @@
                                     <div class="flex items-center justify-center gap-2">
 
                                         {{-- Detail --}}
-                                        <a href="{{ route('approvals.show', $approval->id) }}"
+                                        {{-- <a href="{{ route('approvals.show', $approval->id) }}"
                                             class="px-3 py-1.5 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 shadow">
                                             Detail
-                                        </a>
+                                        </a> --}}
                                         {{-- Edit --}}
                                         {{-- <a href="{{ route('approvals.edit', $approval->id) }}"
                                             class="px-4 py-2 rounded-xl bg-yellow-100 hover:bg-yellow-200 text-yellow-700 text-xs font-semibold transition">
 
                                             Edit
                                         </a> --}}
+                                        @if($approval->status === 'pending')
+                                        <a href="{{ route('approvals.edit', $approval->id) }}" class="px-4 py-2 rounded-xl bg-yellow-100 hover:bg-yellow-200 text-yellow-700 text-xs font-semibold transition">
+                                            Edit
+                                        </a>
+                                        @endif
 
                                         {{-- Delete --}}
                                         {{-- <form action="{{ route('approvals.destroy', $approval->id) }}"

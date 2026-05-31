@@ -11,12 +11,12 @@ class Approval extends Model
 
     protected $fillable = [
         'penawaran_id',
-        // 'user_id',
-        'name',
+        'user_id',
         'role',
         'description',
         'status',
-        'level'
+        'approval_level_id',
+        'sequence',
     ];
 
     public function penawaran()
@@ -31,7 +31,17 @@ class Approval extends Model
 
     public function approvalLevel()
     {
-        return $this->belongsTo(ApprovalLevel::class, 'level', 'level');
+        return $this->belongsTo(ApprovalLevel::class, 'approval_level_id', 'id');
+    }
+
+    public function orderProducts()
+    {
+        return $this->hasManyThrough(OrderProduct::class, Penawaran::class, 'id', 'penawaran_id', 'penawaran_id', 'id');
+    }
+
+     public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
 //tambahkan relation

@@ -24,4 +24,9 @@ class OrderProduct extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function approvals()
+    {
+        return $this->hasManyThrough(Approval::class, Penawaran::class, 'id', 'penawaran_id', 'penawaran_id', 'id');
+    }
 }

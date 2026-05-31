@@ -14,11 +14,17 @@ return new class extends Migration
         Schema::create('approvals', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('penawaran_id');
-            $table->string('name');
+            $table->foreignId('user_id')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
             $table->string('role');
             $table->string('description')->nullable();
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
-            $table->integer('level')->default(1);
+            $table->enum('status', ['waiting', 'pending', 'approved', 'rejected'])->default('waiting');
+            $table->foreignId('approval_level_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->integer('sequence');
             $table->timestamps();
 
             // Foreign key constraint

@@ -10,11 +10,36 @@ class Penawaran extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'user_id',
+        'offer_number',
         'company_name',
         'customer_name',
         'customer_email',
 
     ];
+
+    public function currentApproval()
+    {
+        return $this->hasMany(Approval::class)
+            ->where('status', 'pending')
+            ->orderBy('sequence')
+            ->first();
+    }
+    public function nextApprovalAfter($sequence)
+    {
+        return $this->hasMany(Approval::class)
+            ->where('sequence', '>', $sequence)
+            ->orderBy('sequence')
+            ->first();
+    }
+
+    public function nextApproval($currentSequence)
+    {
+        return $this->hasMany(Approval::class)
+            ->where('sequence', '>', $currentSequence)
+            ->orderBy('sequence')
+            ->first();
+    }
 
     public function product(): HasMany
     {
@@ -26,9 +51,14 @@ class Penawaran extends Model
         return $this->hasMany(OrderProduct::class);
     }
 
-        public function approval()
+    public function approvals()
     {
-        return $this->hasMany(Approval::class);
+        return $this->hasMany(Approval::class)->orderBy('sequence');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     protected $casts = [

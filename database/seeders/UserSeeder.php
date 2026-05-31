@@ -33,13 +33,25 @@ class UserSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+              [
+                'name' => 'Bejo',
+                'email' => 'bejo@example.com',
+                'email_verified_at' => null,
+                'password' => Hash::make('12345678'),
+                'remember_token' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
 
         // assign role sesuai tabel kamu
         $syalom = \App\Models\User::where('name', 'Syalom')->first();
         $lanovia = \App\Models\User::where('name', 'Lanovia')->first();
+        $bejo = \App\Models\User::where('name', 'Bejo')->first();
+
 
         $syalom->assignRole('Admin Warehouse');
         $lanovia->assignRole('Super Admin');
+        $bejo->assignRole('Admin Marketing');
     }
 }

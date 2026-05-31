@@ -9,6 +9,7 @@ use App\Models\Penawaran;
 use App\Models\User;
 use App\Services\ApprovalService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 class ApprovalController extends Controller
@@ -27,8 +28,9 @@ class ApprovalController extends Controller
 
     public function index()
     {
-        $approvals = Approval::with('penawaran')->get();
-        return view('approval.index', compact('approvals'));
+        $approvals = Approval::with('penawaran')->latest()->get();
+        $penawaran = Penawaran::with('user')->get();
+        return view('approval.index', compact(['approvals', 'penawaran']));
     }
 
     public function create()
@@ -71,35 +73,6 @@ class ApprovalController extends Controller
             'notes' => $request->description,
         ]);
 
-        // 3. APPROVAL FLOW LOGIC
-        if ($request->status === 'rejected') {
-
-            // kalau reject langsung STOP
-            Penawaran::find($request->penawaran_id)->update([
-                'status' => 'rejected'
-            ]);
-        } else {
-
-            // cari next level approval
-            $nextApproval = Approval::where('penawaran_id', $request->penawaran_id)
-                ->where('level', '>', $request->level)
-                ->orderBy('level', 'asc')
-                ->first();
-
-            if ($nextApproval) {
-                // masih ada tahap berikutnya
-                Penawaran::find($request->penawaran_id)->update([
-                    'status' => 'pending'
-                ]);
-            } else {
-
-                // FINAL APPROVAL
-                Penawaran::find($request->penawaran_id)->update([
-                    'status' => 'approved'
-                ]);
-            }
-        }
-
         return redirect()->route('approvals.index')
             ->with('success', 'Approval created successfully.');
     }
@@ -120,21 +93,296 @@ class ApprovalController extends Controller
         return view('approval.edit', compact('approval', 'roles', 'users'));
     }
 
+    // public function update(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'status' => 'required|in:pending,approved,rejected'
+    //     ]);
+
+    //     DB::transaction(function () use ($request, $id) {
+
+    //         // 1. Ambil approval (bukan penawaran)
+    //         $approval = Approval::with('penawaran')
+    //             ->findOrFail($id);
+
+    //         $user = auth()->user();
+
+    //         // 2. Update approval utama
+    //         $approval->update([
+    //             'status' => $request->status,
+    //             'approved_by' => $user->id ?? null,
+    //             'approved_at' => now(),
+    //         ]);
+
+    //         // 3. Simpan history (audit trail)
+    //         ApprovalHistory::create([
+    //             'penawaran_id' => $approval->penawaran_id,
+    //             'name' => $user->name,
+    //             'role' => $user->roles->first()->name ?? '-',
+    //             'status' => $request->status,
+    //             'notes' => 'Updated via edit form',
+    //         ]);
+
+    //         // 4. Sync ke penawaran
+    //         if ($request->status === 'rejected') {
+
+    //             $approval->penawaran->update([
+    //                 'status' => 'rejected'
+    //             ]);
+    //         } elseif ($request->status === 'approved') {
+
+    //             // cek apakah masih ada approval level berikutnya
+    //             $next = Approval::where('penawaran_id', $approval->penawaran_id)
+    //                 ->where('approval_level_id', '>', $approval->approval_level_id)
+    //                 ->orderBy('approval_level_id', 'asc')
+    //                 ->first();
+
+    //             if ($next) {
+
+    //                 $approval->penawaran->update([
+    //                     'status' => 'pending'
+    //                 ]);
+    //             } else {
+
+    //                 $approval->penawaran->update([
+    //                     'status' => 'approved'
+    //                 ]);
+    //             }
+    //         } else {
+
+    //             // pending
+    //             $approval->penawaran->update([
+    //                 'status' => 'pending'
+    //             ]);
+    //         }
+    //     });
+
+    //     return redirect()
+    //         ->route('approvals.index')
+    //         ->with('success', 'Approval status updated successfully.');
+    // }
+
+    //save
+    // public function update(Request $request, $id)
+    // {
+    //     $approval = Approval::with('penawaran')->findOrFail($id);
+    //     $user = auth()->user();
+    //     $penawaran = $approval->penawaran;
+
+    //     DB::transaction(function () use ($request, $approval, $user, $penawaran) {
+
+    //         // =========================
+    //         // STOP IF ALREADY REJECTED
+    //         // =========================
+    //         if (str_contains($penawaran->status, 'ditolak')) {
+    //             return;
+    //         }
+
+    //         // =========================
+    //         // UPDATE APPROVAL LOG
+    //         // =========================
+    //         $approval->update([
+    //             'status'      => $request->status,
+    //             'approved_by' => $user->id,
+    //             'approved_at' => now(),
+    //         ]);
+
+    //         ApprovalHistory::create([
+    //             'penawaran_id' => $approval->penawaran_id,
+    //             'name'         => $user->name,
+    //             'role'         => $user->roles->first()->name ?? '-',
+    //             'status'       => $request->status,
+    //             'notes'        => 'Updated via edit form',
+    //         ]);
+
+    //         // =========================
+    //         // REJECT FLOW (FINAL STATE)
+    //         // =========================
+    //         if ($request->status === 'rejected') {
+
+    //             $roleName = strtolower($approval->role);
+
+    //             $penawaran->update([
+    //                 'status' => "penawaran ditolak oleh {$roleName}"
+    //             ]);
+
+    //             Approval::where('penawaran_id', $approval->penawaran_id)
+    //                 ->where('sequence', '>', $approval->sequence)
+    //                 ->update(['status' => 'waiting']);
+
+    //             return;
+    //         }
+
+    //         // =========================
+    //         // APPROVE FLOW
+    //         // =========================
+    //         if ($request->status === 'approved') {
+
+    //             switch ($approval->sequence) {
+
+    //                 case 1:
+    //                     Approval::where('penawaran_id', $approval->penawaran_id)
+    //                         ->where('sequence', 2)
+    //                         ->update(['status' => 'pending']);
+
+    //                     $penawaran->update([
+    //                         'status' => 'waiting manager'
+    //                     ]);
+    //                     break;
+
+    //                 case 2:
+    //                     Approval::where('penawaran_id', $approval->penawaran_id)
+    //                         ->where('sequence', 3)
+    //                         ->update(['status' => 'pending']);
+
+    //                     $penawaran->update([
+    //                         'status' => 'waiting director'
+    //                     ]);
+    //                     break;
+
+    //                 case 3:
+    //                     //    $penawaran->update([
+    //                     //         'status' => 'completed'
+    //                     //     ]);
+
+    //                     //     Approval::where('penawaran_id', $approval->penawaran_id)
+    //                     //         ->update(['status' => 'approved']);
+    //                     $approvals = $penawaran->approvals;
+
+    //                     // =========================
+    //                     // CEK ADA REJECT
+    //                     // =========================
+    //                     $reject = $approvals->firstWhere('status', 'rejected');
+
+    //                     if ($reject) {
+
+    //                         $penawaran->update([
+    //                             'status' => "penawaran ditolak oleh {$reject->role}"
+    //                         ]);
+
+    //                         return;
+    //                     }
+
+    //                     // =========================
+    //                     // CEK SEMUA APPROVED (STRICT)
+    //                     // =========================
+    //                     $notApproved = $approvals->where('status', '!=', 'approved');
+
+    //                     if ($notApproved->isEmpty()) {
+
+    //                         $penawaran->update([
+    //                             'status' => 'completed'
+    //                         ]);
+
+    //                         $approvals->each->update([
+    //                             'status' => 'approved'
+    //                         ]);
+    //                     }
+
+    //                     break;
+    //             }
+    //         }
+    //     });
+
+    //     return redirect()
+    //         ->route('approvals.index')
+    //         ->with('success', 'Approval status updated successfully.');
+    // }
+
+
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'status' => 'required|in:pending,approved,rejected'
-        ]);
+        $approval = Approval::with('penawaran', 'penawaran.approvals')->findOrFail($id);
+        $user = auth()->user();
+        $penawaran = $approval->penawaran;
 
-        $penawaran = Penawaran::findOrFail($id);
+        DB::transaction(function () use ($request, $approval, $user, $penawaran) {
 
-        $penawaran->update([
-            'status' => $request->status
-        ]);
+            $approval->update([
+                'status' => $request->status,
+                'approved_by' => $user->id,
+                'approved_at' => now(),
+            ]);
 
-        return back()->with('success', 'Approval status updated successfully.');
+            ApprovalHistory::create([
+                'penawaran_id' => $approval->penawaran_id,
+                'name' => $user->name,
+                'role' => $user->roles->first()->name ?? '-',
+                'status' => $request->status,
+                'notes' => 'Updated via edit form',
+            ]);
+
+            // =========================
+            // REJECT FLOW
+            // =========================
+            if ($request->status === 'rejected') {
+
+                $approval->update([
+                    'status' => 'rejected',
+                    'approved_by' => $user->id,
+                    'approved_at' => now(),
+                ]);
+
+                $approval->penawaran->update(['status' => "rejected {$approval->role}"]);
+
+                Approval::where('penawaran_id', $approval->penawaran_id)
+                    ->where('sequence', '>', $approval->sequence)
+                    ->update(['status' => 'waiting']);
+            }
+            // =========================
+            // APPROVE FLOW
+            // =========================
+            if ($request->status === 'approved') {
+
+                switch ($approval->sequence) {
+
+                    case 1:
+                        Approval::where('penawaran_id', $approval->penawaran_id)
+                            ->where('sequence', 2)
+                            ->update(['status' => 'pending']);
+
+                        $penawaran->update(['status' => 'waiting manager']);
+                        break;
+
+                    case 2:
+                        Approval::where('penawaran_id', $approval->penawaran_id)
+                            ->where('sequence', 3)
+                            ->update(['status' => 'pending']);
+
+                        $penawaran->update(['status' => 'waiting director']);
+                        break;
+
+                    case 3:
+                        $approvals = $penawaran->approvals;
+
+                        $reject = $approvals->firstWhere('status', 'rejected');
+
+                        if ($reject) {
+                            $penawaran->update([
+                                'status' => "penawaran ditolak oleh {$reject->role}"
+                            ]);
+                            throw new \Exception("REJECT_EXISTS");
+                        }
+
+                        if ($approvals->where('status', '!=', 'approved')->isEmpty()) {
+
+                            $penawaran->update(['status' => 'completed']);
+
+                            $approvals->each->update([
+                                'status' => 'approved'
+                            ]);
+                        }
+                        break;
+                }
+            }
+        });
+
+        return redirect()->route('approvals.index')->with('success');
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Approval berhasil diproses'
+        // ]);
     }
-
     public function destroy($id)
     {
         $approval = Approval::findOrFail($id);
@@ -142,36 +390,6 @@ class ApprovalController extends Controller
 
         return redirect()->route('approvals.index')
             ->with('success', 'Approval deleted successfully.');
-    }
-
-    // APPROVE (SERVICE VERSION)
-    public function approve($id, Request $request)
-    {
-        $penawaran = Penawaran::findOrFail($id);
-
-        $this->service->updateStatus(
-            $penawaran,
-            auth()->user(),
-            'approved',
-            $request->notes
-        );
-
-        return back()->with('success', 'Penawaran approved');
-    }
-
-    // REJECT (SERVICE VERSION)
-    public function reject($id, Request $request)
-    {
-        $penawaran = Penawaran::findOrFail($id);
-
-        $this->service->updateStatus(
-            $penawaran,
-            auth()->user(),
-            'rejected',
-            $request->notes
-        );
-
-        return back()->with('success', 'Penawaran rejected');
     }
 
     //audit trail history
