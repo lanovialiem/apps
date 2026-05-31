@@ -28,7 +28,7 @@ class ApprovalController extends Controller
 
     public function index()
     {
-        $approvals = Approval::with('penawaran')->latest()->get();
+        $approvals = Approval::with(['penawaran','user','approver'])->latest()->get();
         $penawaran = Penawaran::with('user')->get();
         return view('approval.index', compact(['approvals', 'penawaran']));
     }
@@ -303,6 +303,7 @@ class ApprovalController extends Controller
                 'approved_by' => $user->id,
                 'approved_at' => now(),
             ]);
+            // dd($user->id);
 
             ApprovalHistory::create([
                 'penawaran_id' => $approval->penawaran_id,
@@ -315,7 +316,7 @@ class ApprovalController extends Controller
             // =========================
             // REJECT FLOW
             // =========================
-            if ($request->status === 'rejected') {
+            if ($request->status == 'rejected') {
 
                 $approval->update([
                     'status' => 'rejected',
@@ -323,7 +324,9 @@ class ApprovalController extends Controller
                     'approved_at' => now(),
                 ]);
 
-                $approval->penawaran->update(['status' => "rejected {$approval->role}"]);
+                $result = $approval->penawaran->update([
+                    'status' => "rejected"
+                ]);
 
                 Approval::where('penawaran_id', $approval->penawaran_id)
                     ->where('sequence', '>', $approval->sequence)
@@ -332,7 +335,7 @@ class ApprovalController extends Controller
             // =========================
             // APPROVE FLOW
             // =========================
-            if ($request->status === 'approved') {
+            if ($request->status == 'approved') {
 
                 switch ($approval->sequence) {
 

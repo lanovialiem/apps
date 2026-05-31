@@ -15,7 +15,7 @@ class Penawaran extends Model
         'company_name',
         'customer_name',
         'customer_email',
-
+        'status'
     ];
 
     public function currentApproval()

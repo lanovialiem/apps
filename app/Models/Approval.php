@@ -12,6 +12,7 @@ class Approval extends Model
     protected $fillable = [
         'penawaran_id',
         'user_id',
+        'approved_by',
         'role',
         'description',
         'status',
@@ -43,5 +44,10 @@ class Approval extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function approver()
+{
+    return $this->belongsTo(User::class, 'approved_by');
+}
 }
 //tambahkan relation

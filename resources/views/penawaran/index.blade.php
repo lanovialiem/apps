@@ -35,28 +35,34 @@
                 <!-- Head -->
                 <thead class="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider text-center">
                     <tr>
-                        <th class="px-4 py-3 w-[50px]">
+                        <th class="px-4 py-3 text-left text-lg">
                             No
                         </th>
-                        <th class="px-4 py-3 text-left">
+                        <th class="px-4 py-3 text-left text-lg">
                             Author
                         </th>
-                        <th class="px-4 py-3 text-left">
-                            Company Name
+                        <th class="px-4 py-3 text-left text-lg">
+                            Company
                         </th>
-                        <th class="px-4 py-3 text-left">
-                            Customer Name
+                        <th class="px-4 py-3 text-left text-lg">
+                            Number Letter
                         </th>
-                        <th class="px-4 py-3 text-left">
-                            Customer Email
+                        <th class="px-4 py-3 text-left text-lg">
+                            Name
                         </th>
-                        <th class="px-4 py-3 text-left">
+                        <th class="px-4 py-3 text-left text-lg">
+                            Email
+                        </th>
+                        <th class="px-4 py-3 text-left text-lg">
                             Products
                         </th>
-                        <th class="px-4 py-3 text-center">
-                            Status Approval
+                        <th class="px-4 py-3 text-left text-lg">
+                            Status Penawaran
                         </th>
-                        <th class="px-4 py-3 text-center">
+                        {{-- <th class="px-4 py-3 text-left text-lg">
+                            By
+                        </th> --}}
+                        <th class="px-4 py-3 text-left text-lg">
                             Action
                         </th>
                     </tr>
@@ -73,14 +79,17 @@
                             {{ $key + 1 }}
                         </td>
                         <!-- Author -->
-                        <td class="px-4 py-3 font-medium text-gray-800">
+                        <td class="px-4 py-3 font-medium text-lg text-gray-800">
                             {{ $item->user->name }}
                         </td>
                         <!-- Company -->
-                        <td class="px-4 py-3 font-medium text-gray-800">
+                        <td class="px-4 py-3 font-medium text-lg text-gray-800">
                             {{ $item->company_name }}
                         </td>
-
+                        <!-- Number letter -->
+                        <td class="px-4 py-3 font-medium text-lg text-gray-800">
+                            {{ $item->offer_number }}
+                        </td>
                         <!-- Customer -->
                         <td class="px-4 py-3">
                             {{ $item->customer_name }}
@@ -98,17 +107,17 @@
                                 class="flex items-center justify-between gap-4 px-4 py-2 mb-2 rounded-xl bg-gray-50 border border-gray-100">
                                 <!-- Product Name -->
                                 <div class="flex items-start gap-2">
-                                    <span class="text-xs font-semibold text-blue-600 mt-0.5">
+                                    <span class="text-lg font-semibold text-blue-600 mt-0.5">
                                         {{ $index + 1 }}.
                                     </span>
-                                    <span class="text-sm text-gray-700">
+                                    <span class="text-lg text-gray-700">
                                         {{ $order->product->product_name ?? '-' }}
                                     </span>
                                 </div>
 
                                 <!-- Quantity -->
                                 <div
-                                    class="min-w-[60px] text-center px-3 py-1 rounded-lg bg-blue-100 text-blue-700 text-xs font-semibold">
+                                    class="min-w-[60px] text-lg text-center px-3 py-1 rounded-lg bg-blue-100 text-blue-700 text-xs font-semibold">
                                     Qty: {{ $order->quantity }}
                                 </div>
                             </div>
@@ -163,23 +172,28 @@
 
                         </td>
 
+                        {{-- by --}}
+                        {{-- <td class="px-4 py-3">
+
+                        </td> --}}
+
                         <!-- Action -->
                         <td class="px-4 py-3">
                             <div class="flex justify-center gap-2">
 
                                 <!-- Detail -->
-                                {{-- <a href="{{ route('penawaran.show', $item->id) }}"
+                                <a href="{{ route('penawaran.show', $item->id) }}"
                                     class="px-3 py-1.5 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 shadow">
                                     Detail
                                 </a>
 
                                 @can('edit offer')
-                                <!-- Edit -->
+                                {{-- <!-- Edit -->
                                 <a href="{{ route('penawaran.edit', $item->id) }}"
                                     class="px-3 py-1.5 text-xs text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow">
                                     Edit
-                                </a>
-                                @endcan --}}
+                                </a> --}}
+                                @endcan
 
                                 @can('delete offer')
                                 <!-- Delete -->

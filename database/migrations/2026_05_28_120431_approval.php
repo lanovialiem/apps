@@ -18,6 +18,10 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
+            $table->foreignId('approved_by')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
             $table->string('role');
             $table->string('description')->nullable();
             $table->enum('status', ['waiting', 'pending', 'approved', 'rejected'])->default('waiting');

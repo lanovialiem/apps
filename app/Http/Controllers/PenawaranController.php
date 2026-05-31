@@ -166,7 +166,7 @@ class PenawaranController extends Controller
         $penawaran = Penawaran::with('orderProducts.product')
             ->findOrFail($id);
 
-        return response()->json($penawaran);
+        return view('penawaran.show', compact('penawaran'));
     }
 
     /**

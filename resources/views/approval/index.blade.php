@@ -71,6 +71,9 @@
                                     Status
                                 </th>
 
+                                <th class="px-6 py-5">
+                                    approved/reject by
+                                </th>
                                 {{-- <th class="px-6 py-5 text-center">
                                     Level
                                 </th> --}}
@@ -163,6 +166,21 @@
                                     </span>
                                 </td> --}}
 
+                                {{-- approver/rejcted by --}}
+                                <td class="px-6 py-5">
+                                    @if($approval->status === 'approved')
+                                    <span class="text-green-600 font-semibold">
+                                        Approved by {{ $approval->approver->name ?? '-' }}
+                                    </span>
+
+                                    @elseif($approval->status === 'rejected')
+                                    <span class="text-red-600 font-semibold">
+                                        Rejected by {{ $approval->approver->name ?? '-' }}
+                                    </span>
+
+                                    @endif
+                                </td>
+
                                 {{-- Sequence --}}
                                 <td class="px-6 py-5 text-center">
                                     <span
@@ -191,12 +209,22 @@
 
                                             Edit
                                         </a> --}}
-                                        @if($approval->status === 'pending')
-                                        <a href="{{ route('approvals.edit', $approval->id) }}" class="px-4 py-2 rounded-xl bg-yellow-100 hover:bg-yellow-200 text-yellow-700 text-xs font-semibold transition">
+                                        @php
+                                        $userRole = strtolower(auth()->user()->roles->first()->name ?? '');
+                                        @endphp
+
+                                        @if(
+                                        $approval->status === 'pending' &&
+                                        (
+                                        auth()->user()->hasRole('Super Admin') ||
+                                        auth()->user()->hasRole($approval->role)
+                                        )
+                                        )
+                                        <a href="{{ route('approvals.edit', $approval->id) }}"
+                                            class="px-4 py-2 rounded-xl bg-yellow-100 hover:bg-yellow-200 text-yellow-700 text-xs font-semibold transition">
                                             Edit
                                         </a>
                                         @endif
-
                                         {{-- Delete --}}
                                         {{-- <form action="{{ route('approvals.destroy', $approval->id) }}"
                                             method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
