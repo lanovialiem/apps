@@ -66,6 +66,324 @@ body {
   }
 }
 
+/* table index design */
+/* ==========================
+   PAGE BACKGROUND
+========================== */
+
+body{
+    background: linear-gradient(
+        135deg,
+        #f1f5f9 0%,
+        #eff6ff 50%,
+        #e0e7ff 100%
+    );
+}
+
+/* ==========================
+   CONTAINER
+========================== */
+
+.container{
+    max-width:1400px;
+    margin:auto;
+    padding:40px 20px;
+}
+
+/* ==========================
+   HEADER (SAMA SEPERTI APPROVAL)
+========================== */
+
+.page-header{
+    background:linear-gradient(
+        90deg,
+        #1d4ed8,
+        #4f46e5,
+        #3b82f6
+    );
+
+    border-radius:32px 32px 0 0;
+
+    padding:32px;
+    color:white;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.page-header h3{
+    margin:0;
+    font-size:32px;
+    font-weight:700;
+}
+
+.page-header p{
+    margin-top:10px;
+    color:#dbeafe;
+    font-size:14px;
+}
+
+/* ==========================
+   BUTTONS
+========================== */
+
+.btn-add,
+.btn-report,
+.btn-category,
+.btn-job-code{
+    text-decoration:none;
+    font-weight:600;
+    padding:12px 18px;
+    border-radius:16px;
+    transition:.25s;
+}
+
+.btn-add{
+    background:#fff;
+    color:#2563eb;
+}
+
+.btn-add:hover{
+    background:#eff6ff;
+}
+
+.btn-report{
+    background:#16a34a;
+    color:white;
+}
+
+.btn-report:hover{
+    background:#15803d;
+}
+
+.btn-category{
+    background:#fef3c7;
+    color:#a16207;
+}
+
+.btn-job-code{
+    background:#e0f2fe;
+    color:#0369a1;
+}
+
+/* ==========================
+   CARD
+========================== */
+
+.employee-card{
+    background:white;
+    border:1px solid #e5e7eb;
+
+    border-top:none;
+
+    border-radius:0 0 32px 32px;
+
+    padding:32px;
+
+    box-shadow:
+        0 20px 40px rgba(0,0,0,.08);
+}
+
+/* ==========================
+   TABLE WRAPPER
+========================== */
+
+.table-wrapper{
+    overflow-x:auto;
+    border:1px solid #e5e7eb;
+    border-radius:24px;
+}
+
+/* ==========================
+   TABLE
+========================== */
+
+.table-design{
+    width:100%;
+    border-collapse:collapse;
+    white-space:nowrap;
+    background:white;
+}
+
+/* HEAD */
+
+.table-design thead{
+    background:linear-gradient(
+        90deg,
+        #1e293b,
+        #334155
+    );
+}
+
+.table-design thead th{
+    color:white;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    font-size:12px;
+    font-weight:700;
+    padding:20px 24px;
+    text-align:left;
+}
+
+/* BODY */
+
+.table-design tbody td{
+    padding:20px 24px;
+    border-bottom:1px solid #f1f5f9;
+    color:#475569;
+}
+
+.table-design tbody tr{
+    transition:.25s;
+}
+
+.table-design tbody tr:hover{
+    background:#eff6ff;
+}
+
+/* ==========================
+   BADGES
+========================== */
+
+.badge{
+    display:inline-block;
+    padding:7px 14px;
+    border-radius:12px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.badge-info{
+    background:#dbeafe;
+    color:#1d4ed8;
+}
+
+.badge-primary{
+    background:#e0e7ff;
+    color:#4338ca;
+}
+
+.badge-success{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.badge-danger{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+.badge-warning{
+    background:#fef3c7;
+    color:#a16207;
+}
+
+.badge-dark{
+    width:36px;
+    height:36px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:999px;
+
+    background:#1e293b;
+    color:white;
+}
+
+/* ==========================
+   ACTION
+========================== */
+
+.action-group{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+}
+
+.btn-detail,
+.btn-edit,
+.btn-delete{
+    text-decoration:none;
+    border:none;
+    cursor:pointer;
+
+    padding:10px 16px;
+
+    border-radius:12px;
+
+    font-size:12px;
+    font-weight:600;
+
+    transition:.25s;
+}
+
+.btn-detail{
+    background:#3b82f6;
+    color:white;
+}
+
+.btn-detail:hover{
+    background:#2563eb;
+}
+
+.btn-edit{
+    background:#fef3c7;
+    color:#a16207;
+}
+
+.btn-edit:hover{
+    background:#fde68a;
+}
+
+.btn-delete{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+.btn-delete:hover{
+    background:#fecaca;
+}
+
+/* ==========================
+   EMPTY STATE
+========================== */
+
+.empty-state{
+    text-align:center;
+    padding:60px;
+}
+
+.empty-state h3{
+    color:#374151;
+    margin-bottom:8px;
+}
+
+.empty-state p{
+    color:#6b7280;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media(max-width:768px){
+
+    .page-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:20px;
+    }
+
+    .table-design{
+        min-width:1200px;
+    }
+}
+/* close table index design */
+
 /* start */
 /*! tailwindcss v4.1.3 | MIT License | https://tailwindcss.com */
 /* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');

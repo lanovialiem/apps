@@ -2,80 +2,83 @@
 
 @extends('welcome.welcome')
 @section('content')
-<div class="container mx-auto pt-32 px-4">
+<div class="container">
 
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
-        <h3 class="text-2xl font-semibold text-blue-600">
-            Stock Management
-        </h3>
-
-        @can('create stock')
-        <a href="{{ route('stock.create') }}"
-            class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
-            + Add Stock
-        </a>
-        @endcan
+    <div class="page-header">
+        <div>
+            <h1 class="text-3xl font-semibold text-white">
+                Stock Management
+            </h1>
+        </div>
+        <div>
+            @can('create stock')
+            <a href="{{ route('stock.create') }}"
+                class="btn-add">
+                + Add Stock
+            </a>
+            @endcan
+        </div>
     </div>
 
+
     <!-- Card -->
-    <div class="bg-white/80 backdrop-blur shadow-xl rounded-2xl overflow-hidden border border-gray-200">
+    <div class="employee-card">
 
         <!-- Table -->
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm text-gray-600">
+        <div class="table-wrapper">
+            <table class="table-design">
 
                 <!-- Head -->
-                <thead class="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider text-center">
+                <thead>
                     <tr>
-                        <th class="px-4 py-3 w-[50px]">No</th>
-                        <th class="px-4 py-3 text-left">Warehouse</th>
-                        <th class="px-4 py-3 text-left">Product</th>
-                        <th class="px-4 py-3 text-left">Code</th>
-                        <th class="px-4 py-3">Quantity</th>
-                        <th class="px-4 py-3">Actions</th>
+                        <th>No</th>
+                        <th>Warehouse</th>
+                        <th>Product</th>
+                        <th>Code</th>
+                        <th>Quantity</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
 
                 <!-- Body -->
-                <tbody class="divide-y">
+                <tbody>
                     @foreach ($stock as $index => $items)
                     <tr class="hover:bg-blue-50 transition">
 
                         <!-- No -->
-                        <td class="px-4 py-3 text-center">
+                        <td>
                             {{ $index + 1 }}
                         </td>
 
                         <!-- Warehouse -->
-                        <td class="px-4 py-3 font-medium text-gray-800">
+                        <td>
                             {{ $items->warehouse->warehouse_name }}
                         </td>
 
                         <!-- Product -->
-                        <td class="px-4 py-3 text-gray-700">
+                        <td>
                             {{ $items->product->product_name }}
                         </td>
 
                         <!-- Product -->
-                        <td class="px-4 py-3 text-gray-700">
+                        <td>
                             {{ $items->product->product_code }}
                         </td>
 
                         <!-- Quantity -->
-                        <td class="px-4 py-3 text-center">
+                        <td>
                             <span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">
                                 {{ $items->quantity }}
                             </span>
                         </td>
 
                         <!-- Actions -->
-                        <td class="px-4 py-3">
-                            <div class="flex justify-center gap-2">
+                        <td>
+                            <div class="action-group">
 
                                 @can('edit stock')
-                                <a href="{{ route('stock.edit', $items->id) }}"
-                                    class="px-3 py-1.5 text-xs font-medium text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow-sm">
+                                <a href="{{ route('stock.edit', $items->id) }}" class="btn-edit">
                                     Edit
                                 </a>
                                 @endcan
@@ -87,8 +90,7 @@
                                     @csrf
                                     @method('DELETE')
 
-                                    <button type="submit"
-                                        class="px-3 py-1.5 text-xs font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 shadow-sm">
+                                    <button type="submit" class="btn-delete">
                                         Hapus
                                     </button>
 

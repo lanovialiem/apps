@@ -1,106 +1,107 @@
-@include('layout.header')
+{{-- @include('layout.header') --}}
 
-<div class="container mx-auto pt-32 px-4">
+@extends('welcome.welcome')
+@section('content')
+<div class="container">
 
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
-        <h3 class="text-2xl font-semibold text-blue-600">
-            Product
-        </h3>
-        @can('create product')
-            <a href="{{ route('product.create') }}"
-                class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
+    <div class="page-header">
+        <div>
+            <h3 class="text-3xl font-bold text-white">
+                Product
+            </h3>
+            <p class="text-blue-100 mt-2 text-sm">
+                Produk Perusahaan
+            </p>
+        </div>
+        <div class="action-group">
+            @can('create product')
+            <a href="{{ route('product.create') }}" class="btn-add">
                 + Add Product
             </a>
-        @endcan
+            @endcan
+        </div>
     </div>
 
     <!-- Card -->
-    <div class="bg-white/80 backdrop-blur shadow-xl rounded-2xl overflow-hidden border border-gray-200">
-
-        <!-- Title -->
-        <div class="px-6 py-4 border-b">
-            <h5 class="text-lg font-semibold text-gray-700">
-                Product List
-            </h5>
-        </div>
+    <div class="employee-card">
 
         <!-- Table -->
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm text-gray-600">
+        <div class="table-wrapper">
+            <table class="table-design">
 
                 <!-- Head -->
-                <thead class="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider text-center">
+                <thead>
                     <tr>
-                        <th class="px-4 py-3 w-[50px]">No</th>
-                        <th class="px-4 py-3 text-left">Product Picture</th>
-                        <th class="px-4 py-3 text-left">Product Name</th>
-                        <th class="px-4 py-3 text-left">Product Unit</th>
-                        <th class="px-4 py-3 text-left">Product Brand</th>
-                        <th class="px-4 py-3 text-left">Code</th>
-                        <th class="px-4 py-3 text-left">Description</th>
-                        <th class="px-4 py-3">Price</th>
-                        <th class="px-4 py-3">Total Stock Product</th>
-                        <th class="px-4 py-3">Action</th>
+                        <th>No</th>
+                        <th>Product Picture</th>
+                        <th>Product Name</th>
+                        <th>Product Unit</th>
+                        <th>Product Brand</th>
+                        <th>Code</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Total Stock Product</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 
                 <!-- Body -->
-                <tbody class="divide-y">
+                <tbody>
                     @foreach ($products as $key => $item)
-                        <tr class="hover:bg-blue-50 transition">
-{{-- @dd($products) --}}
-                            <!-- No -->
-                            <td class="px-4 py-3 text-center">
-                                {{ $key + 1 }}
-                            </td>
+                    <tr>
+                        {{-- @dd($products) --}}
+                        <!-- No -->
+                        <td>
+                            {{ $key + 1 }}
+                        </td>
 
-                            <!-- pricture -->
-                            <td class="px-4 py-3 font-medium text-gray-800">
-                                @if ($item->product_picture)
-                                    <img src="{{ asset('storage/' . $item->product_picture) }}" alt="product image"
-                                        class="w-16 h-16 object-cover">
-                                @else
-                                    No Product Picture
-                                @endif
-                            </td>
+                        <!-- pricture -->
+                        <td>
+                            @if ($item->product_picture)
+                            <img src="{{ asset('storage/' . $item->product_picture) }}" alt="product image"
+                                class="w-16 h-16 object-cover">
+                            @else
+                            No Product Picture
+                            @endif
+                        </td>
 
-                            <!-- Name -->
-                            <td class="px-4 py-3 font-medium text-gray-800">
-                                {{ $item->product_name }}
-                            </td>
+                        <!-- Name -->
+                        <td>
+                            {{ $item->product_name }}
+                        </td>
 
-                            <!-- Unit -->
-                            <td class="px-4 py-3 font-medium text-gray-800">
-                                {{ $item->product_unit }}
-                            </td>
+                        <!-- Unit -->
+                        <td>
+                            {{ $item->product_unit }}
+                        </td>
 
-                            <!-- Product Brand -->
-                            <td class="px-4 py-3 font-medium text-gray-800">
-                                {{ $item->product_brand }}
-                            </td>
+                        <!-- Product Brand -->
+                        <td>
+                            {{ $item->product_brand }}
+                        </td>
 
 
-                            <!-- Code -->
-                            <td class="px-4 py-3">
-                                <span class="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded">
-                                    {{ $item->product_code }}
-                                </span>
-                            </td>
+                        <!-- Code -->
+                        <td>
+                            <span class="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded">
+                                {{ $item->product_code }}
+                            </span>
+                        </td>
 
-                            <!-- Description -->
-                            <td class="px-4 py-3 text-gray-600">
-                                {{ $item->description }}
-                            </td>
+                        <!-- Description -->
+                        <td>
+                            {{ $item->description }}
+                        </td>
 
-                            <!-- Price -->
-                            <td class="px-4 py-3 text-right font-semibold text-green-600">
-                                Rp {{ number_format($item->product_price, 0, ',', '.') }}
-                            </td>
+                        <!-- Price -->
+                        <td>
+                            Rp {{ number_format($item->product_price, 0, ',', '.') }}
+                        </td>
 
-                            <!-- Stock -->
-                            <td class="px-4 py-3 text-center">
-                                {{-- <span class="px-3 py-1 text-xs font-semibold rounded-full
+                        <!-- Stock -->
+                        <td>
+                            {{-- <span class="px-3 py-1 text-xs font-semibold rounded-full
                                     @if ($item->stock_quantity > 10)
                                         bg-green-100 text-green-700
                                     @elseif($item->stock_quantity > 0)
@@ -108,52 +109,49 @@
                                     @else
                                         bg-red-100 text-red-600
                                     @endif">
-                                    {{ $item->stock_quantity }}
-                                </span> --}}
-                                {{ $item->stock->sum('quantity') }}
-                            </td>
+                                {{ $item->stock_quantity }}
+                            </span> --}}
+                            {{ $item->stock->sum('quantity') }}
+                        </td>
 
-                            <!-- Action -->
-                            <td class="px-4 py-3">
-                                <div class="flex justify-center gap-2">
+                        <!-- Action -->
+                        <td>
+                            <div class="action-group">
 
-                                    <a href="{{ route('product.show', $item->id) }}"
-                                        class="px-3 py-1.5 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 shadow">
-                                        Detail
-                                    </a>
+                                <a href="{{ route('product.show', $item->id) }}" class="btn-detail">
+                                    Detail
+                                </a>
 
-                                    @can('edit product')
-                                        <a href="{{ route('product.edit', $item->id) }}"
-                                            class="px-3 py-1.5 text-xs text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow">
-                                            Edit
-                                        </a>
-                                    @endcan
-                                    @can('delete product')
-                                        <form action="{{ route('product.destroy', $item->id) }}" method="POST"
-                                            onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                @can('edit product')
+                                <a href="{{ route('product.edit', $item->id) }}" class="btn-edit">
+                                    Edit
+                                </a>
+                                @endcan
+                                @can('delete product')
+                                <form action="{{ route('product.destroy', $item->id) }}" method="POST"
+                                    onsubmit="return confirm('Yakin ingin menghapus data ini?')">
 
-                                            @csrf
-                                            @method('DELETE')
+                                    @csrf
+                                    @method('DELETE')
 
-                                            <button type="submit"
-                                                class="px-3 py-1.5 text-xs text-white bg-red-500 rounded-lg hover:bg-red-600 shadow">
-                                                Hapus
-                                            </button>
+                                    <button type="submit" class="btn-delete">
+                                        Hapus
+                                    </button>
 
-                                        </form>
-                                    @endcan
-                                </div>
-                            </td>
+                                </form>
+                                @endcan
+                            </div>
+                        </td>
 
-                        </tr>
+                    </tr>
                     @endforeach
 
                     @if ($products->isEmpty())
-                        <tr>
-                            <td colspan="7" class="text-center py-6 text-gray-400">
-                                No data available
-                            </td>
-                        </tr>
+                    <tr>
+                        <td colspan="7" class="text-center py-6 text-gray-400">
+                            No data available
+                        </td>
+                    </tr>
                     @endif
                 </tbody>
 
@@ -162,5 +160,6 @@
 
     </div>
 </div>
+@endsection
 
-@include('layout.footer')
+{{-- @include('layout.footer') --}}

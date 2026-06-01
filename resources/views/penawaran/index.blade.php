@@ -2,106 +2,102 @@
 @extends('welcome.welcome')
 
 @section('content')
-<div class="container mx-auto pt-32 px-4">
+<div class="container">
 
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3 mt-5">
-        <h3 class="text-2xl font-semibold text-blue-600">
-            Penawaran
-        </h3>
-
-        @can('create offer')
-        <a href="{{ route('penawaran.create') }}"
-            class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
-            + Add Penawaran
-        </a>
-        @endcan
+    <div class="page-header">
+        <div>
+            <h3 class="text-3xl font-bold text-white">
+                Penawaran
+            </h3>
+        </div>
+        <div class="action-group">
+            @can('create offer')
+            <a href="{{ route('penawaran.create') }}" class="btn-add">
+                + Add Penawaran
+            </a>
+            @endcan
+        </div>
     </div>
 
+
+
     <!-- Card -->
-    <div class="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-200">
-
-        <!-- Title -->
-        <div class="px-6 py-4 border-b">
-            <h5 class="text-lg font-semibold text-gray-700">
-                List Penawaran
-            </h5>
-        </div>
-
-        <!-- Table -->
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm text-gray-600">
+    <!-- Table -->
+    <div class="employee-card">
+        <div class="table-wrapper">
+            <table class=table-design>
 
                 <!-- Head -->
-                <thead class="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider text-center">
+                <thead>
                     <tr>
-                        <th class="px-4 py-3 text-left text-lg">
+                        <th>
                             No
                         </th>
-                        <th class="px-4 py-3 text-left text-lg">
+                        <th>
                             Author
                         </th>
-                        <th class="px-4 py-3 text-left text-lg">
+                        <th>
                             Company
                         </th>
-                        <th class="px-4 py-3 text-left text-lg">
+                        <th>
                             Number Letter
                         </th>
-                        <th class="px-4 py-3 text-left text-lg">
+                        <th>
                             Name
                         </th>
-                        <th class="px-4 py-3 text-left text-lg">
+                        <th>
                             Email
                         </th>
-                        <th class="px-4 py-3 text-left text-lg">
+                        <th>
                             Products
                         </th>
-                        <th class="px-4 py-3 text-left text-lg">
+                        <th>
                             Status Penawaran
                         </th>
-                        {{-- <th class="px-4 py-3 text-left text-lg">
+                        {{-- <th>
                             By
                         </th> --}}
-                        <th class="px-4 py-3 text-left text-lg">
+                        <th>
                             Action
                         </th>
                     </tr>
                 </thead>
 
                 <!-- Body -->
-                <tbody class="divide-y">
+                <tbody>
 
                     @forelse ($penawaran as $key => $item)
-                    <tr class="hover:bg-blue-50 transition">
+                    <tr>
 
                         <!-- No -->
-                        <td class="px-4 py-3 text-center">
+                        <td>
                             {{ $key + 1 }}
                         </td>
                         <!-- Author -->
-                        <td class="px-4 py-3 font-medium text-lg text-gray-800">
+                        <td>
                             {{ $item->user->name }}
                         </td>
                         <!-- Company -->
-                        <td class="px-4 py-3 font-medium text-lg text-gray-800">
+                        <td>
                             {{ $item->company_name }}
                         </td>
                         <!-- Number letter -->
-                        <td class="px-4 py-3 font-medium text-lg text-gray-800">
+                        <td>
                             {{ $item->offer_number }}
                         </td>
                         <!-- Customer -->
-                        <td class="px-4 py-3">
+                        <td>
                             {{ $item->customer_name }}
                         </td>
 
                         <!-- Email -->
-                        <td class="px-4 py-3">
+                        <td>
                             {{ $item->customer_email }}
                         </td>
 
                         <!-- Product Details -->
-                        <td class="px-4 py-3">
+                        <td>
                             @forelse ($item->orderProducts as $index => $order)
                             <div
                                 class="flex items-center justify-between gap-4 px-4 py-2 mb-2 rounded-xl bg-gray-50 border border-gray-100">
@@ -129,7 +125,7 @@
                         </td>
 
                         <!-- Status Approval Name-->
-                        <td class="px-4 py-3">
+                        <td>
 
                             @php
                             $current = $item->currentApproval();
@@ -173,24 +169,23 @@
                         </td>
 
                         {{-- by --}}
-                        {{-- <td class="px-4 py-3">
+                        {{-- <td>
 
                         </td> --}}
 
                         <!-- Action -->
-                        <td class="px-4 py-3">
-                            <div class="flex justify-center gap-2">
+                        <td>
+                            <div class="action-group">
 
                                 <!-- Detail -->
-                                <a href="{{ route('penawaran.show', $item->id) }}"
-                                    class="px-3 py-1.5 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 shadow">
+                                <a href="{{ route('penawaran.show', $item->id) }}" class="btn-detail">
                                     Detail
                                 </a>
 
                                 @can('edit offer')
-                                {{-- <!-- Edit -->
-                                <a href="{{ route('penawaran.edit', $item->id) }}"
-                                    class="px-3 py-1.5 text-xs text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow">
+                                {{--
+                                <!-- Edit -->
+                                <a href="{{ route('penawaran.edit', $item->id) }}" class="btn-edit">
                                     Edit
                                 </a> --}}
                                 @endcan
@@ -203,8 +198,7 @@
                                     @csrf
                                     @method('DELETE')
 
-                                    <button type="submit"
-                                        class="px-3 py-1.5 text-xs text-white bg-red-500 rounded-lg hover:bg-red-600 shadow">
+                                    <button type="submit" class="btn-delete">
                                         Hapus
                                     </button>
                                 </form>

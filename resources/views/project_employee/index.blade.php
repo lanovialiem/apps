@@ -1,71 +1,70 @@
 @include('layout.header')
 
-<div class="container mx-auto pt-32 px-4">
+<div class="container">
 
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
-        <h3 class="text-2xl font-semibold text-blue-600">
+    <div class="page-header">
+        <h3>
             All Project Employees
         </h3>
 
         <a href="{{ route('project_employee.create') }}"
-           class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition">
+           class="btn-add">
             + Add Project Employee
         </a>
     </div>
 
     <!-- Card -->
-    <div class="bg-white/80 backdrop-blur shadow-xl rounded-2xl overflow-hidden border border-gray-200">
+    <div class="employee-card">
 
         <!-- Table -->
         <div class="overflow-x-auto">
-            <table class="w-full text-sm text-gray-600">
+            <table class="table-design">
 
                 <!-- Head -->
-                <thead class="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider text-center">
+                <thead>
                     <tr>
-                        <th class="px-4 py-3 w-[50px]">No</th>
-                        <th class="px-4 py-3 text-left">Name</th>
-                        <th class="px-4 py-3 text-left">Company</th>
-                        <th class="px-4 py-3 text-left">Address</th>
-                        <th class="px-4 py-3">MCU</th>
-                        <th class="px-4 py-3">Position</th>
-                        <th class="px-4 py-3">Gender</th>
-                        <th class="px-4 py-3">Induction</th>
-                        <th class="px-4 py-3">On Site</th>
-                        <th class="px-4 py-3">Resign</th>
-                        <th class="px-4 py-3">Status</th>
-                        <th class="px-4 py-3">Action</th>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Company</th>
+                        <th>Address</th>
+                        <th>MCU</th>
+                        <th>Position</th>
+                        <th>Gender</th>
+                        <th>Induction</th>
+                        <th>On Site</th>
+                        <th>Resign</th>
+                        <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 
                 <!-- Body -->
-                <tbody class="divide-y">
+                <tbody>
                     @foreach ($projectEmployee as $index => $project)
-                        <tr class="hover:bg-blue-50 transition">
-
+                        <tr>
                             <!-- No -->
-                            <td class="px-4 py-3 text-center">
+                            <td>
                                 {{ $index + 1 }}
                             </td>
 
                             <!-- Name -->
-                            <td class="px-4 py-3 font-medium text-gray-800">
+                            <td>
                                 {{ $project->name }}
                             </td>
 
                             <!-- Company -->
-                            <td class="px-4 py-3">
+                            <td>
                                 {{ $project->company_name }}
                             </td>
 
                             <!-- Address -->
-                            <td class="px-4 py-3 text-gray-600">
+                            <td>
                                 {{ $project->address }}
                             </td>
 
                             <!-- MCU -->
-                            <td class="px-4 py-3 text-center">
+                            <td>
                                 <span class="px-2 py-1 text-xs rounded
                                     @if($project->mcu == 'Valid') bg-green-100 text-green-700
                                     @else bg-red-100 text-red-600
@@ -75,32 +74,32 @@
                             </td>
 
                             <!-- Position -->
-                            <td class="px-4 py-3">
+                            <td>
                                 {{ $project->position }}
                             </td>
 
                             <!-- Gender -->
-                            <td class="px-4 py-3 text-center">
+                            <td>
                                 {{ $project->gender }}
                             </td>
 
                             <!-- Induction -->
-                            <td class="px-4 py-3 text-center">
+                            <td>
                                 {{ $project->induction }}
                             </td>
 
                             <!-- On Site -->
-                            <td class="px-4 py-3 text-center">
+                            <td>
                                 {{ $project->date_resign }}
                             </td>
 
                             <!-- Resign -->
-                            <td class="px-4 py-3 text-center">
+                            <td>
                                 {{ $project->date_resign }}
                             </td>
 
                             <!-- Status -->
-                            <td class="px-4 py-3 text-center">
+                            <td>
                                 <span class="px-2 py-1 text-xs rounded-full
                                     @if($project->status == 'Active')
                                         bg-green-100 text-green-700
@@ -114,16 +113,16 @@
                             </td>
 
                             <!-- Action -->
-                            <td class="px-4 py-3">
-                                <div class="flex justify-center gap-2">
+                            <td>
+                                <div>
 
                                     <a href="{{ route('project_employee.show', $project->id) }}"
-                                       class="px-3 py-1.5 text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 shadow">
+                                       class="btn-detail">
                                         Detail
                                     </a>
 
                                     <a href="{{ route('project_employee.edit', $project->id) }}"
-                                       class="px-3 py-1.5 text-xs text-gray-800 bg-yellow-300 rounded-lg hover:bg-yellow-400 shadow">
+                                       class="btn-edit">
                                         Edit
                                     </a>
 
@@ -135,7 +134,7 @@
                                         @method('DELETE')
 
                                         <button type="submit"
-                                                class="px-3 py-1.5 text-xs text-white bg-red-500 rounded-lg hover:bg-red-600 shadow">
+                                                class="btn-delete">
                                             Hapus
                                         </button>
 

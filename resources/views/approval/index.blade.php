@@ -1,17 +1,16 @@
 @extends('welcome.welcome')
 
 @section('content')
-<div class="min-h-screen py-10 px-4 bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100">
+<div class="container">
 
-    <div class="max-w-7xl mx-auto">
+    <div>
 
         {{-- Card --}}
-        <div class="bg-white rounded-[32px] shadow-2xl border border-gray-100 overflow-hidden">
-
+        <div>
             {{-- Header --}}
-            <div class="bg-gradient-to-r from-blue-700 via-indigo-600 to-blue-500 px-8 py-7">
+            <div class="page-header">
 
-                <div class="flex items-center justify-between">
+                <div>
 
                     <div>
                         <h1 class="text-3xl font-bold text-white">
@@ -32,61 +31,60 @@
             </div>
 
             {{-- Table --}}
-            <div class="p-8">
+            <div class="employee-card">
 
-                <div class="overflow-x-auto rounded-3xl border border-gray-200">
+                <div class="table-wrapper">
 
-                    <table class="min-w-full w-full text-base text-left whitespace-nowrap">
+                    <table class="table-design">
 
                         {{-- Table Head --}}
-                        <thead
-                            class="bg-gradient-to-r from-slate-800 to-slate-700 text-white uppercase text-xs tracking-wider">
+                        <thead>
 
                             <tr>
-                                <th class="px-6 py-5">
+                                <th>
                                     #
                                 </th>
 
-                                <th class="px-6 py-5">
+                                <th>
                                     Company
                                 </th>
 
-                                <th class="px-6 py-5">
+                                <th>
                                     No Letter
                                 </th>
 
-                                <th class="px-6 py-5">
+                                <th>
                                     Author
                                 </th>
 
-                                <th class="px-6 py-5">
+                                <th>
                                     Role
                                 </th>
 
-                                <th class="px-6 py-5">
+                                <th>
                                     Description
                                 </th>
 
-                                <th class="px-6 py-5">
+                                <th>
                                     Status
                                 </th>
 
-                                <th class="px-6 py-5">
+                                <th>
                                     approved/reject by
                                 </th>
-                                {{-- <th class="px-6 py-5 text-center">
+                                {{-- <th>
                                     Level
                                 </th> --}}
 
-                                <th class="px-6 py-5 text-center">
+                                <th>
                                     Sequence
                                 </th>
 
-                                <th class="px-6 py-5">
+                                <th>
                                     Created At
                                 </th>
 
-                                <th class="px-6 py-5 text-center">
+                                <th>
                                     Action
                                 </th>
 
@@ -94,16 +92,16 @@
                         </thead>
 
                         {{-- Table Body --}}
-                        <tbody class="divide-y divide-gray-100">
+                        <tbody>
                             @forelse ($approvals as $approval)
-                            <tr class="hover:bg-blue-50/40 transition duration-200">
+                            <tr>
                                 {{-- ID --}}
-                                <td class="px-6 py-5 font-semibold text-gray-700">
+                                <td>
                                     {{ $loop->iteration }}
                                 </td>
 
                                 {{-- Penawaran --}}
-                                <td class="px-6 py-5">
+                                <td>
                                     <span class="px-3 py-1 rounded-xl bg-blue-100 text-blue-700 text-xs font-bold">
 
                                         {{ $approval->penawaran->company_name ?? 'N/A' }}
@@ -111,14 +109,14 @@
                                 </td>
 
                                 {{-- Nomor surat --}}
-                                <td class="px-6 py-5">
+                                <td>
                                     <span class="px-3 py-1 rounded-xl bg-blue-100 text-blue-700 text-xs font-bold">
                                         {{ $approval->penawaran->offer_number ?? 'N/A' }}
                                     </span>
                                 </td>
 
                                 {{-- Name --}}
-                                <td class="px-6 py-5">
+                                <td>
                                     <div class="font-semibold text-gray-800">
                                         {{ $approval->user->name ?? 'N/A'}}
                                     </div>
@@ -126,8 +124,7 @@
                                 </td>
 
                                 {{-- Role --}}
-                                <td class="px-6 py-5">
-
+                                <td>
                                     <span
                                         class="px-3 py-1 rounded-xl bg-indigo-100 text-indigo-700 text-xs font-semibold">
                                         {{ $approval->role }}
@@ -136,12 +133,12 @@
                                 </td>
 
                                 {{-- Description --}}
-                                <td class="px-6 py-5 text-gray-600 max-w-xs truncate">
+                                <td>
                                     {{ $approval->description ?? 'No description available' }}
                                 </td>
 
                                 {{-- Status --}}
-                                <td class="px-6 py-5">
+                                <td>
                                     @php
                                     $status = strtolower($approval->status ?? '');
                                     @endphp
@@ -159,7 +156,7 @@
                                 </td>
 
                                 {{-- Level --}}
-                                {{-- <td class="px-6 py-5 text-center">
+                                {{-- <td>
                                     <span
                                         class="w-9 h-9 inline-flex items-center justify-center rounded-full bg-slate-800 text-white font-bold text-sm">
                                         {{ $approval->approval_level_id }}
@@ -167,7 +164,7 @@
                                 </td> --}}
 
                                 {{-- approver/rejcted by --}}
-                                <td class="px-6 py-5">
+                                <td>
                                     @if($approval->status === 'approved')
                                     <span class="text-green-600 font-semibold">
                                         Approved by {{ $approval->approver->name ?? '-' }}
@@ -182,7 +179,7 @@
                                 </td>
 
                                 {{-- Sequence --}}
-                                <td class="px-6 py-5 text-center">
+                                <td>
                                     <span
                                         class="w-9 h-9 inline-flex items-center justify-center rounded-full bg-slate-800 text-white font-bold text-sm">
                                         {{ $approval->sequence }}
@@ -190,13 +187,13 @@
                                 </td>
 
                                 {{-- Created At --}}
-                                <td class="px-6 py-5 text-gray-500 text-sm">
+                                <td>
                                     {{ $approval->created_at->format('d M Y H:i') }}
                                 </td>
 
                                 {{-- Action --}}
-                                <td class="px-6 py-5">
-                                    <div class="flex items-center justify-center gap-2">
+                                <td>
+                                    <div class="action-group">
 
                                         {{-- Detail --}}
                                         {{-- <a href="{{ route('approvals.show', $approval->id) }}"
@@ -247,7 +244,7 @@
 
                             {{-- Empty State --}}
                             <tr>
-                                <td colspan="9" class="px-6 py-14 text-center">
+                                <td>
                                     <div class="flex flex-col items-center justify-center">
                                         <div
                                             class="w-20 h-20 rounded-3xl bg-gray-100 flex items-center justify-center mb-5">
