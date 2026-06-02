@@ -244,8 +244,8 @@
 
                             {{-- Empty State --}}
                             <tr>
-                                <td>
-                                    <div class="flex flex-col items-center justify-center">
+                                <td colspan="12">
+                                    <div class="flex flex-col items-center justify-center py-10">
                                         <div
                                             class="w-20 h-20 rounded-3xl bg-gray-100 flex items-center justify-center mb-5">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400"

@@ -33,12 +33,12 @@ class ApprovalLevelController extends Controller
     {
         $request->validate([
             'level' => 'required|integer|min:1',
-            'role_id' => 'required|exists:roles,id'
+            'role_id' => 'required|exists:roles,id|unique:approval_levels,role_id',
         ]);
 
         ApprovalLevel::create([
             'level' => $request->level,
-            'role_id' => $request->role_id,
+            'role_id' => $request->role_id
         ]);
 
         return redirect()->route('roles.index')

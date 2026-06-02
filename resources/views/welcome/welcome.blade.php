@@ -87,28 +87,27 @@
 
             {{-- Menu dropdown Warehouse --}}
             <li class="mb-1 group">
+                @can('view warehouse')
+                    <!-- Button -->
+                    <button type="button"
+                        class="sidebar-dropdown-toggle w-full flex items-center py-2 px-4 text-gray-300 hover:bg-gray-800 rounded-md">
 
-                <!-- Button -->
-                <button type="button"
-                    class="sidebar-dropdown-toggle w-full flex items-center py-2 px-4 text-gray-300 hover:bg-gray-800 rounded-md">
+                        <i class="ri-folder-line mr-3 text-lg"></i>
 
-                    <i class="ri-folder-line mr-3 text-lg"></i>
+                        <span class="text-sm">Warehouse</span>
 
-                    <span class="text-sm">Warehouse</span>
-
-                    <i
-                        class="ri-arrow-right-s-line ml-auto transition-transform duration-300 sidebar-arrow
+                        <i
+                            class="ri-arrow-right-s-line ml-auto transition-transform duration-300 sidebar-arrow
             {{ request()->routeIs('warehouse.*', 'stock.*', 'stock_movement.*') ? 'rotate-90' : '' }}">
-                    </i>
-                </button>
+                        </i>
+                    </button>
 
-                <!-- Dropdown -->
-                <ul
-                    class="sidebar-dropdown-menu pl-10 mt-2 space-y-2
+                    <!-- Dropdown -->
+                    <ul
+                        class="sidebar-dropdown-menu pl-10 mt-2 space-y-2
         {{ request()->routeIs('warehouse.*', 'stock.*', 'stock_movement.*') ? '' : 'hidden' }}">
 
-                    {{-- Warehouse --}}
-                    @can('view warehouse')
+                        {{-- Warehouse --}}
                         <li class="mb-1 group">
                             <a href="{{ route('warehouse.index') }}"
                                 class="flex items-center py-2 px-4 rounded-md {{ isActive('warehouse.*') }}">
@@ -118,39 +117,39 @@
                                 <span class="text-sm">Warehouses</span>
                             </a>
                         </li>
-                    @endcan
 
-                    {{-- Stock --}}
-                    @can('view stock')
-                        <li class="group">
-                            <a href="{{ route('stock.index') }}"
-                                class="flex items-center py-2 px-4 rounded-md {{ isActive('stock.*') }}">
+                        {{-- Stock --}}
+                        @can('view stock')
+                            <li class="group">
+                                <a href="{{ route('stock.index') }}"
+                                    class="flex items-center py-2 px-4 rounded-md {{ isActive('stock.*') }}">
 
-                                <i class="ri-instance-line mr-3 text-lg"></i>
+                                    <i class="ri-instance-line mr-3 text-lg"></i>
 
-                                <span class="text-sm">
-                                    Stok
-                                </span>
-                            </a>
-                        </li>
-                    @endcan
+                                    <span class="text-sm">
+                                        Stok
+                                    </span>
+                                </a>
+                            </li>
+                        @endcan
 
-                    {{-- Stock Movement --}}
-                    @can('view stock movement')
-                        <li class="group">
-                            <a href="{{ route('stock_movement.index') }}"
-                                class="flex items-center py-2 px-4 rounded-md {{ isActive('stock_movement.*') }}">
+                        {{-- Stock Movement --}}
+                        @can('view stock movement')
+                            <li class="group">
+                                <a href="{{ route('stock_movement.index') }}"
+                                    class="flex items-center py-2 px-4 rounded-md {{ isActive('stock_movement.*') }}">
 
-                                <i class="ri-instance-line mr-3 text-lg"></i>
+                                    <i class="ri-instance-line mr-3 text-lg"></i>
 
-                                <span class="text-sm">
-                                    Perpindahan Stok
-                                </span>
-                            </a>
-                        </li>
-                    @endcan
+                                    <span class="text-sm">
+                                        Perpindahan Stok
+                                    </span>
+                                </a>
+                            </li>
+                        @endcan
 
-                </ul>
+                    </ul>
+                @endcan
 
             </li>
 
@@ -177,6 +176,21 @@
 
                         <span class="text-sm">
                             Penawaran
+                        </span>
+                    </a>
+                </li>
+            @endcan
+
+            {{-- approval --}}
+            @can('view approval')
+                <li class="group">
+                    <a href="{{ route('approvals.index') }}"
+                        class="flex items-center py-2 px-4 rounded-md {{ isActive('approvals.*') }}">
+
+                        <i class="ri-instance-line mr-3 text-lg"></i>
+
+                        <span class="text-sm">
+                            Approval
                         </span>
                     </a>
                 </li>
@@ -326,67 +340,67 @@
         });
     </script>
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
 
-        const sidebar = document.getElementById("sidebar");
-        const overlay = document.getElementById("sidebar-overlay");
-        const toggle = document.getElementById("sidebar-toggle");
+            const sidebar = document.getElementById("sidebar");
+            const overlay = document.getElementById("sidebar-overlay");
+            const toggle = document.getElementById("sidebar-toggle");
 
-        // OPEN / CLOSE SIDEBAR
-        toggle.addEventListener("click", function () {
+            // OPEN / CLOSE SIDEBAR
+            toggle.addEventListener("click", function() {
 
-            sidebar.classList.toggle("-translate-x-full");
-            overlay.classList.toggle("hidden");
+                sidebar.classList.toggle("-translate-x-full");
+                overlay.classList.toggle("hidden");
 
-        });
+            });
 
-        // CLOSE WHEN CLICK OVERLAY
-        overlay.addEventListener("click", function () {
+            // CLOSE WHEN CLICK OVERLAY
+            overlay.addEventListener("click", function() {
 
-            sidebar.classList.add("-translate-x-full");
-            overlay.classList.add("hidden");
+                sidebar.classList.add("-translate-x-full");
+                overlay.classList.add("hidden");
 
-        });
+            });
 
-        // DROPDOWN MENU
-        const toggles = document.querySelectorAll('.sidebar-dropdown-toggle');
+            // DROPDOWN MENU
+            const toggles = document.querySelectorAll('.sidebar-dropdown-toggle');
 
-        toggles.forEach(toggle => {
+            toggles.forEach(toggle => {
 
-            toggle.addEventListener('click', function () {
+                toggle.addEventListener('click', function() {
 
-                const currentMenu =
-                    this.parentElement.querySelector('.sidebar-dropdown-menu');
+                    const currentMenu =
+                        this.parentElement.querySelector('.sidebar-dropdown-menu');
 
-                const currentArrow =
-                    this.parentElement.querySelector('.sidebar-arrow');
+                    const currentArrow =
+                        this.parentElement.querySelector('.sidebar-arrow');
 
-                document.querySelectorAll('.sidebar-dropdown-menu')
-                    .forEach(menu => {
+                    document.querySelectorAll('.sidebar-dropdown-menu')
+                        .forEach(menu => {
 
-                        if (menu !== currentMenu) {
-                            menu.classList.add('hidden');
-                        }
+                            if (menu !== currentMenu) {
+                                menu.classList.add('hidden');
+                            }
 
-                    });
+                        });
 
-                document.querySelectorAll('.sidebar-arrow')
-                    .forEach(arrow => {
+                    document.querySelectorAll('.sidebar-arrow')
+                        .forEach(arrow => {
 
-                        if (arrow !== currentArrow) {
-                            arrow.classList.remove('rotate-90');
-                        }
+                            if (arrow !== currentArrow) {
+                                arrow.classList.remove('rotate-90');
+                            }
 
-                    });
+                        });
 
-                currentMenu.classList.toggle('hidden');
-                currentArrow.classList.toggle('rotate-90');
+                    currentMenu.classList.toggle('hidden');
+                    currentArrow.classList.toggle('rotate-90');
+
+                });
 
             });
 
         });
-
-    });
-</script>
+    </script>
 
 </html>
