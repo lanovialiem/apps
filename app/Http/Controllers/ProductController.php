@@ -29,9 +29,12 @@ class ProductController extends Controller
     public function create()
     {
         $select_product_unit = [
-            'PAIL',
+            'BOX',
             'PCS',
             'KG',
+            'PAIR',
+            'PACK',
+            'ROLL',
             'LTR'
         ];
         return view('product.form',compact('select_product_unit'));

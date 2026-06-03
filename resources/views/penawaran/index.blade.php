@@ -110,7 +110,6 @@
                                         {{ $order->product->product_name ?? '-' }}
                                     </span>
                                 </div>
-
                                 <!-- Quantity -->
                                 <div
                                     class="min-w-[60px] text-lg text-center px-3 py-1 rounded-lg bg-blue-100 text-blue-700 text-xs font-semibold">

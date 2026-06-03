@@ -8,6 +8,7 @@ use App\Models\OrderProduct;
 use App\Models\Penawaran;
 use App\Models\Product;
 use App\Models\ProjectList;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -81,6 +82,7 @@ class PenawaranController extends Controller
      */
     public function store(Request $request)
     {
+        // Validasi dasar (Laravel otomatis return JSON jika via AJAX)
         $validated = $request->validate([
             'company_name' => 'required|string|max:255',
             'customer_name' => 'required|string|max:255',
@@ -90,17 +92,56 @@ class PenawaranController extends Controller
             'quantity' => 'required|array',
             'quantity.*' => 'required|integer|min:1',
         ], [
-            //Error Messages
+            // Custom Error Messages
             'company_name.required' => 'Company name wajib diisi',
             'customer_name.required' => 'Customer name wajib diisi',
             'customer_email.required' => 'Email wajib diisi',
             'customer_email.email' => 'Format email tidak valid',
             'customer_email.unique' => 'Email sudah digunakan',
             'product_id.required' => 'Product wajib dipilih',
+            'product_id.*.required' => 'Product wajib dipilih',
+            'product_id.*.exists' => 'Product tidak ditemukan',
             'quantity.required' => 'Quantity wajib diisi',
+            'quantity.*.required' => 'Quantity wajib diisi',
+            'quantity.*.integer' => 'Quantity harus berupa angka',
             'quantity.*.min' => 'Quantity minimal 1',
-
         ]);
+
+        // CHECK STOCK - Custom validation
+        foreach ($request->product_id as $index => $productId) {
+            $quantity = (int) $request->quantity[$index];
+
+            // Cek product ada atau tidak
+            $product = Product::find($productId);
+
+            if (!$product) {
+                return response()->json([
+                    'message' => 'The given data was invalid.',
+                    'errors' => [
+                        "product_id.$index" => ["Product tidak ditemukan"]
+                    ]
+                ], 422);
+            }
+
+            // Cek stock - gunakan relasi atau query langsung
+            $stock = DB::table('stocks')
+                ->where('product_id', $productId)
+                ->first();
+
+            $availableStock = $stock ? $stock->quantity : 0;
+
+            if ($availableStock < $quantity) {
+                return response()->json([
+                    'message' => 'The given data was invalid.',
+                    'errors' => [
+                        "product_id.$index" => [
+                            "Stok {$product->product_name} tidak mencukupi (tersedia: {$availableStock})"
+                        ]
+                    ]
+                ], 422);
+            }
+        }
+
 
         // SAVE MAIN PENAWARAN
         $penawaran = Penawaran::create([
@@ -121,12 +162,12 @@ class PenawaranController extends Controller
             ]);
         }
 
+        // CREATE APPROVALS
         $levels = ApprovalLevel::with('role')
             ->orderBy('level')
             ->get();
 
         foreach ($levels as $index => $level) {
-
             Approval::create([
                 'penawaran_id' => $penawaran->id,
                 'approval_level_id' => $level->id,
@@ -134,9 +175,7 @@ class PenawaranController extends Controller
                 'role' => $level->role->name,
                 'description' => null,
                 'sequence' => $index + 1,
-                'status' => $index == 0
-                    ? 'pending'
-                    : 'waiting',
+                'status' => $index == 0 ? 'pending' : 'waiting',
             ]);
         }
 

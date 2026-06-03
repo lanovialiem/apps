@@ -30,4 +30,9 @@ class Stock extends Model
     {
         return $this->belongsTo(StockMovement::class);
     }
+
+    public function orderProducts()
+    {
+        return $this->hasMany(OrderProduct::class);
+    }
 }
