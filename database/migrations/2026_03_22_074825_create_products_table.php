@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('category_products_id');
+            $table->foreign('category_products_id')->references('id')->on('category_products')->onDelete('cascade');
             $table->string('product_name');
             $table->string('product_brand'); //addnewcol
             $table->string('product_unit');  //addnewcol

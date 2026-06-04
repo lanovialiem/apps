@@ -195,6 +195,20 @@
                     </a>
                 </li>
             @endcan
+               {{-- Product Category--}}
+            @can('view category_product')
+                <li class="group">
+                    <a href="{{ route('category_product.index') }}"
+                        class="flex items-center py-2 px-4 rounded-md {{ isActive('category_product.*') }}">
+
+                        <i class="ri-instance-line mr-3 text-lg"></i>
+
+                        <span class="text-sm">
+                            Kategori Produk
+                        </span>
+                    </a>
+                </li>
+            @endcan
 
             {{-- Product --}}
             @can('view product')

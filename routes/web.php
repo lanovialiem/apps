@@ -5,6 +5,7 @@ use App\Http\Controllers\ApprovalLevelController;
 use App\Http\Controllers\AuthManualController;
 use App\Http\Controllers\CategoryCodeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\MedicalCheckupsController;
 use App\Http\Controllers\PenawaranController;
@@ -75,6 +76,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/penawaran/{id}/history', [ApprovalController::class, 'history'])->name('approval.history');
 
     Route::resource('approval_levels', ApprovalLevelController::class); //->middleware('permission:view approval level|create approval level|edit approval level|delete approval level');
+    Route::resource('category_product', CategoryProductController::class)->middleware('permission:view category_product|create category_product|edit category_product|delete category_product');
+
     // Route::post('/penawaran/{id}/approve', [ApprovalController::class, 'approve'])
     //     ->name('approvals.approve');
 

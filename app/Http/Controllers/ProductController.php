@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,8 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('stock')->get();
-        return view('product.index', compact('products'));
+        $categoryProducts = CategoryProduct::with('products')->get();
+        return view('product.index', compact('products', 'categoryProducts'));
     }
 
     /**
@@ -28,6 +30,8 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $categoryProducts = CategoryProduct::with('products')->get();
+
         $select_product_unit = [
             'BOX',
             'PCS',
@@ -37,7 +41,7 @@ class ProductController extends Controller
             'ROLL',
             'LTR'
         ];
-        return view('product.form',compact('select_product_unit'));
+        return view('product.form', compact('select_product_unit', 'categoryProducts'));
     }
 
     /**

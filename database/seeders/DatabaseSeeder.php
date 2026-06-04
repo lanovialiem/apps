@@ -30,7 +30,8 @@ class DatabaseSeeder extends Seeder
             // RoleSeeder::class,
             RoleHasPermissionSeeder::class,
             UserSeeder::class,
-            ProductSeeder::class,
+            // category_productSeeder::class,
+            // ProductSeeder::class,
             approval_add_level::class,
             
 
