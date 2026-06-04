@@ -32,11 +32,12 @@ class Penawaran extends Model
             ->orderBy('sequence')
             ->first();
     }
-
-    public function nextApproval($currentSequence)
+    
+    public function status_curent($currentStatus, $currentSequence)
     {
         return $this->hasMany(Approval::class)
-            ->where('sequence', '>', $currentSequence)
+            ->where('sequence', '===', $currentSequence)
+            ->where('status', '===', $currentStatus)
             ->orderBy('sequence')
             ->first();
     }

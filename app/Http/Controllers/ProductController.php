@@ -52,6 +52,7 @@ class ProductController extends Controller
         // dd($request->all());
         $validatedData = $request->validate([
             'product_name' => 'required|string|max:100',
+            'category_products_id' => 'required|exists:category_products,id',
             'product_brand' => 'required|string|max:50',
             'product_unit' => 'required|string|max:50',
             'product_picture' => 'nullable|image|file|max:1024',
@@ -98,6 +99,7 @@ class ProductController extends Controller
     {
         $validatedData = $request->validate([
             'product_name' => 'required|string|max:100',
+            'category_products_id' => 'required|exists:category_products,id',
             'product_picture' => 'nullable|image|file|max:1024',
             'product_code' => 'required|string|max:50|unique:products,product_code,' . $product->id,
             'description'   => 'nullable|string|max:255',
