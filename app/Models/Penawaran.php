@@ -15,6 +15,8 @@ class Penawaran extends Model
         'company_name',
         'customer_name',
         'customer_email',
+        'description',
+        'location',
         'status'
     ];
 

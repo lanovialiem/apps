@@ -18,11 +18,25 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('stock')->get();
+        $search = $request->search;
+
+        $products = Product::with('stock')
+            ->when($search, function ($query, $search) {
+                $query->where('product_name', 'like', '%' . $search . '%');
+                // Tambahkan kolom lain jika perlu
+                // ->orWhere('sku', 'like', '%' . $search . '%');
+            })
+            ->get();
+
         $categoryProducts = CategoryProduct::with('products')->get();
-        return view('product.index', compact('products', 'categoryProducts'));
+
+        return view('product.index', compact(
+            'products',
+            'categoryProducts',
+            'search'
+        ));
     }
 
     /**

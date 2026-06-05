@@ -91,6 +91,8 @@ class PenawaranController extends Controller
             'product_id.*' => 'required|exists:products,id',
             'quantity' => 'required|array',
             'quantity.*' => 'required|integer|min:1',
+            'description' => 'nullable|string|max:255',
+            'location' => 'nullable|string|max:255',
         ], [
             // Custom Error Messages
             'company_name.required' => 'Company name wajib diisi',
@@ -105,6 +107,8 @@ class PenawaranController extends Controller
             'quantity.*.required' => 'Quantity wajib diisi',
             'quantity.*.integer' => 'Quantity harus berupa angka',
             'quantity.*.min' => 'Quantity minimal 1',
+            'description.string' => 'Description harus berupa teks',
+            'location.string' => 'Location harus berupa teks',
         ]);
 
         // CHECK STOCK - Custom validation
@@ -149,6 +153,8 @@ class PenawaranController extends Controller
             'company_name' => $request->company_name,
             'customer_name' => $request->customer_name,
             'customer_email' => $request->customer_email,
+            'description' => $request->description,
+            'location' => $request->location,
             'offer_number' => $this->generateOfferNumber(),
             'status' => 'pending',
         ]);

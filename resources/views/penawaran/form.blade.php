@@ -64,6 +64,18 @@
                                 <small id="error_customer_name" class="error-text text-red-500 text-sm mt-1 hidden"></small>
                             </div>
 
+                                 <!-- location -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">
+                                    Location
+                                </label>
+
+                                <input type="text" name="location" id="location"
+                                    value="{{ old('location') }}" placeholder="Enter location"
+                                    class="field-input w-full rounded-xl border border-gray-300 text-black px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+
+                                <small id="error_location" class="error-text text-red-500 text-sm mt-1 hidden"></small>
+                            </div>
                             <!-- Customer Email -->
                             <div>
                                 <label class="block text-sm font-medium text-gray-600 mb-2">
@@ -137,6 +149,11 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                    <!-- Description -->
+                    <div class="md:col-span-2 lg:col-span-3">
+                        <label class="block text-sm font-medium text-gray-600 mb-1">Description</label>
+                        <textarea name="description" rows="3" class="field-input w-full rounded-xl border border-gray-300 text-black px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"></textarea>
                     </div>
 
                     <!-- Footer -->
@@ -306,6 +323,12 @@
                             }
                             if (errors && errors['customer_email']) {
                                 showError('customer_email', errors['customer_email'][0]);
+                            }
+                            if (errors && errors['description']) {
+                                showError('description', errors['description'][0]);
+                            }
+                            if (errors && errors['location']) {
+                                showError('location', errors['location'][0]);
                             }
 
                             // Handle array field errors dengan format: errors['product_id.0'][0]

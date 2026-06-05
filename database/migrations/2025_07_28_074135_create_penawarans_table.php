@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('company_name');
             $table->string('customer_name')->nullable();
             $table->string('customer_email')->nullable();
+            $table->string('description')->nullable();
+            $table->string('location')->nullable();
             $table->string('status')->default('pending');
             $table->timestamps();
         });

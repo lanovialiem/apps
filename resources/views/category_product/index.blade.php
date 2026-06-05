@@ -26,68 +26,73 @@
 
         {{-- body start --}}
         <div class="employee-card">
-            <!-- SUCCESS MESSAGE -->
+
             @if (session('success'))
-                <div class="mt-4 mb-4 px-4 py-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                <div class="mb-6 px-4 py-3 bg-green-100 border border-green-400 text-green-700 rounded-xl">
                     {{ session('success') }}
                 </div>
             @endif
-            <!-- Table -->
-            <div class="table-wrapper">
-                <table class="table-design">
 
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Category Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+            <div class="mx-auto max-w-7xl">
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
 
-                    <tbody>
-                        @foreach ($category as $key => $item)
-                            <tr>
-                                <td>{{ $key + 1 }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>
-                                    <div>
+                    @forelse($category as $item)
+                        <div
+                            class="group relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl transition duration-300">
 
-                                        {{-- <a href="{{ route('category_product.show', $item->id) }}"
-                                    class="btn-detail">
-                                    Detail
-                                </a>
-                                @can('edit category_product')
-                                <a href="{{ route('category_product.edit', $item->id) }}"
-                                    class="btn-edit">
-                                    Edit
-                                </a>
-                                @endcan --}}
-                                        @can('delete category_product')
-                                            <form action="{{ route('category_product.destroy', $item->id) }}" method="POST"
-                                                onsubmit="return confirm('Yakin ingin menghapus data ini?')">
-                                                @csrf
-                                                @method('DELETE')
+                            {{-- IMAGE --}}
+                            <div class="overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200"
+                                    alt="{{ $item->name }}"
+                                    class="h-56 w-full object-cover group-hover:scale-105 transition duration-500">
+                            </div>
 
-                                                <button type="submit" class="btn-delete">
-                                                    Hapus
-                                                </button>
-                                            </form>
-                                        @endcan
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
+                            {{-- CONTENT --}}
+                            <div class="p-5">
 
-                        @if ($category->isEmpty())
-                            <tr>
-                                <td colspan="7" class="text-center py-6 text-gray-400">
-                                    No data available.
-                                </td>
-                            </tr>
-                        @endif
-                    </tbody>
+                                <h3 class="text-lg font-bold text-gray-900">
+                                    {{ $item->name }}
+                                </h3>
 
-                </table>
+                                <p class="mt-2 text-sm text-gray-500">
+                                    Product Category
+                                </p>
+
+                                <div class="mt-5 flex items-center justify-between">
+
+                                    <span
+                                        class="inline-flex rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
+                                        Category
+                                    </span>
+
+                                    @can('delete category_product')
+                                        <form action="{{ route('category_product.destroy', $item->id) }}" method="POST"
+                                            onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit"
+                                                class="rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-red-600 transition">
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    @endcan
+
+                                </div>
+                            </div>
+                        </div>
+
+                    @empty
+                        <div class="col-span-full">
+                            <div class="rounded-2xl border-2 border-dashed border-gray-300 bg-white p-12 text-center">
+                                <p class="text-gray-500">
+                                    No category product available.
+                                </p>
+                            </div>
+                        </div>
+                    @endforelse
+
+                </div>
             </div>
         </div>
     </div>

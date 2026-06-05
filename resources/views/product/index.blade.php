@@ -26,10 +26,26 @@
         <!-- Card -->
         <div class="employee-card">
 
+            <!-- Search Product -->
+            <div class="mb-4 flex justify-between items-center">
+                <form action="{{ route('product.index') }}" method="GET" class="flex gap-2">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari produk..."
+                        class="w-full rounded-xl border border-gray-300 px-4 py-3 text-black focus:ring-2 focus:ring-blue-500 outline-none">
+
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                        Search
+                    </button>
+
+                    @if (request('search'))
+                        <a href="{{ route('product.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg">
+                            Reset
+                        </a>
+                    @endif
+                </form>
+            </div>
             <!-- Table -->
             <div class="table-wrapper">
                 <table class="table-design">
-
                     <!-- Head -->
                     <thead>
                         <tr>
