@@ -6,82 +6,32 @@ use App\Models\Approval;
 use App\Models\ApprovalHistory;
 use App\Models\OrderProduct;
 use App\Models\Penawaran;
+use App\Models\Product;
+use App\Models\Stock;
+use App\Models\StockMovement;
 use App\Models\User;
-use App\Services\ApprovalService;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
 
 class ApprovalController extends Controller
 {
-    protected $service;
-
-    public function __construct(ApprovalService $service)
+    public function __construct()
     {
         $this->middleware('permission:view approval')->only(['index', 'show']);
         $this->middleware('permission:create approval')->only(['create', 'store']);
         $this->middleware('permission:edit approval')->only(['edit', 'update']);
         $this->middleware('permission:delete approval')->only(['destroy']);
-
-        $this->service = $service;
     }
 
     public function index()
     {
-        $approvals = Approval::with(['penawaran','user','approver'])->latest()->get();
+        $approvals = Approval::with(['penawaran', 'user', 'approver'])->latest()->get();
         $penawaran = Penawaran::with('user')->get();
-        return view('approval.index', compact(['approvals', 'penawaran']));
-    }
 
-    public function create()
-    {
-        $penawarans = Penawaran::with('orderProducts')->get();
-        $orderProducts = OrderProduct::with('product')->get();
-        $roles = Role::with('users')->get();
-        $users = User::all();
-
-        return view('approval.create', compact('penawarans', 'orderProducts', 'roles', 'users'));
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'penawaran_id' => 'required|exists:penawarans,id',
-            'name' => 'required|string|max:255',
-            'role' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'status' => 'required|in:pending,approved,rejected',
-            'level' => 'required|integer|min:1'
-        ]);
-
-        // 1. SIMPAN APPROVAL UTAMA
-        $approval = Approval::create([
-            'penawaran_id' => $request->penawaran_id,
-            'name' => $request->name,
-            'role' => $request->role,
-            'description' => $request->description,
-            'status' => $request->status,
-            'level' => $request->level,
-        ]);
-
-        // 2. SIMPAN HISTORY (AUDIT TRAIL)
-        ApprovalHistory::create([
-            'penawaran_id' => $request->penawaran_id,
-            'name' => auth()->user()->name,
-            'role' => auth()->user()->roles->first()->name ?? '-',
-            'status' => $request->status,
-            'notes' => $request->description,
-        ]);
-
-        return redirect()->route('approvals.index')
-            ->with('success', 'Approval created successfully.');
-    }
-
-    public function show($id)
-    {
-        $approval = Approval::with('penawaran')->findOrFail($id);
-
-        return view('approval.show', compact('approval'));
+        return view('approval.index', compact('approvals', 'penawaran'));
     }
 
     public function edit($id)
@@ -93,314 +43,295 @@ class ApprovalController extends Controller
         return view('approval.edit', compact('approval', 'roles', 'users'));
     }
 
-    // public function update(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'status' => 'required|in:pending,approved,rejected'
-    //     ]);
-
-    //     DB::transaction(function () use ($request, $id) {
-
-    //         // 1. Ambil approval (bukan penawaran)
-    //         $approval = Approval::with('penawaran')
-    //             ->findOrFail($id);
-
-    //         $user = auth()->user();
-
-    //         // 2. Update approval utama
-    //         $approval->update([
-    //             'status' => $request->status,
-    //             'approved_by' => $user->id ?? null,
-    //             'approved_at' => now(),
-    //         ]);
-
-    //         // 3. Simpan history (audit trail)
-    //         ApprovalHistory::create([
-    //             'penawaran_id' => $approval->penawaran_id,
-    //             'name' => $user->name,
-    //             'role' => $user->roles->first()->name ?? '-',
-    //             'status' => $request->status,
-    //             'notes' => 'Updated via edit form',
-    //         ]);
-
-    //         // 4. Sync ke penawaran
-    //         if ($request->status === 'rejected') {
-
-    //             $approval->penawaran->update([
-    //                 'status' => 'rejected'
-    //             ]);
-    //         } elseif ($request->status === 'approved') {
-
-    //             // cek apakah masih ada approval level berikutnya
-    //             $next = Approval::where('penawaran_id', $approval->penawaran_id)
-    //                 ->where('approval_level_id', '>', $approval->approval_level_id)
-    //                 ->orderBy('approval_level_id', 'asc')
-    //                 ->first();
-
-    //             if ($next) {
-
-    //                 $approval->penawaran->update([
-    //                     'status' => 'pending'
-    //                 ]);
-    //             } else {
-
-    //                 $approval->penawaran->update([
-    //                     'status' => 'approved'
-    //                 ]);
-    //             }
-    //         } else {
-
-    //             // pending
-    //             $approval->penawaran->update([
-    //                 'status' => 'pending'
-    //             ]);
-    //         }
-    //     });
-
-    //     return redirect()
-    //         ->route('approvals.index')
-    //         ->with('success', 'Approval status updated successfully.');
-    // }
-
-    //save
-    // public function update(Request $request, $id)
-    // {
-    //     $approval = Approval::with('penawaran')->findOrFail($id);
-    //     $user = auth()->user();
-    //     $penawaran = $approval->penawaran;
-
-    //     DB::transaction(function () use ($request, $approval, $user, $penawaran) {
-
-    //         // =========================
-    //         // STOP IF ALREADY REJECTED
-    //         // =========================
-    //         if (str_contains($penawaran->status, 'ditolak')) {
-    //             return;
-    //         }
-
-    //         // =========================
-    //         // UPDATE APPROVAL LOG
-    //         // =========================
-    //         $approval->update([
-    //             'status'      => $request->status,
-    //             'approved_by' => $user->id,
-    //             'approved_at' => now(),
-    //         ]);
-
-    //         ApprovalHistory::create([
-    //             'penawaran_id' => $approval->penawaran_id,
-    //             'name'         => $user->name,
-    //             'role'         => $user->roles->first()->name ?? '-',
-    //             'status'       => $request->status,
-    //             'notes'        => 'Updated via edit form',
-    //         ]);
-
-    //         // =========================
-    //         // REJECT FLOW (FINAL STATE)
-    //         // =========================
-    //         if ($request->status === 'rejected') {
-
-    //             $roleName = strtolower($approval->role);
-
-    //             $penawaran->update([
-    //                 'status' => "penawaran ditolak oleh {$roleName}"
-    //             ]);
-
-    //             Approval::where('penawaran_id', $approval->penawaran_id)
-    //                 ->where('sequence', '>', $approval->sequence)
-    //                 ->update(['status' => 'waiting']);
-
-    //             return;
-    //         }
-
-    //         // =========================
-    //         // APPROVE FLOW
-    //         // =========================
-    //         if ($request->status === 'approved') {
-
-    //             switch ($approval->sequence) {
-
-    //                 case 1:
-    //                     Approval::where('penawaran_id', $approval->penawaran_id)
-    //                         ->where('sequence', 2)
-    //                         ->update(['status' => 'pending']);
-
-    //                     $penawaran->update([
-    //                         'status' => 'waiting manager'
-    //                     ]);
-    //                     break;
-
-    //                 case 2:
-    //                     Approval::where('penawaran_id', $approval->penawaran_id)
-    //                         ->where('sequence', 3)
-    //                         ->update(['status' => 'pending']);
-
-    //                     $penawaran->update([
-    //                         'status' => 'waiting director'
-    //                     ]);
-    //                     break;
-
-    //                 case 3:
-    //                     //    $penawaran->update([
-    //                     //         'status' => 'completed'
-    //                     //     ]);
-
-    //                     //     Approval::where('penawaran_id', $approval->penawaran_id)
-    //                     //         ->update(['status' => 'approved']);
-    //                     $approvals = $penawaran->approvals;
-
-    //                     // =========================
-    //                     // CEK ADA REJECT
-    //                     // =========================
-    //                     $reject = $approvals->firstWhere('status', 'rejected');
-
-    //                     if ($reject) {
-
-    //                         $penawaran->update([
-    //                             'status' => "penawaran ditolak oleh {$reject->role}"
-    //                         ]);
-
-    //                         return;
-    //                     }
-
-    //                     // =========================
-    //                     // CEK SEMUA APPROVED (STRICT)
-    //                     // =========================
-    //                     $notApproved = $approvals->where('status', '!=', 'approved');
-
-    //                     if ($notApproved->isEmpty()) {
-
-    //                         $penawaran->update([
-    //                             'status' => 'completed'
-    //                         ]);
-
-    //                         $approvals->each->update([
-    //                             'status' => 'approved'
-    //                         ]);
-    //                     }
-
-    //                     break;
-    //             }
-    //         }
-    //     });
-
-    //     return redirect()
-    //         ->route('approvals.index')
-    //         ->with('success', 'Approval status updated successfully.');
-    // }
-
-
     public function update(Request $request, $id)
     {
-        $approval = Approval::with('penawaran', 'penawaran.approvals')->findOrFail($id);
+        // Refresh dari database untuk dapat data terbaru
+        $approval = Approval::with(['penawaran', 'penawaran.approvals', 'penawaran.orderProducts'])
+            ->findOrFail($id);
+
         $user = auth()->user();
         $penawaran = $approval->penawaran;
 
         DB::transaction(function () use ($request, $approval, $user, $penawaran) {
 
+            // =========================
+            // UPDATE CURRENT APPROVAL
+            // =========================
             $approval->update([
                 'status' => $request->status,
                 'approved_by' => $user->id,
                 'approved_at' => now(),
             ]);
-            // dd($user->id);
 
             ApprovalHistory::create([
                 'penawaran_id' => $approval->penawaran_id,
                 'name' => $user->name,
                 'role' => $user->roles->first()->name ?? '-',
                 'status' => $request->status,
-                'notes' => 'Updated via edit form',
+                'notes' => 'Updated approval',
             ]);
 
             // =========================
-            // REJECT FLOW
+            // REJECT FLOW (GLOBAL)
             // =========================
             if ($request->status == 'rejected') {
 
-                $approval->update([
-                    'status' => 'rejected',
-                    'approved_by' => $user->id,
-                    'approved_at' => now(),
-                ]);
-
-                $result = $approval->penawaran->update([
+                $penawaran->update([
                     'status' => "rejected"
                 ]);
 
                 Approval::where('penawaran_id', $approval->penawaran_id)
                     ->where('sequence', '>', $approval->sequence)
                     ->update(['status' => 'waiting']);
+
+                return;
             }
+
             // =========================
-            // APPROVE FLOW
+            // APPROVE FLOW (DYNAMIC)
             // =========================
             if ($request->status == 'approved') {
 
-                switch ($approval->sequence) {
+                // ambil next approval berdasarkan sequence
+                $nextApproval = Approval::where('penawaran_id', $approval->penawaran_id)
+                    ->where('sequence', '>', $approval->sequence)
+                    ->orderBy('sequence', 'asc')
+                    ->first();
 
-                    case 1:
-                        Approval::where('penawaran_id', $approval->penawaran_id)
-                            ->where('sequence', 2)
-                            ->update(['status' => 'pending']);
+                // =========================
+                // IF NEXT LEVEL EXISTS
+                // =========================
+                if ($nextApproval) {
 
-                        $penawaran->update(['status' => 'waiting manager']);
-                        break;
+                    $nextApproval->update([
+                        'status' => 'pending'
+                    ]);
 
-                    case 2:
-                        Approval::where('penawaran_id', $approval->penawaran_id)
-                            ->where('sequence', 3)
-                            ->update(['status' => 'pending']);
+                    $penawaran->update([
+                        'status' => 'waiting ' . strtolower($nextApproval->role)
+                    ]);
 
-                        $penawaran->update(['status' => 'waiting director']);
-                        break;
-
-                    case 3:
-                        $approvals = $penawaran->approvals;
-
-                        $reject = $approvals->firstWhere('status', 'rejected');
-
-                        if ($reject) {
-                            $penawaran->update([
-                                'status' => "penawaran ditolak oleh {$reject->role}"
-                            ]);
-                            throw new \Exception("REJECT_EXISTS");
-                        }
-
-                        if ($approvals->where('status', '!=', 'approved')->isEmpty()) {
-
-                            $penawaran->update(['status' => 'completed']);
-
-                            $approvals->each->update([
-                                'status' => 'approved'
-                            ]);
-                        }
-                        break;
+                    return;
                 }
+
+                // =========================
+                // FINAL APPROVAL
+                // =========================
+                // Refresh ulang penawaran untuk dapat data terbaru
+                $penawaran->refresh();
+                $penawaran->load('orderProducts.product');
+
+                $this->finalApproval($penawaran);
             }
         });
 
-        return redirect()->route('approvals.index')->with('success');
-        // return response()->json([
-        //     'success' => true,
-        //     'message' => 'Approval berhasil diproses'
-        // ]);
-    }
-    public function destroy($id)
-    {
-        $approval = Approval::findOrFail($id);
-        $approval->delete();
-
         return redirect()->route('approvals.index')
-            ->with('success', 'Approval deleted successfully.');
+            ->with('success', 'Approval berhasil diproses');
     }
 
-    //audit trail history
-    public function history($id)
+    // =========================
+    // FINAL APPROVAL LOGIC
+    // =========================
+    private function finalApproval($penawaran)
     {
-        $penawaran = Penawaran::findOrFail($id);
-        $histories = ApprovalHistory::where('penawaran_id', $id)->orderBy('created_at', 'desc')->get();
+        // Refresh approvals dari database
+        $penawaran->load('approvals');
+        $approvals = $penawaran->approvals;
 
-        return view('approval.history', compact('penawaran', 'histories'));
+        // =========================
+        // DEBUG: Check apa yang terjadi
+        // =========================
+        Log::info('=== FINAL APPROVAL DEBUG ===');
+        Log::info('Penawaran ID: ' . $penawaran->id);
+        Log::info('Penawaran Status: ' . $penawaran->status);
+        Log::info('Total Approvals: ' . $approvals->count());
+        Log::info('Approval Statuses: ' . $approvals->pluck('status')->implode(', '));
+
+        // reject check - cek case insensitive
+        $reject = $approvals->firstWhere('status', 'rejected');
+
+        if ($reject) {
+            $penawaran->update([
+                'status' => "rejected"
+            ]);
+            return;
+        }
+
+        // ensure all approved (case insensitive)
+        $allApproved = $approvals->pluck('status')
+            ->map(fn($s) => strtolower(trim($s)))
+            ->every(fn($s) => $s === 'approved');
+
+        Log::info('All Approved: ' . ($allApproved ? 'true' : 'false'));
+
+        if (!$allApproved) {
+            Log::warning('Tidak semua approval approved, skip stock deduction');
+            return;
+        }
+
+        // ============================================
+        // ATOMIC UPDATE - CEGAH DOUBLE EXECUTION
+        // ============================================
+        $updated = DB::table('penawarans')
+            ->where('id', $penawaran->id)
+            ->whereNotIn('status', ['completed', 'rejected'])
+            ->update([
+                'status' => 'completed',
+                'updated_at' => now()
+            ]);
+
+        if ($updated === 0) {
+            Log::warning('Penawaran #' . $penawaran->id . ' already processed, skipping...');
+            return;
+        }
+
+        // CEK APAKAH ADA ORDER PRODUCTS
+        $penawaran->load('orderProducts');
+        $orderProducts = $penawaran->orderProducts;
+
+        Log::info('Total Order Products: ' . $orderProducts->count());
+
+        if ($orderProducts->isEmpty()) {
+            Log::warning('Tidak ada order products, skip stock deduction');
+            // Tetep update status ke completed
+            $penawaran->update(['status' => 'completed']);
+            return;
+        }
+
+        // ============================================
+        // CEK TOTAL STOCK DARI SEMUA GUDANG SEBELUM DEDUCT
+        // ============================================
+        foreach ($orderProducts as $item) {
+            $totalStockAllWarehouse = DB::table('stocks')
+                ->where('product_id', $item->product_id)
+                ->sum('quantity');
+
+            Log::info("Product ID {$item->product_id}: Total stock di semua gudang = {$totalStockAllWarehouse}, dibutuhkan = {$item->quantity}");
+
+            if ($totalStockAllWarehouse < $item->quantity) {
+                $product = Product::find($item->product_id);
+                Log::error("Stock tidak mencukupi untuk product {$product->product_name}");
+                throw new \Exception("Stock tidak mencukupi untuk product: " . ($product->product_name ?? $item->product_id));
+            }
+        }
+
+        // =========================
+        // DEDUCT STOCK DARI SEMUA GUDANG
+        // =========================
+        try {
+            $this->deductStockFromMultipleWarehouse($penawaran);
+
+            // update all approvals
+            $penawaran->approvals()->update([
+                'status' => 'approved'
+            ]);
+
+            Log::info('Stock deduction berhasil!');
+        } catch (\Exception $e) {
+            Log::error('Stock deduction gagal: ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    // =========================
+    // DEDUCT STOCK - DARI SEMUA GUDANG
+    // =========================
+    private function deductStockFromMultipleWarehouse(Penawaran $penawaran)
+    {
+        if (!$penawaran->relationLoaded('orderProducts')) {
+            $penawaran->load('orderProducts.product');
+        }
+
+        $orderProducts = $penawaran->orderProducts;
+
+        foreach ($orderProducts as $item) {
+
+            $productId = $item->product_id;
+            $quantityNeeded = $item->quantity;
+            $product = Product::find($productId);
+
+            Log::info("Processing: {$product->product_name}, needed: {$quantityNeeded}");
+
+            // Ambil semua stock untuk product ini, urut DESC (terbesar dulu)
+            $stocks = Stock::where('product_id', $productId)
+                ->where('quantity', '>', 0)
+                ->orderBy('quantity', 'desc')
+                ->lockForUpdate()
+                ->get();
+
+            if ($stocks->isEmpty()) {
+                throw new \Exception("Stock tidak ditemukan untuk product: " . ($product->product_name ?? $productId));
+            }
+
+            // Hitung total stock
+            $totalStock = $stocks->sum('quantity');
+
+            if ($totalStock < $quantityNeeded) {
+                throw new \Exception("Stock tidak mencukupi untuk product: " . ($product->product_name ?? $productId));
+            }
+
+            // ============================================
+            // ALOKASI STOCK DARI BEBERAPA GUDANG
+            // ============================================
+            $remaining = $quantityNeeded;
+            $allocations = [];
+
+            foreach ($stocks as $stock) {
+                if ($remaining <= 0) break;
+
+                // Hitung berapa yang diambil dari gudang ini
+                $takeFromThis = min($stock->quantity, $remaining);
+
+                $previousStock = $stock->quantity;
+                $newStock = $previousStock - $takeFromThis;
+
+                // Update stock di gudang ini
+                $stock->update([
+                    'quantity' => $newStock
+                ]);
+
+                // Simpan untuk movement record
+                $allocations[] = [
+                    'warehouse_id' => $stock->warehouse_id,
+                    'warehouse_name' => $stock->warehouse->warehouse_name ?? 'Unknown',
+                    'quantity_taken' => $takeFromThis,
+                    'previous_stock' => $previousStock,
+                    'new_stock' => $newStock,
+                ];
+
+                Log::info("  - Gudang {$stock->warehouse_id}: {$previousStock} -> {$newStock} (ambil: {$takeFromThis})");
+
+                $remaining -= $takeFromThis;
+            }
+
+            // ============================================
+            // CREATE STOCK MOVEMENT RECORD
+            // ============================================
+            $warehouseNames = collect($allocations)->pluck('warehouse_name')->implode(', ');
+            $totalTaken = collect($allocations)->sum('quantity_taken');
+
+            StockMovement::create([
+                'product_id' => $productId,
+                'warehouse_id' => $allocations[0]['warehouse_id'], // Gudang pertama sebagai referensi
+                'quantity' => $totalTaken,
+                'previous_stock' => $totalStock,
+                'new_stock' => $totalStock - $quantityNeeded,
+                'movement_type' => 'kurang',
+                'movement_date' => now(),
+                'heading_type' => 'Project',
+                'description' => 'Penawaran #' . $penawaran->offer_number . ' - ' . $product->product_name . ' (dipenuhi dari: ' . $warehouseNames . ')',
+            ]);
+
+            Log::info("  => Total diambil: {$totalTaken} dari gudang: {$warehouseNames}");
+        }
+    }
+
+    // =========================
+    // METHOD LAMA (TIDAK DIGUNAKAN LAGI)
+    // =========================
+    private function deductStock(Penawaran $penawaran)
+    {
+        // Dipindahkan ke deductStockFromMultipleWarehouse
+        $this->deductStockFromMultipleWarehouse($penawaran);
     }
 }

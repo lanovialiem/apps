@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Stock;
+use App\Models\StockMovement;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,11 @@ class StockController extends Controller
      */
     public function index()
     {
-        $stock = stock::all();
+        $stock = Stock::with([
+            'product',
+            'warehouse'
+        ])->get();
+
         return view('stock.index', compact('stock'));
     }
 
@@ -45,15 +50,64 @@ class StockController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $validatedData = $request->validate([
             'product_id' => 'required|exists:products,id',
             'warehouse_id' => 'required|exists:warehouses,id',
             'quantity' => 'required|integer|min:0',
         ]);
 
-        Stock::create($validatedData);
-        return redirect()->route('stock.index')->with('success', 'Stock created successfully.');
+        $product = Product::find($request->product_id);
+        $warehouse = Warehouse::find($request->warehouse_id);
+
+        // Cek apakah sudah ada stock untuk product + warehouse ini
+        $existingStock = Stock::where('product_id', $request->product_id)
+            ->where('warehouse_id', $request->warehouse_id)
+            ->first();
+
+        if ($existingStock) {
+            // Jika sudah ada, tambahkan quantity
+            $previousStock = $existingStock->quantity;
+            $newQuantity = $previousStock + $request->quantity;
+
+            $existingStock->update([
+                'quantity' => $newQuantity
+            ]);
+
+            // Create stock movement record - untuk penambahan ke stock yang sudah ada
+            StockMovement::create([
+                'product_id' => $request->product_id,
+                'warehouse_id' => $request->warehouse_id,
+                'quantity' => $request->quantity,
+                'previous_stock' => $previousStock,
+                'new_stock' => $newQuantity,
+                'movement_type' => 'tambah',
+                'movement_date' => now(),
+                'heading_type' => 'Gudang',
+                'description' => 'Penambahan stock manual - ' . $product->product_name . ' di ' . $warehouse->warehouse_name,
+            ]);
+
+            return redirect()->route('stock.index')
+                ->with('success', "Stock $product->product_name di $warehouse->warehouse_name ditambahkan. Quantity baru: $newQuantity");
+        }
+
+        // Jika belum ada, buat baru
+        $stock = Stock::create($validatedData);
+
+        // Create stock movement record - untuk stock baru
+        StockMovement::create([
+            'product_id' => $stock->product_id,
+            'warehouse_id' => $stock->warehouse_id,
+            'quantity' => $stock->quantity,
+            'previous_stock' => 0,
+            'new_stock' => $stock->quantity,
+            'movement_type' => 'tambah',
+            'movement_date' => now(),
+            'heading_type' => 'Gudang',
+            'description' => 'Stock baru - ' . $product->product_name . ' di ' . $warehouse->warehouse_name,
+        ]);
+
+        return redirect()->route('stock.index')
+            ->with('success', 'Stock created successfully.');
     }
 
     /**
@@ -69,8 +123,8 @@ class StockController extends Controller
      */
     public function edit(Stock $stock)
     {
-         $products = Product::all();
-         $warehouses = Warehouse::all();
+        $products = Product::all();
+        $warehouses = Warehouse::all();
         return view('stock.edit', compact('stock', 'products', 'warehouses'));
     }
 

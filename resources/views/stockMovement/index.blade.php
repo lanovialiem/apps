@@ -17,11 +17,11 @@
             </p>
         </div>
 
-        <div>
+        {{-- <div>
             <a href="{{ route('stock_movement.create') }}" class="btn-add">
                 + Add Stock Movement
             </a>
-        </div>
+        </div> --}}
 
     </div>
 

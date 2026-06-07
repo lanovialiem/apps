@@ -82,7 +82,7 @@ class PenawaranController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi dasar (Laravel otomatis return JSON jika via AJAX)
+        // Validasi dasar
         $validated = $request->validate([
             'company_name' => 'required|string|max:255',
             'customer_name' => 'required|string|max:255',
@@ -107,15 +107,14 @@ class PenawaranController extends Controller
             'quantity.*.required' => 'Quantity wajib diisi',
             'quantity.*.integer' => 'Quantity harus berupa angka',
             'quantity.*.min' => 'Quantity minimal 1',
-            'description.string' => 'Description harus berupa teks',
-            'location.string' => 'Location harus berupa teks',
         ]);
 
-        // CHECK STOCK - Custom validation
+        // ============================================
+        // CHECK STOCK - Dari SEMUA gudang
+        // ============================================
         foreach ($request->product_id as $index => $productId) {
             $quantity = (int) $request->quantity[$index];
 
-            // Cek product ada atau tidak
             $product = Product::find($productId);
 
             if (!$product) {
@@ -127,25 +126,37 @@ class PenawaranController extends Controller
                 ], 422);
             }
 
-            // Cek stock - gunakan relasi atau query langsung
-            $stock = DB::table('stocks')
+            // HITUNG TOTAL STOCK DARI SEMUA GUDANG
+            $totalStock = DB::table('stocks')
                 ->where('product_id', $productId)
-                ->first();
+                ->sum('quantity');
 
-            $availableStock = $stock ? $stock->quantity : 0;
+            if ($totalStock < $quantity) {
+                // Ambil detail breakdown per gudang
+                $stockDetails = DB::table('stocks')
+                    ->where('product_id', $productId)
+                    ->where('quantity', '>', 0)
+                    ->join('warehouses', 'stocks.warehouse_id', '=', 'warehouses.id')
+                    ->select('warehouses.warehouse_name', 'stocks.quantity')
+                    ->get();
 
-            if ($availableStock < $quantity) {
+                if ($stockDetails->isEmpty()) {
+                    $stockMessage = "Stok tidak ada di gudang manapun";
+                } else {
+                    $stockList = $stockDetails->map(fn($s) => "{$s->warehouse_name}: {$s->quantity}")->implode(', ');
+                    $stockMessage = "Tersedia: {$stockList} (Total: {$totalStock})";
+                }
+
                 return response()->json([
                     'message' => 'The given data was invalid.',
                     'errors' => [
-                        "product_id.$index" => [
-                            "Stok {$product->product_name} tidak mencukupi (tersedia: {$availableStock})"
+                        "quantity.$index" => [
+                            "Stok {$product->product_name} tidak mencukupi. {$stockMessage}"
                         ]
                     ]
                 ], 422);
             }
         }
-
 
         // SAVE MAIN PENAWARAN
         $penawaran = Penawaran::create([
