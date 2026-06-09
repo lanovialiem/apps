@@ -64,7 +64,7 @@
                 <tbody>
                     @foreach ($employee as $key => $item)
                     <tr>
-                        <td>{{ $key + 1 }}</td>
+                        <td>{{ ($employee->currentPage() - 1) * $employee->perPage() + $key + 1 }}</td>
                         <td>{{ $item->identity_id }}</td>
                         <td>{{ $item->badge_id }}</td>
                         <td>{{ $item->full_name }}</td>
@@ -111,6 +111,40 @@
                 </tbody>
 
             </table>
+
+            <!-- Custom Pagination: Next and Back Buttons -->
+            <div class="flex justify-between items-center mt-4">
+                {{-- Previous Button --}}
+                @if ($employee->previousPageUrl())
+                    <a href="{{ $employee->previousPageUrl() }}" 
+                       class="px-4 py-2 m-5 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                        &laquo; Back
+                    </a>
+                @else
+                    <span class="px-4 py-2 m-5 bg-gray-100 text-gray-400 rounded cursor-not-allowed">
+                        &laquo; Back
+                    </span>
+                @endif
+
+                {{-- Info Text (Optional) --}}
+                <span class="text-gray-600">
+                    Page {{ $employee->currentPage() }} of {{ $employee->lastPage() }}
+                </span>
+
+                {{-- Next Button --}}
+                @if ($employee->nextPageUrl())
+                    <a href="{{ $employee->nextPageUrl() }}" 
+                       class="px-4 py-2 m-5 bg-blue-600 text-white rounded hover:bg-blue-700">
+                        Next &raquo;
+                    </a>
+                @else
+                    <span class="px-4 py-2 m-5 bg-gray-100 text-gray-400 rounded cursor-not-allowed">
+                        Next &raquo;
+                    </span>
+                @endif
+            </div>
+            <!-- End Custom Pagination -->
+
         </div>
     </div>
 </div>

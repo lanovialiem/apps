@@ -26,7 +26,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employee = employee::all();
+        // $employee = employee::all();
+        $employee = employee::paginate(20);
         // dd(auth()->user()->roles);
 
         return view('employee.employee', compact('employee'));

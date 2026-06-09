@@ -31,8 +31,8 @@
     transform -translate-x-full md:translate-x-0 transition-transform duration-300">
 
         <a href="#" class="flex items-center pb-4 border-b border-b-gray-800">
-            <img src="https://placehold.co/32x32" class="w-8 h-8 rounded object-cover">
-            <span class="text-lg font-bold ml-3">Logo</span>
+            <img src="{{ asset('img-home/logo_nmp.png') }}" class="w-10 h-8 rounded-s-none object-cover bg-inherit" alt="Logo">
+            <span class="text-lg font-bold ml-3">Niteksindo Multitech Perkasa</span>
         </a>
 
         <ul class="mt-4">

@@ -27,11 +27,16 @@ class PenawaranController extends Controller
      */
     public function index()
     {
-        $penawaran = Penawaran::latest()->get();
-        $orderProducts = Penawaran::with('orderProducts')->latest()->get();
-        $products = Product::all()->keyBy('id');
-        $approvals = Approval::with('penawaran')->latest()->get();
-        return view('penawaran.index', compact('penawaran', 'orderProducts', 'products', 'approvals'));
+        // $penawaran = Penawaran::latest()->get();
+        // $orderProducts = Penawaran::with('orderProducts')->latest()->get();
+        // $products = Product::all()->keyBy('id');
+        // $approvals = Approval::with('penawaran')->latest()->get();
+        // return view('penawaran.index', compact('penawaran', 'orderProducts', 'products', 'approvals'));
+        $penawaran = Penawaran::with(['user', 'orderProducts.product'])
+            ->latest()
+            ->paginate(20);
+
+        return view('penawaran.index', compact('penawaran'));
     }
 
     /**
@@ -201,7 +206,6 @@ class PenawaranController extends Controller
             'message' => 'Data berhasil disimpan',
         ]);
     }
-
 
     /**
      * Display the specified resource.
