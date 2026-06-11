@@ -75,7 +75,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/penawaran/{id}/reject', [ApprovalController::class, 'reject']);
     Route::get('/penawaran/{id}/history', [ApprovalController::class, 'history'])->name('approval.history');
 
-    Route::resource('approval_levels', ApprovalLevelController::class); //->middleware('permission:view approval level|create approval level|edit approval level|delete approval level');
+    Route::resource('approval_levels', ApprovalLevelController::class)->middleware('permission:view approval_level|create approval_level|edit approval_level|delete approval_level');
     Route::resource('category_product', CategoryProductController::class)->middleware('permission:view category_product|create category_product|edit category_product|delete category_product');
 
     // Route::post('/penawaran/{id}/approve', [ApprovalController::class, 'approve'])

@@ -30,7 +30,7 @@
             <div class="flex items-center ml-3">
                 {{-- hamburger line --}}
                 <button type="button" id="sidebar-toggle"
-                    class="relative rounded-full p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                    class="md:hidden relative rounded-full p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
 
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">
@@ -40,7 +40,7 @@
                     </svg>
                 </button>
                 <a href="/" class="text-2xl font-bold text-indigo-600">
-                    Niteksindo
+                    Hi, {{ auth()->user()->name ?? 'User' }}!
                 </a>
             </div>
 

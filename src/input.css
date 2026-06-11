@@ -84,6 +84,11 @@ body{
    CONTAINER
 ========================== */
 
+header .container{
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
 .container{
     max-width:1400px;
     margin:auto;

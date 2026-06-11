@@ -5,162 +5,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    {{--
-    <link rel="stylesheet" href="dist/css/style.css"> --}}
     <title>Dashboard</title>
     @vite(['src/input.css', 'src/script.js'])
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
+
 {{-- SideBar --}}
 @php
     function isActive($route)
     {
-        return request()->routeIs($route) ? 'bg-orange-500 text-white' : 'text-gray-300';
+        return request()->routeIs($route) 
+            ? 'bg-orange-600 text-white font-medium shadow-lg shadow-orange-900/20' 
+            : 'text-gray-400 hover:text-white hover:bg-gray-800';
     }
 @endphp
 
-<body
-    class="dark:bg-gray-900 dark:text-white text-gray-800 font-inter hover:text-primary text-primary border-r-2 border-primary">
+<body class="dark:bg-gray-950 dark:text-white text-gray-800 font-inter">
 
     <!-- start: Sidebar -->
-    <div id="sidebar"
-        class="sidebar-menu fixed left-0 top-0 w-64 h-full bg-gray-900 text-white p-4 z-50
-    transform -translate-x-full md:translate-x-0 transition-transform duration-300">
+    <div id="sidebar" class="sidebar-menu fixed left-0 top-0 w-64 h-full bg-gray-900 text-white p-4 z-50 border-r border-gray-800 transform -translate-x-full md:translate-x-0 transition-transform duration-300 shadow-2xl">
 
-        <a href="#" class="flex items-center pb-4 border-b border-b-gray-800">
-            <img src="{{ asset('img-home/logo_nmp.png') }}" class="w-10 h-8 rounded-s-none object-cover bg-inherit" alt="Logo">
-            <span class="text-lg font-bold ml-3">Niteksindo Multitech Perkasa</span>
+        <a href="#" class="flex items-center gap-3 pb-6 border-b border-gray-800">
+            <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/30">
+                <img src="{{ asset('img-home/logo_nmp.png') }}" alt="logo" class="w-5 h-5 object-contain">
+            </div>
+            <span class="text-lg font-bold tracking-wide">Nitekindo<span class="text-orange-500">Multitech Perkasa</span></span>
         </a>
 
-        <ul class="mt-4">
-            {{-- <li class="mb-1 group">
-                <a href="#" class="flex items-center py-2 px-4 rounded-md
-   {{ isActive('/') }}">
-                    <i class="ri-home-2-line mr-3 text-lg"></i>
-                    <span class="text-sm">Dashboard</span>
-                </a>
-            </li> --}}
-
+        <ul class="mt-6 space-y-1">
             <li class="mb-1 group">
                 @can('view employee')
-                    <a href="{{ route('employees.index') }}"
-                        class="flex items-center py-2 px-4 rounded-md
-   {{ isActive('employees.*') }}">
-                        <i class="ri-instance-line mr-3 text-lg"></i>
+                    <a href="{{ route('employees.index') }}" class="flex items-center py-2.5 px-4 rounded-lg transition-all duration-200 {{ isActive('employees.*') }}">
+                        <i class="ri-user-star-line mr-3 text-lg text-orange-500"></i>
                         <span class="text-sm">Employees</span>
                     </a>
                 @endcan
             </li>
 
-            {{-- Menu dropdown category --}}
-            {{-- <li class="mb-1 group">
-                <!-- Button -->
-                <button type="button"
-                    class="sidebar-dropdown-toggle w-full flex items-center py-2 px-4 text-gray-300 hover:bg-gray-800 rounded-md">
-                    <i class="ri-folder-line mr-3 text-lg"></i>
-                    <span class="text-sm">Category</span>
-                    <i class="ri-arrow-right-s-line ml-auto transition-transform duration-300 sidebar-arrow"></i>
-                </button>
-                <ul class="sidebar-dropdown-menu hidden pl-10 mt-2 space-y-2">
-                    <li class="mb-1 group">
-                        @can('view category')
-                        <a href="{{ route('category.index') }}"
-                            class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-800 rounded-md">
-                            <i class="ri-instance-line mr-3 text-lg"></i>
-                            <span class="text-sm">Category</span>
-                        </a>
-                        @endcan
-                    </li>
-                    <li class="mb-1 group">
-                        @can('view category_code')
-                        <a href="{{ route('category_code.index') }}"
-                            class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-800 rounded-md">
-                            <i class="ri-instance-line mr-3 text-lg"></i>
-                            <span class="text-sm">Category Code</span>
-                        </a>
-                        @endcan
-                    </li>
-                </ul> --}}
-
             {{-- Menu dropdown Warehouse --}}
             <li class="mb-1 group">
                 @can('view warehouse')
-                    <!-- Button -->
-                    <button type="button"
-                        class="sidebar-dropdown-toggle w-full flex items-center py-2 px-4 text-gray-300 hover:bg-gray-800 rounded-md">
-
-                        <i class="ri-folder-line mr-3 text-lg"></i>
-
-                        <span class="text-sm">Warehouse</span>
-
-                        <i
-                            class="ri-arrow-right-s-line ml-auto transition-transform duration-300 sidebar-arrow
-            {{ request()->routeIs('warehouse.*', 'stock.*', 'stock_movement.*') ? 'rotate-90' : '' }}">
-                        </i>
+                    <button type="button" id="dropdown-warehouse" class="sidebar-dropdown-toggle w-full flex items-center py-2.5 px-4 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-all duration-200">
+                        <i class="ri-box-3-line mr-3 text-lg text-orange-500"></i>
+                        <span class="text-sm font-medium flex-1 text-left">Warehouse</span>
+                        <i class="ri-arrow-right-s-line ml-auto transition-transform duration-300 sidebar-arrow text-xs {{ request()->routeIs('warehouse.*', 'stock.*', 'stock_movement.*') ? 'rotate-90 text-orange-500' : 'text-gray-500' }}"></i>
                     </button>
-
-                    <!-- Dropdown -->
-                    <ul
-                        class="sidebar-dropdown-menu pl-10 mt-2 space-y-2
-        {{ request()->routeIs('warehouse.*', 'stock.*', 'stock_movement.*') ? '' : 'hidden' }}">
-
-                        {{-- Warehouse --}}
+                    <ul id="menu-warehouse" class="sidebar-dropdown-menu pl-4 mt-2 space-y-1 border-l-2 border-gray-800 ml-3 {{ request()->routeIs('warehouse.*', 'stock.*', 'stock_movement.*') ? 'block' : 'hidden' }}">
                         <li class="mb-1 group">
-                            <a href="{{ route('warehouse.index') }}"
-                                class="flex items-center py-2 px-4 rounded-md {{ isActive('warehouse.*') }}">
-
-                                <i class="ri-instance-line mr-3 text-lg"></i>
-
-                                <span class="text-sm">Warehouses</span>
+                            <a href="{{ route('warehouse.index') }}" class="flex items-center py-2 px-4 rounded-md text-sm transition-colors duration-200 {{ isActive('warehouse.*') }}">
+                                <i class="ri-stack-line mr-2 opacity-70"></i>
+                                <span>Warehouses</span>
                             </a>
                         </li>
-
-                        {{-- Stock --}}
                         @can('view stock')
                             <li class="group">
-                                <a href="{{ route('stock.index') }}"
-                                    class="flex items-center py-2 px-4 rounded-md {{ isActive('stock.*') }}">
-
-                                    <i class="ri-instance-line mr-3 text-lg"></i>
-
-                                    <span class="text-sm">
-                                        Stok
-                                    </span>
+                                <a href="{{ route('stock.index') }}" class="flex items-center py-2 px-4 rounded-md text-sm transition-colors duration-200 {{ isActive('stock.*') }}">
+                                    <i class="ri-shopping-bag-3-line mr-2 opacity-70"></i>
+                                    <span>Stok</span>
                                 </a>
                             </li>
                         @endcan
-
-                        {{-- Stock Movement --}}
                         @can('view stock movement')
                             <li class="group">
-                                <a href="{{ route('stock_movement.index') }}"
-                                    class="flex items-center py-2 px-4 rounded-md {{ isActive('stock_movement.*') }}">
-
-                                    <i class="ri-instance-line mr-3 text-lg"></i>
-
-                                    <span class="text-sm">
-                                        Perpindahan Stok
-                                    </span>
+                                <a href="{{ route('stock_movement.index') }}" class="flex items-center py-2 px-4 rounded-md text-sm transition-colors duration-200 {{ isActive('stock_movement.*') }}">
+                                    <i class="ri-truck-line mr-2 opacity-70"></i>
+                                    <span>Perpindahan Stok</span>
                                 </a>
                             </li>
                         @endcan
-
                     </ul>
                 @endcan
-
             </li>
 
             {{-- MCU --}}
             @can('view medical checkup')
                 <li class="mb-1 group">
-                    <a href="{{ route('medical_checkups.index') }}"
-                        class="flex items-center py-2 px-4 rounded-md {{ isActive('medical_checkups.*') }}">
-
-                        <i class="ri-instance-line mr-3 text-lg"></i>
-
+                    <a href="{{ route('medical_checkups.index') }}" class="flex items-center py-2.5 px-4 rounded-lg transition-all duration-200 {{ isActive('medical_checkups.*') }}">
+                        <i class="ri-heart-pulse-line mr-3 text-lg text-orange-500"></i>
                         <span class="text-sm">MCU</span>
                     </a>
                 </li>
@@ -169,14 +96,9 @@
             {{-- Penawaran --}}
             @can('view offer')
                 <li class="group">
-                    <a href="{{ route('penawaran.index') }}"
-                        class="flex items-center py-2 px-4 rounded-md {{ isActive('penawaran.*') }}">
-
-                        <i class="ri-instance-line mr-3 text-lg"></i>
-
-                        <span class="text-sm">
-                            Penawaran
-                        </span>
+                    <a href="{{ route('penawaran.index') }}" class="flex items-center py-2.5 px-4 rounded-lg transition-all duration-200 {{ isActive('penawaran.*') }}">
+                        <i class="ri-file-paper-line mr-3 text-lg text-orange-500"></i>
+                        <span class="text-sm">Penawaran</span>
                     </a>
                 </li>
             @endcan
@@ -184,28 +106,19 @@
             {{-- approval --}}
             @can('view approval')
                 <li class="group">
-                    <a href="{{ route('approvals.index') }}"
-                        class="flex items-center py-2 px-4 rounded-md {{ isActive('approvals.*') }}">
-
-                        <i class="ri-instance-line mr-3 text-lg"></i>
-
-                        <span class="text-sm">
-                            Approval
-                        </span>
+                    <a href="{{ route('approvals.index') }}" class="flex items-center py-2.5 px-4 rounded-lg transition-all duration-200 {{ isActive('approvals.*') }}">
+                        <i class="ri-checkbox-multiple-line mr-3 text-lg text-orange-500"></i>
+                        <span class="text-sm">Approval</span>
                     </a>
                 </li>
             @endcan
-               {{-- Product Category--}}
+
+            {{-- Product Category--}}
             @can('view category_product')
                 <li class="group">
-                    <a href="{{ route('category_product.index') }}"
-                        class="flex items-center py-2 px-4 rounded-md {{ isActive('category_product.*') }}">
-
-                        <i class="ri-instance-line mr-3 text-lg"></i>
-
-                        <span class="text-sm">
-                            Kategori Produk
-                        </span>
+                    <a href="{{ route('category_product.index') }}" class="flex items-center py-2.5 px-4 rounded-lg transition-all duration-200 {{ isActive('category_product.*') }}">
+                        <i class="ri-price-tag-3-line mr-3 text-lg text-orange-500"></i>
+                        <span class="text-sm">Kategori Produk</span>
                     </a>
                 </li>
             @endcan
@@ -213,84 +126,44 @@
             {{-- Product --}}
             @can('view product')
                 <li class="group">
-                    <a href="{{ route('product.index') }}"
-                        class="flex items-center py-2 px-4 rounded-md {{ isActive('product.*') }}">
-
-                        <i class="ri-instance-line mr-3 text-lg"></i>
-
-                        <span class="text-sm">
-                            Produk
-                        </span>
+                    <a href="{{ route('product.index') }}" class="flex items-center py-2.5 px-4 rounded-lg transition-all duration-200 {{ isActive('product.*') }}">
+                        <i class="ri-shopping-bag-line mr-3 text-lg text-orange-500"></i>
+                        <span class="text-sm">Produk</span>
                     </a>
                 </li>
             @endcan
 
             {{-- Menu dropdown User --}}
             <li class="mb-1 group">
-
                 @can('view user')
-                    <!-- Button -->
-                    <button type="button"
-                        class="sidebar-dropdown-toggle w-full flex items-center py-2 px-4 text-gray-300 hover:bg-gray-800 rounded-md">
-
-                        <i class="ri-folder-line mr-3 text-lg"></i>
-
-                        <span class="text-sm">User</span>
-
-                        <i
-                            class="ri-arrow-right-s-line ml-auto transition-transform duration-300 sidebar-arrow
-            {{ request()->routeIs('users.*', 'permissions.*', 'roles.*') ? 'rotate-90' : '' }}">
-                        </i>
+                    <button type="button" id="dropdown-user" class="sidebar-dropdown-toggle w-full flex items-center py-2.5 px-4 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-all duration-200">
+                        <i class="ri-community-line mr-3 text-lg text-orange-500"></i>
+                        <span class="text-sm font-medium flex-1 text-left">User</span>
+                        <i class="ri-arrow-right-s-line ml-auto transition-transform duration-300 sidebar-arrow text-xs {{ request()->routeIs('users.*', 'permissions.*', 'roles.*') ? 'rotate-90 text-orange-500' : 'text-gray-500' }}"></i>
                     </button>
-
-                    <!-- Dropdown -->
-                    <ul
-                        class="sidebar-dropdown-menu pl-10 mt-2 space-y-2
-        {{ request()->routeIs('users.*', 'permissions.*', 'roles.*') ? '' : 'hidden' }}">
-
-                        {{-- Users --}}
+                    <ul id="menu-user" class="sidebar-dropdown-menu pl-4 mt-2 space-y-1 border-l-2 border-gray-800 ml-3 {{ request()->routeIs('users.*', 'permissions.*', 'roles.*') ? 'block' : 'hidden' }}">
                         <li class="group">
-                            <a href="{{ route('users.index') }}"
-                                class="flex items-center py-2 px-4 rounded-md {{ isActive('users.*') }}">
-
-                                <i class="ri-instance-line mr-3 text-lg"></i>
-
-                                <span class="text-sm">
-                                    Users
-                                </span>
+                            <a href="{{ route('users.index') }}" class="flex items-center py-2 px-4 rounded-md text-sm transition-colors duration-200 {{ isActive('users.*') }}">
+                                <i class="ri-user-line mr-2 opacity-70"></i>
+                                <span>Users</span>
                             </a>
                         </li>
-
-                        {{-- Permissions --}}
                         @can('view permissions')
                             <li class="group">
-                                <a href="{{ route('permissions.index') }}"
-                                    class="flex items-center py-2 px-4 rounded-md {{ isActive('permissions.*') }}">
-
-                                    <i class="ri-instance-line mr-3 text-lg"></i>
-
-                                    <span class="text-sm">
-                                        Permissions
-                                    </span>
+                                <a href="{{ route('permissions.index') }}" class="flex items-center py-2 px-4 rounded-md text-sm transition-colors duration-200 {{ isActive('permissions.*') }}">
+                                    <i class="ri-shield-keyhole-line mr-2 opacity-70"></i>
+                                    <span>Permissions</span>
                                 </a>
                             </li>
                         @endcan
-
-                        {{-- Roles --}}
                         @can('view roles')
                             <li class="group">
-                                <a href="{{ route('roles.index') }}"
-                                    class="flex items-center py-2 px-4 rounded-md {{ isActive('roles.*') }} hover:bg-gray-800">
-
-                                    <i class="ri-instance-line mr-3 text-lg"></i>
-
-                                    <span class="text-sm">
-                                        Roles
-                                    </span>
+                                <a href="{{ route('roles.index') }}" class="flex items-center py-2 px-4 rounded-md text-sm hover:bg-gray-800">
+                                    <i class="ri-award-line mr-2 opacity-70"></i>
+                                    <span>Roles</span>
                                 </a>
                             </li>
                         @endcan
-
                     </ul>
                 @endcan
             </li>
@@ -298,121 +171,81 @@
     </div>
 
     <!-- overlay -->
-    <div class="sidebar-overlay hidden fixed inset-0 bg-black/50 z-40 md:hidden"></div>
+    <div class="sidebar-overlay hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"></div>
     <!-- end: Sidebar -->
 
     <!-- start: Main -->
-    <main
-        class="bg-gray-900 text-gray-300 w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main">
+    <main class="bg-gray-950 text-gray-300 w-full md:w-[calc(100%-256px)] md:ml-64 min-h-screen transition-all main">
 
         {{-- Navbar Start --}}
         @include('layout.header')
         {{-- Navbar End --}}
 
-        {{-- <h1>ISI</h1> --}}
-        {{-- @include('layout.header') --}}
         @yield('content')
-        {{-- @include('layout.footer') --}}
-
 
     </main>
     <!-- end: Main -->
+    
     <script src="https://unpkg.com/@popperjs/core@2"></script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
-    {{-- <script src="src/script.js"></script> --}}
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     @stack('scripts')
+    
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const toggles = document.querySelectorAll('.sidebar-dropdown-toggle');
-            toggles.forEach(toggle => {
-                toggle.addEventListener('click', function() {
-                    const currentMenu =
-                        this.parentElement.querySelector('.sidebar-dropdown-menu');
-                    const currentArrow =
-                        this.parentElement.querySelector('.sidebar-arrow');
+            
+            // DROPDOWN MENU - Menggunakan ID yang spesifik
+            const warehouseBtn = document.getElementById('dropdown-warehouse');
+            const warehouseMenu = document.getElementById('menu-warehouse');
+            const userBtn = document.getElementById('dropdown-user');
+            const userMenu = document.getElementById('menu-user');
 
-                    // tutup semua menu lain
-                    document.querySelectorAll('.sidebar-dropdown-menu').forEach(menu => {
-                        if (menu !== currentMenu) {
-                            menu.classList.add('hidden');
-                        }
-                    });
-
-                    document.querySelectorAll('.sidebar-arrow').forEach(arrow => {
-                        if (arrow !== currentArrow) {
-                            arrow.classList.remove('rotate-90');
-                        }
-                    });
-
-                    // toggle current
-                    currentMenu.classList.toggle('hidden');
-                    currentArrow.classList.toggle('rotate-90');
+            // Handle Warehouse Dropdown
+            if (warehouseBtn && warehouseMenu) {
+                warehouseBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    warehouseMenu.classList.toggle('hidden');
+                    const arrow = warehouseBtn.querySelector('.sidebar-arrow');
+                    if (arrow) {
+                        arrow.classList.toggle('rotate-90');
+                        arrow.classList.toggle('text-orange-500');
+                        arrow.classList.toggle('text-gray-500');
+                    }
                 });
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
+            }
 
+            // Handle User Dropdown
+            if (userBtn && userMenu) {
+                userBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    userMenu.classList.toggle('hidden');
+                    const arrow = userBtn.querySelector('.sidebar-arrow');
+                    if (arrow) {
+                        arrow.classList.toggle('rotate-90');
+                        arrow.classList.toggle('text-orange-500');
+                        arrow.classList.toggle('text-gray-500');
+                    }
+                });
+            }
+
+            // Sidebar toggle for mobile (optional)
             const sidebar = document.getElementById("sidebar");
-            const overlay = document.getElementById("sidebar-overlay");
+            const overlay = document.querySelector(".sidebar-overlay");
             const toggle = document.getElementById("sidebar-toggle");
 
-            // OPEN / CLOSE SIDEBAR
-            toggle.addEventListener("click", function() {
-
-                sidebar.classList.toggle("-translate-x-full");
-                overlay.classList.toggle("hidden");
-
-            });
-
-            // CLOSE WHEN CLICK OVERLAY
-            overlay.addEventListener("click", function() {
-
-                sidebar.classList.add("-translate-x-full");
-                overlay.classList.add("hidden");
-
-            });
-
-            // DROPDOWN MENU
-            const toggles = document.querySelectorAll('.sidebar-dropdown-toggle');
-
-            toggles.forEach(toggle => {
-
-                toggle.addEventListener('click', function() {
-
-                    const currentMenu =
-                        this.parentElement.querySelector('.sidebar-dropdown-menu');
-
-                    const currentArrow =
-                        this.parentElement.querySelector('.sidebar-arrow');
-
-                    document.querySelectorAll('.sidebar-dropdown-menu')
-                        .forEach(menu => {
-
-                            if (menu !== currentMenu) {
-                                menu.classList.add('hidden');
-                            }
-
-                        });
-
-                    document.querySelectorAll('.sidebar-arrow')
-                        .forEach(arrow => {
-
-                            if (arrow !== currentArrow) {
-                                arrow.classList.remove('rotate-90');
-                            }
-
-                        });
-
-                    currentMenu.classList.toggle('hidden');
-                    currentArrow.classList.toggle('rotate-90');
-
+            if (toggle) {
+                toggle.addEventListener("click", function() {
+                    sidebar.classList.toggle("-translate-x-full");
+                    overlay.classList.toggle("hidden");
                 });
+            }
 
-            });
+            if (overlay) {
+                overlay.addEventListener("click", function() {
+                    sidebar.classList.add("-translate-x-full");
+                    overlay.classList.add("hidden");
+                });
+            }
 
         });
     </script>

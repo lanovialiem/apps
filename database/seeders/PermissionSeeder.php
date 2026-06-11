@@ -54,6 +54,11 @@ class PermissionSeeder extends Seeder
             'create approval',
             'delete approval',
 
+            'view approval_level',
+            'edit approval_level',
+            'create approval_level',
+            'delete approval_level',
+
             'view product',
             'edit product',
             'create product',
