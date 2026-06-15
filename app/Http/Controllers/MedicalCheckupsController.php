@@ -141,7 +141,10 @@ class MedicalCheckupsController extends Controller
      */
     public function destroy($id)
     {
-        $data = medical_checkup::findOrFail($id);
+        $data = medical_checkup::where('id', $id)->first();
+        if ($data->file_mcu && Storage::disk('public')->exists($data->file_mcu)) {
+            Storage::disk('public')->delete($data->file_mcu);
+        }
         $data->delete();
 
         return redirect()->route('medical_checkups.index')

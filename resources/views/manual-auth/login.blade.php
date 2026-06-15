@@ -6,8 +6,8 @@
     <title>Login - PT Niteksindo</title>
     
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
+        <script src="https://cdn.tailwindcss.com"></script>
+    {{-- @vite(['src/input.css', 'src/script.js']) --}}
     <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
@@ -120,7 +120,7 @@
                 <p class="text-sm text-gray-600">
                     <span id="toggleText">Don't have an account?</span>
                     <button type="button" onclick="toggleForm()" class="text-orange-600 font-bold hover:text-orange-800 ml-1 transition">
-                        Register
+                        Register/Login
                     </button>
                 </p>
             </div>

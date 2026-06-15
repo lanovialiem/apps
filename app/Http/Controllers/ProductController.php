@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CategoryProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -53,7 +54,9 @@ class ProductController extends Controller
             'PAIR',
             'PACK',
             'ROLL',
-            'LTR'
+            'LTR',
+            'CAN',
+            'PAIL'
         ];
         return view('product.form', compact('select_product_unit', 'categoryProducts'));
     }
@@ -131,6 +134,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        if($product->product_picture && Storage::disk('public')->exists($product->product_picture)) {
+            Storage::disk('public')->delete($product->product_picture);
+        }
         $product->delete();
 
         return redirect()->route('product.index')->with('success', 'Product deleted successfully.');

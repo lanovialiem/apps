@@ -112,7 +112,7 @@
                         <td>
                             @if ($item->file_mcu)
                                 <a href="{{ asset('storage/' . $item->file_mcu) }}" target="_blank"
-                                   class="px-2 py-1 text-xs bg-green-100 text-green-700 rounded-md">
+                                   class="px-2 py-1 text-xs text-blue-500 hover:text-blue-700 rounded-md">
                                     View
                                 </a>
                             @else

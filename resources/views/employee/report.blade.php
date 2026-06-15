@@ -1,58 +1,58 @@
 {{-- @include('layout.header') --}}
-
 @extends('welcome.welcome')
 @section('content')
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="text-primary mb-0">Employees</h3>
+<div class="container">
+    <div class="page-header">
+         <div>
+            <h1 class="text-3xl font-bold text-white">
+                Employee Report
+            </h1>
+            <p class="text-blue-100 mt-2 text-sm">
+                Rekap data karyawan perusahaan
+            </p>
+        </div>
         <div class="d-flex gap-2">
-            <a href="#" class="btn btn-warning">
+            <a href="#" class="btn-report">
                 Download
             </a>
         </div>
     </div>
-
-    <div class="card shadow rounded-3 mb-4">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Rekap</h5>
-        </div>
-        {{-- @dd($join) --}}
-        <div class="card-body p-0">
-            <table class="table table-striped table-bordered mb-0">
-                <thead class="table-primary text-center">
+    <div class="employee-card">
+        <div class="table-wrapper">
+            <table class="table-design">
+                <thead>
                     <tr>
-                        <th style="width: 50px;">No</th>
+                        <th>No</th>
                         <th>Badge ID</th>
                         <th>Full Name</th>
                         <th>Job Category</th>
-                        <th style="width: 220px;">Job Code</th>
+                        <th>Job Code</th>
                         <th>Start Date</th>
                         <th>End Date</th>
-                        <th>Status</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     @foreach ($join as $key => $item)
-                        <tr>
-                            <td>{{ $key + 1 }}</td>
-                            <td>{{ $item->badge_id }}</td>
-                            <td>{{ $item->full_name }}</td>
-                            <td>{{ $item->Category->job_category }}</td>
-                            <td>{{ $item->category_code->job_code }}</td>
-                            <td>{{ $item->start_date }}</td>
-                            <td>{{ $item->end_date }}</td>
-                            <td>Status</td>
-                        </tr>
+                    <tr>
+                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $item->badge_id }}</td>
+                        <td>{{ $item->full_name }}</td>
+                        <td>{{ $item->Category->job_category }}</td>
+                        <td>{{ $item->category_code->job_code }}</td>
+                        <td>{{ $item->start_date }}</td>
+                        <td>{{ $item->end_date }}</td>
+                    </tr>
                     @endforeach
-
-                    @if ($employee->isEmpty())
-                        <tr>
-                            <td colspan="5" class="text-center text-muted">No data available.</td>
-                        </tr>
-                    @endif
                 </tbody>
+
             </table>
         </div>
     </div>
+
+
+</div>
+
+    
 @endsection
 {{-- @include('layout.footer') --}}
