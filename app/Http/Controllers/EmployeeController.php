@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\EmployeesExport;
 use App\Models\Category;
 use App\Models\category_code;
 use App\Models\employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
 
@@ -187,5 +187,10 @@ class EmployeeController extends Controller
         $join = employee::with('category', 'category_code')->get();
 
         return view('employee.report', compact(['employee', 'category', 'category_code', 'join']));
+    }
+
+    public function export_()
+    {
+        return Excel::download(new EmployeesExport, 'employees.xlsx');
     }
 }

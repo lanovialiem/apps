@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('employees/report', [EmployeeController::class, 'report_'])->name('employees.report');
+    Route::get('employees/export', [EmployeeController::class, 'export_'])->name('employees.export');
+
 
     Route::resource('employees', EmployeeController::class)->middleware('permission:view employee|create employee|edit employee|delete employee');
 

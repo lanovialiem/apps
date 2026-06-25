@@ -37,6 +37,10 @@
             <a href="{{ route('category_code.index') }}" class="btn-job-code">
                 Job Code
             </a>
+              <!-- export -->
+            <a href="{{ route('employees.export') }}" class="btn-add">
+                Export
+            </a>
 
         </div>
     </div>
@@ -57,6 +61,7 @@
                         <th>Full Name</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -70,7 +75,7 @@
                         <td>{{ $item->full_name }}</td>
                         <td>{{ $item->start_date }}</td>
                         <td>{{ $item->end_date }}</td>
-
+                        <td>{{ $item->status }}</td>
                         <td>
                             <div class="action-group">
 

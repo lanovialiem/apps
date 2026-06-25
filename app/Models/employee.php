@@ -34,12 +34,14 @@ class employee extends Model
         'end_date',
         'image_profile',
         'company',
-        'induction_date',
-        'in_date',
-        'date_resign',
+        'induction_date', //nullable
+        'in_date', //nullable
+        'date_resign', //nullable
         'status',
         'address'
     ];
+    
+    protected $table = 'employees';
 
     public function category(): BelongsTo
     {
