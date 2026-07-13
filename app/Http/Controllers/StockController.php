@@ -103,7 +103,7 @@ class StockController extends Controller
             'movement_type' => 'tambah',
             'movement_date' => now(),
             'heading_type' => 'Gudang',
-            'description' => 'Stock baru - ' . $product->product_name . ' di ' . $warehouse->warehouse_name,
+            'description' => 'Stock Product baru - ' . $product->product_name . ' di ' . $warehouse->warehouse_name,
         ]);
 
         return redirect()->route('stock.index')
@@ -125,7 +125,19 @@ class StockController extends Controller
     {
         $products = Product::all();
         $warehouses = Warehouse::all();
-        return view('stock.edit', compact('stock', 'products', 'warehouses'));
+
+        $stocks = Stock::select(
+            'product_id',
+            'warehouse_id',
+            'quantity'
+        )->get();
+
+        return view('stock.edit', compact(
+            'stock',
+            'products',
+            'warehouses',
+            'stocks'
+        ));
     }
 
     /**
@@ -134,13 +146,48 @@ class StockController extends Controller
     public function update(Request $request, Stock $stock)
     {
         $validatedData = $request->validate([
-            'product_id' => 'required|exists:products,id',
+            'product_id'   => 'required|exists:products,id',
             'warehouse_id' => 'required|exists:warehouses,id',
-            'quantity' => 'required|integer|min:0',
+            'quantity'     => 'required|integer|min:0',
         ]);
 
+        $product = Product::find($validatedData['product_id']);
+        $warehouse = Warehouse::find($validatedData['warehouse_id']);
+
+        $previousStock = $stock->quantity;
+        $newStock = $validatedData['quantity'];
+
+        // Tentukan jenis movement
+        if ($newStock > $previousStock) {
+            $movementType = 'tambah';
+            $movementQty = $newStock - $previousStock;
+        } elseif ($newStock < $previousStock) {
+            $movementType = 'kurang';
+            $movementQty = $previousStock - $newStock;
+        } else {
+            $movementType = 'update';
+            $movementQty = 0;
+        }
+
+        // Update stock
         $stock->update($validatedData);
-        return redirect()->route('stock.index')->with('success', 'Stock updated successfully.');
+
+        // Simpan histori stock movement
+        StockMovement::create([
+            'product_id'     => $stock->product_id,
+            'warehouse_id'   => $stock->warehouse_id,
+            'quantity'       => $movementQty,
+            'previous_stock' => $previousStock,
+            'new_stock'      => $newStock,
+            'movement_type'  => $movementType,
+            'movement_date'  => now(),
+            'heading_type'   => 'Gudang',
+            'description' => "Update Stock Ber{$movementType} di {$warehouse->warehouse_name}, dari {$previousStock} {$movementType} {$movementQty} menjadi {$newStock}",
+        ]);
+
+        return redirect()
+            ->route('stock.index')
+            ->with('success', 'Stock updated successfully.');
     }
 
     /**

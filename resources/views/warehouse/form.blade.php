@@ -24,7 +24,7 @@
                     <label class="block text-sm font-medium text-gray-600 mb-1">
                         Name Warehouse
                     </label>
-                    <input type="text" name="warehouse_name" value="{{ old('warehouse_name') }}" required class="w-full px-3 py-2 rounded-lg border border-gray-300 
+                    <input type="text" name="warehouse_name" value="{{ old('warehouse_name') }}" required class="w-full px-3 py-2 rounded-lg border text-black
                         focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                     @error('warehouse_name')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -36,7 +36,7 @@
                     <label class="block text-sm font-medium text-gray-600 mb-1">
                         Code Warehouse
                     </label>
-                    <input type="text" name="warehouse_code" value="{{ old('warehouse_code') }}" required class="w-full px-3 py-2 rounded-lg border border-gray-300 
+                    <input type="text" name="warehouse_code" value="{{ old('warehouse_code') }}" required class="w-full px-3 py-2 rounded-lg border text-black
                         focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                     @error('warehouse_code')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -48,7 +48,7 @@
                     <label class="block text-sm font-medium text-gray-600 mb-1">
                         Location Warehouse
                     </label>
-                    <input type="text" name="warehouse_location" value="{{ old('warehouse_location') }}" required class="w-full px-3 py-2 rounded-lg border border-gray-300 
+                    <input type="text" name="warehouse_location" value="{{ old('warehouse_location') }}" required class="w-full px-3 py-2 rounded-lg border text-black
                         focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
                     @error('warehouse_location')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
