@@ -53,27 +53,45 @@ class StockController extends Controller
         $validatedData = $request->validate([
             'product_id' => 'required|exists:products,id',
             'warehouse_id' => 'required|exists:warehouses,id',
-            'quantity' => 'required|integer|min:0',
+            'quantity' => 'required|integer|min:1',
+            'movement_type' => 'required|in:tambah,kurang',
         ]);
 
-        $product = Product::find($request->product_id);
-        $warehouse = Warehouse::find($request->warehouse_id);
+        $product = Product::findOrFail($request->product_id);
+        $warehouse = Warehouse::findOrFail($request->warehouse_id);
 
-        // Cek apakah sudah ada stock untuk product + warehouse ini
+        // Cek apakah stock sudah ada
         $existingStock = Stock::where('product_id', $request->product_id)
             ->where('warehouse_id', $request->warehouse_id)
             ->first();
 
-        if ($existingStock) {
-            // Jika sudah ada, tambahkan quantity
-            $previousStock = $existingStock->quantity;
-            $newQuantity = $previousStock + $request->quantity;
+        /**
+         * ==========================
+         * TAMBAH STOCK
+         * ==========================
+         */
+        if ($validatedData['movement_type'] == 'tambah') {
 
-            $existingStock->update([
-                'quantity' => $newQuantity
-            ]);
+            if ($existingStock) {
 
-            // Create stock movement record - untuk penambahan ke stock yang sudah ada
+                $previousStock = $existingStock->quantity;
+                $newQuantity = $previousStock + $request->quantity;
+
+                $existingStock->update([
+                    'quantity' => $newQuantity
+                ]);
+            } else {
+
+                $previousStock = 0;
+                $newQuantity = $request->quantity;
+
+                $existingStock = Stock::create([
+                    'product_id' => $request->product_id,
+                    'warehouse_id' => $request->warehouse_id,
+                    'quantity' => $newQuantity,
+                ]);
+            }
+
             StockMovement::create([
                 'product_id' => $request->product_id,
                 'warehouse_id' => $request->warehouse_id,
@@ -87,29 +105,53 @@ class StockController extends Controller
             ]);
 
             return redirect()->route('stock.index')
-                ->with('success', "Stock $product->product_name di $warehouse->warehouse_name ditambahkan. Quantity baru: $newQuantity");
+                ->with('success', 'Stock berhasil ditambahkan.');
         }
 
-        // Jika belum ada, buat baru
-        $stock = Stock::create($validatedData);
+        /**
+         * ==========================
+         * KURANG STOCK
+         * ==========================
+         */
 
-        // Create stock movement record - untuk stock baru
+        if (!$existingStock) {
+            return redirect()->back()
+                ->withErrors([
+                    'quantity' => 'Stock belum tersedia. Mohon Tambahkan stock terlebih dahulu.'
+                ])
+                ->withInput();
+        }
+
+        if ($request->quantity > $existingStock->quantity) {
+            return redirect()->back()
+                ->withErrors([
+                    'quantity' => 'Quantity melebihi stock yang tersedia. Mohon Check Ketersediaan Stock.'
+                ])
+                ->withInput();
+        }
+
+        $previousStock = $existingStock->quantity;
+        $newQuantity = $previousStock - $request->quantity;
+
+        $existingStock->update([
+            'quantity' => $newQuantity
+        ]);
+
         StockMovement::create([
-            'product_id' => $stock->product_id,
-            'warehouse_id' => $stock->warehouse_id,
-            'quantity' => $stock->quantity,
-            'previous_stock' => 0,
-            'new_stock' => $stock->quantity,
-            'movement_type' => 'tambah',
+            'product_id' => $request->product_id,
+            'warehouse_id' => $request->warehouse_id,
+            'quantity' => $request->quantity,
+            'previous_stock' => $previousStock,
+            'new_stock' => $newQuantity,
+            'movement_type' => 'kurang',
             'movement_date' => now(),
             'heading_type' => 'Gudang',
-            'description' => 'Stock Product baru - ' . $product->product_name . ' di ' . $warehouse->warehouse_name,
+            'description' => 'Pengurangan stock manual - ' . $product->product_name . ' di ' . $warehouse->warehouse_name,
         ]);
 
         return redirect()->route('stock.index')
-            ->with('success', 'Stock created successfully.');
+            ->with('success', 'Stock berhasil dikurangi.');
     }
-
     /**
      * Display the specified resource.
      */

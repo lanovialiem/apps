@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->foreignId('warehouse_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
+            $table->enum('movement_type', ['tambah', 'kurang'])->default('tambah');
             $table->integer('quantity')->default(0);
             $table->timestamps();
         });

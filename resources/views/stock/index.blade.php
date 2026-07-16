@@ -15,7 +15,7 @@
             @can('create stock')
             <a href="{{ route('stock.create') }}"
                 class="btn-add">
-                + Add Stock
+                Edit Stock
             </a>
             @endcan
         </div>
@@ -77,11 +77,11 @@
                         <td>
                             <div class="action-group">
 
-                                @can('edit stock')
+                                {{-- @can('edit stock')
                                 <a href="{{ route('stock.edit', $items->id) }}" class="btn-edit">
                                     Edit
                                 </a>
-                                @endcan
+                                @endcan --}}
 
                                 @can('delete stock')
                                 <form action="{{ route('stock.destroy', $items->id) }}" method="POST"

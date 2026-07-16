@@ -59,6 +59,23 @@
                 @enderror
             </div>
 
+            <!-- Movement Type -->
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1">
+                    Movement Type
+                </label>
+                <select name="movement_type" id="movement_type"
+                    class="w-full text-black bg-white px-3 py-2 rounded-lg border border-gray-300 
+                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    <option value="">-- Pilih Movement Type --</option>
+                    <option value="tambah">Tambah</option>
+                    <option value="kurang">Kurang</option>
+                </select>
+                @error('movement_type')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
             <!-- Quantity -->
             <div>
                 <label class="block text-sm font-medium text-gray-600 mb-1">
