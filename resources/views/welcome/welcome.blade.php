@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <title>Dashboard</title>
     @vite(['src/input.css', 'src/script.js'])
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> --}}
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -26,7 +26,7 @@
     }
 @endphp
 
-<body class="dark:bg-gray-950 dark:text-white text-gray-800 font-inter">
+<body class="bg-gray-950 text-gray-300 font-inter">
 
     <!-- start: Sidebar -->
     <div id="sidebar" class="sidebar-menu fixed left-0 top-0 w-64 h-full bg-gray-900 text-white p-4 z-50 border-r border-gray-800 transform -translate-x-full md:translate-x-0 transition-transform duration-300 shadow-2xl">
@@ -176,12 +176,11 @@
     <!-- end: Sidebar -->
 
     <!-- start: Main -->
-    <main class="bg-gray-950 text-gray-300 w-full md:w-[calc(100%-256px)] md:ml-64 min-h-screen transition-all main">
+    <main class="w-full md:w-[calc(100%-256px)] md:ml-64 min-h-screen transition-all main">
 
         {{-- Navbar Start --}}
         @include('layout.header')
         {{-- Navbar End --}}
-
         @yield('content')
 
     </main>
